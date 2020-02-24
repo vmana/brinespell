@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<messages>
+  <message id="Wt.QuittedMessage">
+    The application has stopped running, would you like to restart?
+  </message>
+
+  <message id="Wt.WAbstractItemView.PageIOfN"><b>{1}</b> of <b>{2}</b></message>
+  <message id="Wt.WAbstractItemView.PageBar.First">&#x00ab; First</message>
+  <message id="Wt.WAbstractItemView.PageBar.Previous">&#x2039; Previous</message>
+  <message id="Wt.WAbstractItemView.PageBar.Next">Next &#x203a;</message>
+  <message id="Wt.WAbstractItemView.PageBar.Last">Last &#x00bb;</message>
+
+  <message id="Wt.WCalendar.PrevMonth">&#x00ab;</message>
+  <message id="Wt.WCalendar.NextMonth">&#x00bb;</message>
+  <message id="Wt.WCalendar.today">Aujourd'hui</message>
+
+  <message id="Wt.WDate.Monday">Lundi</message>
+  <message id="Wt.WDate.Tuesday">Mardi</message>
+  <message id="Wt.WDate.Wednesday">Mercredi</message>
+  <message id="Wt.WDate.Thursday">Jeudi</message>
+  <message id="Wt.WDate.Friday">Vendredi</message>
+  <message id="Wt.WDate.Saturday">Samedi</message>
+  <message id="Wt.WDate.Sunday">Dimanche</message>
+  <message id="Wt.WDate.3.Mon">Lun</message>
+  <message id="Wt.WDate.3.Tue">Mar</message>
+  <message id="Wt.WDate.3.Wed">Mer</message>
+  <message id="Wt.WDate.3.Thu">Jeu</message>
+  <message id="Wt.WDate.3.Fri">Ven</message>
+  <message id="Wt.WDate.3.Sat">Sam</message>
+  <message id="Wt.WDate.3.Sun">Dim</message>
+  <message id="Wt.WDate.January">Janvier</message>
+  <message id="Wt.WDate.February">Février</message>
+  <message id="Wt.WDate.March">Mars</message>
+  <message id="Wt.WDate.April">Avril</message>
+  <message id="Wt.WDate.May">Mai</message>
+  <message id="Wt.WDate.June">Juin</message>
+  <message id="Wt.WDate.July">Juillet</message>
+  <message id="Wt.WDate.August">Août</message>
+  <message id="Wt.WDate.September">Septembre</message>
+  <message id="Wt.WDate.October">Octobre</message>
+  <message id="Wt.WDate.November">Novembre</message>
+  <message id="Wt.WDate.December">Décembre</message>
+  <message id="Wt.WDate.3.Jan">Jan</message>
+  <message id="Wt.WDate.3.Feb">Fév</message>
+  <message id="Wt.WDate.3.Mar">Mar</message>
+  <message id="Wt.WDate.3.Apr">Avr</message>
+  <message id="Wt.WDate.3.May">Mai</message>
+  <message id="Wt.WDate.3.Jun">Jui</message>
+  <message id="Wt.WDate.3.Jul">Jul</message>
+  <message id="Wt.WDate.3.Aug">Aou</message>
+  <message id="Wt.WDate.3.Sep">Sep</message>
+  <message id="Wt.WDate.3.Oct">Oct</message>
+  <message id="Wt.WDate.3.Nov">Nov</message>
+  <message id="Wt.WDate.3.Dec">Déc</message>
+
+  <message id="Wt.WDatePicker.Close">Fermer</message>
+
+  <message id="Wt.WDateTime.LessThanASecond">less than a second</message>
+  <message id="Wt.WDateTime.second">one second</message>
+  <message id="Wt.WDateTime.seconds">{1} seconds</message>
+  <message id="Wt.WDateTime.minute">one minute</message>
+  <message id="Wt.WDateTime.minutes">{1} minutes</message>
+  <message id="Wt.WDateTime.hour">one hour</message>
+  <message id="Wt.WDateTime.hours">{1} hours</message>
+  <message id="Wt.WDateTime.day">one day</message>
+  <message id="Wt.WDateTime.days">{1} days</message>
+  <message id="Wt.WDateTime.week">one week</message>
+  <message id="Wt.WDateTime.weeks">{1} weeks</message>
+  <message id="Wt.WDateTime.month">one month</message>
+  <message id="Wt.WDateTime.months">{1} months</message>
+  <message id="Wt.WDateTime.year">one year</message>
+  <message id="Wt.WDateTime.years">{1} years</message>
+  <message id="Wt.WDateTime.null"></message>
+
+  <message id="Wt.WDateValidator.DateTooEarly">The date must be after {1}</message>
+  <message id="Wt.WDateValidator.DateTooLate">The date must be before {1}</message>
+  <message id="Wt.WDateValidator.WrongDateRange">The date must be between {1} and {2}</message>
+  <message id="Wt.WDateValidator.WrongFormat">Must be a date in the format '{1}'</message>
+
+  <message id="Wt.WTimeValidator.TimeTooEarly">The time must be after {1}</message>
+  <message id="Wt.WTimeValidator.TimeTooLate">The time must be before {1}</message>
+  <message id="Wt.WTimeValidator.WrongTimeRange">The time must be between {1} and {2}</message>
+  <message id="Wt.WTimeValidator.WrongFormat">Must be a time in the format '{1}'</message>
+
+  <message id="Wt.WDefaultLoadingIndicator.Loading">Chargement ...</message>
+
+  <message id="Wt.WDialog.template">
+    ${center-script}
+    ${layout}
+  </message>
+
+  <!-- From WDialog-center.js: -->
+  <message id="Wt.WDialog.CenterJS">
+    /* <![CDATA[ */
+(function(d,e,f){function g(){var a,b;if(typeof window.innerWidth==="number"){a=window.innerWidth;b=window.innerHeight}else{a=document.documentElement.clientWidth;b=document.documentElement.clientHeight}return{x:a,y:b}}function c(){var a=document.getElementById(d);if(a.style.display!="none"&&a.style.visibility!="hidden"){var b=g(),h=a.offsetWidth,i=a.offsetHeight;if(e){a.style.left=Math.round((b.x-h)/2)+"px";a.style.marginLeft="0px"}if(f){a.style.top=Math.round((b.y-i)/2)+"px";a.style.marginTop="0px"}a.style.visibility=
+"visible"}}window.addEventListener?window.addEventListener("DOMContentLoaded",c,false):document.attachEvent("onDOMContentLoaded",c)})($el,$centerX,$centerY);
+  /* ]]> */
+  </message>
+
+  <message id="Wt.WDoubleValidator.NotANumber">Must be a number</message>
+  <message id="Wt.WDoubleValidator.TooSmall">The number must be larger than {1}</message>
+  <message id="Wt.WDoubleValidator.BadRange">The number must be in the range {1} to {2}</message>
+  <message id="Wt.WDoubleValidator.TooLarge">The number must be smaller than {1}</message>
+
+  <message id="Wt.WInPlaceEdit.Save">Sauver</message>
+  <message id="Wt.WInPlaceEdit.Cancel">Annuler</message>
+
+  <message id="Wt.WIntValidator.NotAnInteger">Must be an integer number</message>
+  <message id="Wt.WIntValidator.TooSmall">The number must be larger than {1}</message>
+  <message id="Wt.WIntValidator.BadRange">The number must be in the range {1} to {2}</message>
+  <message id="Wt.WIntValidator.TooLarge">The number must be smaller than {1}</message>
+
+  <message id="Wt.WLengthValidator.TooShort">The input must be at least {1} characters</message>
+  <message id="Wt.WLengthValidator.BadRange">The input must have a length between {1} and {2} characters</message>
+  <message id="Wt.WLengthValidator.TooLong">The input must be no more than {1} characters</message>
+
+  <message id="Wt.WMediaPlayer.play">Play</message>
+  <message id="Wt.WMediaPlayer.pause">Pause</message>
+  <message id="Wt.WMediaPlayer.stop">Stop</message>
+  <message id="Wt.WMediaPlayer.mute">Mute</message>
+  <message id="Wt.WMediaPlayer.unmute">Unmute</message>
+  <message id="Wt.WMediaPlayer.volume-max">Maximum volume</message>
+  <message id="Wt.WMediaPlayer.repeat">Repeat</message>
+  <message id="Wt.WMediaPlayer.repeat-off">Repeat off</message>
+  <message id="Wt.WMediaPlayer.video-play-icon">Play</message>
+  <message id="Wt.WMediaPlayer.full-screen">Full screen</message>
+  <message id="Wt.WMediaPlayer.restore-screen">Restore screen</message>
+
+  <message id="Wt.WMessageBox.Abort">Abort</message>
+  <message id="Wt.WMessageBox.Cancel">Annuler</message>
+  <message id="Wt.WMessageBox.Ignore">Ignore</message>
+  <message id="Wt.WMessageBox.No">Non</message>
+  <message id="Wt.WMessageBox.NoToAll">No to All</message>
+  <message id="Wt.WMessageBox.Ok">Ok</message>
+  <message id="Wt.WMessageBox.Retry">Retry</message>
+  <message id="Wt.WMessageBox.Yes">Oui</message>
+  <message id="Wt.WMessageBox.YesToAll">Yes to All</message>
+
+  <message id="Wt.WOverlayLoadingIndicator.Loading">Chargement ...</message>
+
+  <message id="Wt.WRegExpValidator.Invalid">Invalid input</message>
+
+  <message id="Wt.WValidator.Invalid">This field cannot be empty</message>
+
+  <message id="Wt.true">true</message>
+  <message id="Wt.false">false</message>
+
+  <!-- templates -->
+
+  <message id="Wt.WMediaPlayer.template">
+    <div class="jp-type-single">
+      <div class="jp-jplayer"> </div>
+      ${gui}
+    </div>
+  </message>
+
+  <message id="Wt.WMediaPlayer.defaultgui-video">
+    <div class="jp-video-play">
+      ${video-play-btn}
+    </div>
+    <div class="jp-interface">
+      <div class="jp-progress">
+	${progress-bar}
+      </div>
+      ${current-time}
+      ${duration}
+      <div class="jp-controls-holder">
+	<ul class="jp-controls">
+	  <li>${play-btn}</li>
+	  <li>${pause-btn}</li>
+	  <li>${stop-btn}</li>
+	  <li>${mute-btn}</li>
+	  <li>${unmute-btn}</li>
+	  <li>${volume-max-btn}</li>
+	</ul>
+	${volume-bar}
+	<ul class="jp-toggles">
+	  <li>${full-screen-btn}</li>
+	  <li>${restore-screen-btn}</li>
+	  <li>${repeat-btn}</li>
+	  <li>${repeat-off-btn}</li>
+	</ul>
+      </div>
+      <div class="jp-title" style="display: ${title-display}">
+	<ul>
+	  <li>${title}</li>
+	</ul>
+      </div>
+    </div>
+  </message>
+
+  <message id="Wt.WMediaPlayer.defaultgui-audio">
+    <div class="jp-interface">
+      <ul class="jp-controls">
+	<li>${play-btn}</li>
+	<li>${pause-btn}</li>
+	<li>${stop-btn}</li>
+	<li>${mute-btn}</li>
+	<li>${unmute-btn}</li>
+	<li>${volume-max-btn}</li>
+      </ul>
+      <div class="jp-progress">
+	${progress-bar}
+      </div>
+      ${volume-bar}
+      <div class="jp-time-holder">
+	${current-time}
+	${duration}
+	<ul class="jp-toggles">
+	  <li>${repeat-btn}</li>
+	  <li>${repeat-off-btn}</li>
+	</ul>
+      </div>
+    </div>
+    <div class="jp-title" style="display: ${title-display}">
+      <ul>
+	<li>${title}</li>
+      </ul>
+    </div>
+  </message>
+
+  <message id="Wt.WNavigationBar.template">
+    <div class="navbar-inner">
+      <div class="container">
+	${collapse-button}
+	${expand-button}
+	${title-link}
+	${contents}
+      </div>
+    </div>
+  </message>
+
+  <message id="Wt.WNavigationBar.expand-button">
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </message>
+
+  <message id="Wt.WTimePicker.template">
+    ${hour}${minute}${second}${millisecond}${ampm}
+  </message>
+
+  <message id="Wt.WTreeViewNode.template">
+    ${cols-row}${expand}${no-expand}${col0}
+  </message>
+
+  <message id="Wt.WTreeNode.template">
+    <div class="Wt-item ${trunk-class} ${selected}">
+      ${cols-row}${expand}${label-area}
+    </div>
+    <div style="clear: both"></div>
+    ${children}
+  </message>
+</messages>

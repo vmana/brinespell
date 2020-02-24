@@ -1,0 +1,293 @@
+body
+{
+	font-family: sans-serif, verdana;
+	color: #fff;
+	font-weight: normal;
+	font-size: 12px;
+	padding: 0px;
+	margin: 0px;
+	font-smoothing: antialiased;
+}
+.main-background
+{
+	height: 100vh;
+}
+.stack-background
+{
+	min-height: 100%; height: 100%;
+	min-width: 100%; width: 100%;
+}
+
+button
+{
+	border: solid 1px #555;
+	background: #eee;
+	color: #000;
+	width: 200px;
+	height: 26px;
+}
+
+button:hover
+{
+	background: #ddd;
+	color: #000;
+}
+
+textarea
+{
+	background: #FFF;
+	color: #222;
+	border: solid 1px #555;
+}
+
+input[type=file]
+{
+	color: #222;
+}
+
+.title
+{
+	color: #d41010;
+	font-size: 38px;
+}
+
+.error
+{
+	color: #dc0800;
+	font-size: 16px;
+}
+
+.text
+{
+	color: #F0F0F0;
+}
+
+.text-dark
+{
+	color: #222;
+	font-size: 13px;
+}
+
+.input-text-dark
+{
+	color: #222;
+	font-size: 13px;
+	text-align: right;
+}
+
+.required
+{
+}
+
+.required:after
+{
+	color: #e32;
+	content: ' *';
+	display:inline;
+}
+
+.spinbox
+{
+	color: #222;
+	border: solid 1px #555;
+	width: 200px;
+	height: 26px;
+	max-height: 26px;
+}
+
+/****    generic widget    ****/
+
+.widget-panel-header
+{
+	background-color: #156984;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: left;
+	line-height: 30px;
+	border-top-left-radius: 15px;
+	border-top-right-radius: 15px;
+	border-bottom-left-radius: 15px;
+	border-bottom-right-radius: 15px;
+	transition: background-color 0.4s;
+}
+
+.widget-panel-header-expand
+{
+	border-bottom-left-radius: 0px;
+}
+
+.widget-panel-body
+{
+	border: 0px solid #156984;
+}
+
+.widget-panel-body-expand
+{
+	border-bottom-left-radius: 15px;
+	border-left: solid 2px #156984;
+	border-bottom: solid 2px #156984;
+}
+
+.widget-button-del
+{
+	padding-left: 8px;
+	text-align: left;
+	line-height: 30px;
+	border-radius: 15px;
+	transition: background-color 0.4s;
+}
+
+.widget-button-del-D
+{
+	line-height: 30px;
+	border-radius: 15px;
+	background-image: url("../img/small_remove.png");
+	background-repeat: no-repeat;
+	background-position: center center;
+	transition: background-color 0.5s;
+}
+
+.widget-button-del-D:hover
+{
+	background-color: #456;
+}
+
+.container-background
+{
+	background: #fff;
+	height: 100%;
+	width: 100%;
+	background: #c3c0c0 url("../img/bg.png") no-repeat fixed left top;
+}
+
+.Wt-msgbox-text
+{
+	overflow: auto;
+	color: #333;
+}
+
+.fa-question::before
+{
+	content: "\f128";
+	color: #dc0800;
+}
+
+.fa-info::before
+{
+	content: "\f129";
+	color: #dc0800;
+}
+
+.Wt-dialog .closeicon
+{
+	width: 16px;
+	height: 16px;
+	position: absolute;
+	background-position: right 0px;
+	right: 2px;
+	top: 2px;
+	cursor: default;
+	background: transparent url("../img/close.png") no-repeat right top;
+}
+
+.Wt-dialog .closeicon:hover
+{
+	background-position: right 0px;
+}
+
+.Wt-panel
+{
+	border: 0px solid #888;
+	background: transparent;
+}
+
+.Wt-panel .titlebar
+{
+	color: #FFFFFF;
+	padding: 8px 6px 8px;
+	font-size: 14px;
+	font-weight: bold;
+	background: #156984;
+	text-align: center;
+	height: 17px;
+	max-height: 17px;
+	border-radius: 16px;
+}
+
+.Wt-panel .body {
+	background: transparent;
+	padding: 0px 6px 8px;
+	-webkit-backface-visibility: hidden;
+	clear: left;
+	margin-top: 5px;
+	border-bottom-left-radius: 8px;
+	border-left: solid 2px #156984;
+	border-bottom: solid 2px #156984;
+}
+
+.Wt-dialog .titlebar {
+	background: #333;
+	color: #FFFFFF;
+	padding: 2px 6px 3px;
+}
+
+.Wt-progressbar .Wt-pgb-label
+{
+	position: absolute;
+	left: 0px;
+	width: 100%;
+	text-align: center;
+	font-size: 10px;
+	top: 0;
+}
+
+.Wt-progressbar .Wt-pgb-bar
+{
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	height: 100%;
+}
+
+.Wt-progressbar
+{
+	background: #555;
+	position: relative;
+	border: solid 0px #555;
+	overflow: hidden;
+	color: #FFF;
+	font-weight: bold;
+}
+
+@keyframes widget-save-icon-animation
+{
+	0%   { opacity: 0; }
+	50%  { opacity: 1; }
+	100%	{ opacity: 0; }
+}
+.widget-save-icon
+{
+	position: absolute;
+	right: 30px;
+	top: 120px;
+	width: 62px;
+	height: 62px;
+	border-radius: 16px;
+	background-color: #54A42B;
+	background-image: url("../img/save.png");
+	animation-name: widget-save-icon-animation;
+	animation-duration: 2s;
+	animation-iteration-count: 1;
+}
+
+.widget-save-icon-hidden
+{
+	opacity: 0;
+	position: absolute;
+	right: 30px;
+	top: 140px;
+	width: 62px;
+	height: 62px;
+	z-index: -1;
+}
+
