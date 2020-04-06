@@ -22,7 +22,7 @@ class wcontainer : public widget_template
 		Wt::Signal<bool>& on_visible_change();
 
 		wcontainer();
-		wcontainer(string filename); // locate in template/, with or without .html
+		wcontainer(string filename); // filename located in template/, with or without .html
 		void setHidden(bool hidden, const WAnimation& animation = WAnimation());
 		~wcontainer();
 };
