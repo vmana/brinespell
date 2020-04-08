@@ -6,26 +6,22 @@
 
 widget_home::widget_home() : wcontainer("home")
 {
+	setStyleClass("widget_home");
 	/* auto player = this->addChild(make_unique<WMediaPlayer>(MediaType::Audio)); */
-	auto player = this->bindNew<WMediaPlayer>("player", MediaType::Audio);
+	/* auto player = this->bindNew<WMediaPlayer>("player", MediaType::Audio); */
 
-	auto f = bindNew<WFileUpload>("upload");
-	f->setId("xxx66");
-	f->setFilters("image/*");
-	doJavaScript("var xn = document.getElementById('inxxx66'); if (xn != null) xn.setAttribute('capture', 'environment');");
+	/* player->addSource(MediaEncoding::MP3, "template/a.mp3"); */
+	/* player->setControlsWidget(0); */
+	/* player->setVolume(0.5); */
+	/* player->play(); */
 
-	player->addSource(MediaEncoding::MP3, "template/a.mp3");
-	player->setControlsWidget(0);
-	player->setVolume(0.5);
-	player->play();
+	/* auto button_minus = bindNew<WText>("minus"); */
+	/* button_minus->setText("-"); */
+	/* button_minus->clicked().connect([=](){ player->setVolume(player->volume() - 0.1); }); */
 
-	auto button_minus = bindNew<WText>("minus");
-	button_minus->setText("-");
-	button_minus->clicked().connect([=](){ player->setVolume(player->volume() - 0.1); });
-
-	auto button_plus = bindNew<WText>("plus");
-	button_plus->setText("+");
-	button_plus->clicked().connect([=](){ player->setVolume(player->volume() + 0.1); });
+	/* auto button_plus = bindNew<WText>("plus"); */
+	/* button_plus->setText("+"); */
+	/* button_plus->clicked().connect([=](){ player->setVolume(player->volume() + 0.1); }); */
 
 	/* sound->setLoops(1); */
 	/* sound->play(); */
