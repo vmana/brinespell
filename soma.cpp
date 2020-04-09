@@ -1,4 +1,5 @@
 #include "soma.h"
+#include "widget/widget_login.h"
 #include "widget/widget_home.h"
 
 soma::soma(const WEnvironment& env) : WApplication(env)
@@ -63,7 +64,7 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 
 	main_layout->setRowStretch(widget_count - 1, 1); // stack always gets full space
 
-	setInternalPath("/home", true);
+	setInternalPath("/login", true);
 }
 
 soma* soma::application()
@@ -82,6 +83,13 @@ void soma::internal_path_handler(const string &path)
 	cout << "internal path changed : " << path << endl;
 
 	// full access
+	if (path == "/login")
+	{
+		// create if doesn't exist
+		if (view_login) stack->removeWidget(view_login);
+		view_login = stack->addNew<widget_login>();
+		update_stack_view(view_login);
+	}
 	if (path == "/home")
 	{
 		// create if doesn't exist

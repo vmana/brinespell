@@ -1,32 +1,22 @@
 body
 {
-	font-family: sans-serif, verdana;
+	font-family: sans-serif;
 	color: #fff;
 	font-weight: normal;
 	font-size: 12px;
 	padding: 0px;
 	margin: 0px;
-	font-smoothing: antialiased;
+}
+.main-background
+{
+	height: 100vh;
+	background: url('/img/background.png') bottom;
 }
 .stack-background
 {
 	min-height: 100%; height: 100%;
 	min-width: 100%; width: 100%;
-}
-
-button
-{
-	border: solid 1px #555;
-	background: #eee;
-	color: #000;
-	width: 200px;
-	height: 26px;
-}
-
-button:hover
-{
-	background: #ddd;
-	color: #000;
+	background-color: rgba(0, 0, 0, 0.3);
 }
 
 textarea
@@ -36,24 +26,32 @@ textarea
 	border: solid 1px #555;
 }
 
+input[type=text],
+input[type=password]
+{
+	font-size: 16px;
+	border: solid 0px;
+	/* background: #132433; */
+	background: #0a141c;
+	opacity: 0.88;
+	color: #c6e8f9;
+	height: 22px;
+	padding: 4px 12px;
+	border-radius: 20px;
+}
+input[type=text]::-webkit-input-placeholder
+{
+	color: #def;
+}
+::placeholder
+{
+	color: #def;
+	opacity: 0.7;
+}
+
 input[type=file]
 {
 	color: #222;
-}
-
-.title
-{
-	color: #d41010;
-	font-size: 38px;
-}
-
-.spinbox
-{
-	color: #222;
-	border: solid 1px #555;
-	width: 200px;
-	height: 26px;
-	max-height: 26px;
 }
 
 /****    generic widget    ****/
@@ -252,17 +250,33 @@ input[type=file]
 	z-index: -1;
 }
 
+/****    widget_login    ****/
+
+.widget_login
+{
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.widget_login_center
+{
+	display: flex;
+	flex-direction: column;
+	margin-top: 10%;
+	margin-bottom: 20%;
+}
+
+.widget_login_input
+{
+	text-align: center;
+	width: 240px;
+	margin-bottom: 10px;
+}
+
 /****    widget_home    ****/
 
-.main-background
-{
-	height: 100vh;
-	background: #000;
-	/* background: #000000e6; */
-}
 .widget_home
 {
-	background: url('/img/background.png') bottom;
-	opacity: 0.7;
 }
-

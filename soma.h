@@ -14,6 +14,7 @@ using namespace Wt;
 
 using namespace mana;
 
+class widget_login;
 class widget_home;
 
 class soma : public WApplication
@@ -28,6 +29,7 @@ class soma : public WApplication
 
 		// view
 		widget_stack *stack;
+		widget_login *view_login;
 		widget_home *view_home;
 
 		// save icon
