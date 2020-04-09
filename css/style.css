@@ -10,7 +10,8 @@ body
 .main-background
 {
 	height: 100vh;
-	background: url('/img/background.png') bottom;
+	background: url('/img/background.png') bottom center no-repeat fixed;
+	background-size: cover;
 }
 .stack-background
 {
