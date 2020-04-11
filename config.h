@@ -23,6 +23,8 @@ class global
 		static bool try_database_creation;
 		static string master_password;
 		static string template_path;
+		static string data_path;
+		static string config_path;
 };
 
 

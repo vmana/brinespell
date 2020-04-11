@@ -5,10 +5,10 @@ wcontainer::wcontainer()
 {
 	this->S = soma::application();
 	this->D = S->D;
-	this->setStyleClass("container-background");
 }
 
-wcontainer::wcontainer(string filename)
+wcontainer::wcontainer(string filename) :
+	wcontainer()
 {
 	if (strpos(filename, ".html") == string::npos) filename += ".html";
 	string tpl;

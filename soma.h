@@ -29,8 +29,8 @@ class soma : public WApplication
 
 		// view
 		widget_stack *stack;
-		widget_login *view_login;
-		widget_home *view_home;
+		widget_login *view_login = NULL;
+		widget_home *view_home = NULL;
 
 		// save icon
 		widget_save_icon *save_icon;

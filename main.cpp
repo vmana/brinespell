@@ -1,4 +1,5 @@
 #include "soma.h"
+#include "test/unit_test.h"
 #include "thread/background.h"
 #include "Wt/WServer.h"
 
@@ -72,6 +73,9 @@ int main(int argc, char *argv[])
 			global::remote_production = true;
 		}
 	}
+
+	unit_test test;
+	if (test.test_all()) debug_line("All unit tests done");
 
 	/* { */
 	/* 	try */

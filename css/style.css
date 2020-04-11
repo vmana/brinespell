@@ -112,14 +112,6 @@ input[type=file]
 	background-color: #456;
 }
 
-.container-background
-{
-	background: #fff;
-	height: 100%;
-	width: 100%;
-	background: #c3c0c0 url("../img/bg.png") no-repeat fixed left top;
-}
-
 .Wt-msgbox-text
 {
 	overflow: auto;
@@ -251,6 +243,30 @@ input[type=file]
 	z-index: -1;
 }
 
+/****    animations    ****/
+
+@keyframes animate_show_animation
+{
+	0%   { opacity: 0; }
+}
+.animate_show
+{
+	animation-name: animate_show_animation;
+	animation-duration: 0.8s;
+	animation-iteration-count: 1;
+}
+
+@keyframes animate_hide_animation
+{
+	100%  { opacity: 0; }
+}
+.animate_hide
+{
+	animation-name: animate_hide_animation;
+	animation-duration: 0.8s;
+	animation-iteration-count: 1;
+}
+
 /****    widget_login    ****/
 
 .widget_login
@@ -274,6 +290,12 @@ input[type=file]
 	text-align: center;
 	width: 240px;
 	margin-bottom: 10px;
+}
+
+.widget_login_failed
+{
+	opacity: 0%;
+	transition: 0.8s;
 }
 
 /****    widget_home    ****/
