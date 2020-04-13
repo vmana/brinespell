@@ -10,7 +10,7 @@ using namespace std;
 #include "mana.h"
 using namespace mana;
 
-#include "dbo_version.h"
+#include "db/dbo_version.h"
 
 class global
 {
@@ -25,6 +25,7 @@ class global
 		static string template_path;
 		static string data_path;
 		static string config_path;
+
 };
 
 

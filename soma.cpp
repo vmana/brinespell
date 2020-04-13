@@ -3,17 +3,18 @@
 #include "widget/widget_home.h"
 
 soma::soma(const WEnvironment& env) : WApplication(env)
+	/* ,sig(this, "unique_name") */
 {
 	setTitle("");
 	useStyleSheet("css/style.css");
 	messageResourceBundle().use("/dalaran/brinespell/brinespell/wt");
 	enableUpdates(true); // allow server update
 
-	/* try */
-	/* { */
-	/* 	D = make_shared<soma_database>(); */
-	/* 	soma_database::new_session(true); */
-	/* } catch (dbo::Exception e) { debug_line(e.what()); system::sleep(1000); quit(); } */
+	try
+	{
+		D = make_shared<soma_database>();
+		soma_database::new_session(true);
+	} catch (dbo::Exception e) { debug_line(e.what()); system::sleep(1000); quit(); }
 
 	// change default encoding for all WString
 	WString::setDefaultEncoding(CharEncoding::UTF8);
@@ -64,8 +65,16 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 
 	main_layout->setRowStretch(widget_count - 1, 1); // stack always gets full space
 
+	/* this->doJavaScript("var xxx = 42;"); */
+	/* sig.connect(this, &soma::callback); */
+	/* debug_line(sig.createCall({"xxx"})); */
+	/* this->doJavaScript(sig.createCall({"xxx"})); */
+	/* this->doJavaScript("Wt.emit('app','unique_name','ok ok');"); */
+
 	setInternalPath("/login", true);
 }
+
+/* void soma::callback(string value) { debug_line(value); } */
 
 soma* soma::application()
 {

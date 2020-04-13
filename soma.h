@@ -8,6 +8,7 @@
 #include "wt/generic/widget_stack.h"
 #include "wt/generic/widget_save_icon.h"
 #include "soma_database.h"
+#include <Wt/WJavaScript.h>
 
 namespace dbo = Wt::Dbo;
 using namespace Wt;
@@ -34,6 +35,9 @@ class soma : public WApplication
 
 		// save icon
 		widget_save_icon *save_icon;
+
+		/* JSignal<string> sig; */
+		/* void callback(string value); */
 
 		soma(const WEnvironment& env);
 		static soma* application();

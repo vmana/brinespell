@@ -22,6 +22,7 @@ class soma_database
 		static void new_session(bool use_wt_session = false);
 		void create_database();
 		void create_default();
+		void create_default_user();
 		static void update_database();
 		~soma_database();
 };

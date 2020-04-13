@@ -1,4 +1,5 @@
 #include "soma.h"
+#include "database.h"
 #include "test/unit_test.h"
 #include "thread/background.h"
 #include "Wt/WServer.h"
@@ -77,22 +78,22 @@ int main(int argc, char *argv[])
 	unit_test test;
 	if (test.test_all()) debug_line("All unit tests done");
 
-	/* { */
-	/* 	try */
-	/* 	{ */
-	/* 		// try update, if existing db */
-	/* 		soma_database::update_database(); */
-	/* 	} catch (dbo::Exception e) { debug_line(e.what()); exit(0); } */
-	/* 	try */
-	/* 	{ */
-	/* 		soma_database D; */
-	/* 		soma_database::new_session(); */
-	/* 		// try to create database. It will fail if the schema isn't empty */
-	/* 		if (global::try_database_creation) D.create_database(); */
-	/* 		// try to create some default values */
-	/* 		D.create_default(); */
-	/* 	} catch (dbo::Exception e) { debug_line(e.what()); exit(0); } */
-	/* } */
+	{
+		try
+		{
+			// try update, if existing db
+			soma_database::update_database();
+		} catch (dbo::Exception e) { debug_line(e.what()); exit(0); }
+		try
+		{
+			soma_database D;
+			soma_database::new_session();
+			// try to create database. It will fail if the schema isn't empty
+			if (global::try_database_creation) D.create_database();
+			// try to create some default values
+			D.create_default();
+		} catch (dbo::Exception e) { debug_line(e.what()); exit(0); }
+	}
 
 	/* if (!file::exists(global::path_data)) system::mkdir(global::path_data); */
 

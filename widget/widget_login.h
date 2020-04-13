@@ -10,7 +10,7 @@ class widget_login : public wcontainer
 
 	public:
 
-		WLineEdit *edit_user, *edit_pass;
+		WLineEdit *edit_login, *edit_pass;
 		widget_login();
 		void on_enter_pressed();
 		void reset_login();

@@ -8,7 +8,8 @@ class unit_test
 
 		// user
 		bool test_user();
-
+		// campaign
+		bool test_campaign();
 		bool test_all();
 };
 

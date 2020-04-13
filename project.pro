@@ -7,8 +7,8 @@ QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS += -Wno-deprecated -Wno-write-strings -Wno-unused-result -Wno-format-security
 QMAKE_CXXFLAGS += -static -static-libgcc -static-libstdc++
 QMAKE_CXXFLAGS += -O0
-#QMAKE_CXXFLAGS += -g -ggdb -pg -O0
-QMAKE_CXXFLAGS += -pg -O0
+QMAKE_CXXFLAGS += -g -ggdb -pg -O0
+#QMAKE_CXXFLAGS += -pg -O0
 QMAKE_CFLAGS += -static -static-libgcc
 DEFINES += QT_NO_KEYWORDS
 
@@ -30,9 +30,11 @@ OBJECTS_DIR = ../out/
 MOC_DIR = ../out/
 
 HEADERS  += config.h\
-				dbo_version.h\
 				test/unit_test.h\
-				user.h\
+				db/dbo_version.h\
+				db/user.h\
+				db/player.h\
+				db/campaign.h\
 				soma.h\
 				soma_database.h\
 				widget/wcontainer_nolayout.h\
@@ -44,7 +46,9 @@ HEADERS  += config.h\
 SOURCES +=	main.cpp\
 				config.cpp\
 				test/unit_test.cpp\
-				user.cpp\
+				db/user.cpp\
+				db/player.cpp\
+				db/campaign.cpp\
 				soma.cpp\
 				soma_database.cpp\
 				widget/wcontainer_nolayout.cpp\
