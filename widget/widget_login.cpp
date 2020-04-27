@@ -53,7 +53,7 @@ void widget_login::on_enter_pressed()
 
 void widget_login::reset_login()
 {
+	setStyleClass("widget_login widget_login_reset");
 	edit_pass->setFocus(true);
-	setStyleClass("widget_login animate_show");
 	failed_login = false;
 }

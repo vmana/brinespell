@@ -254,6 +254,7 @@ input[type=file]
 	animation-name: animate_show_animation;
 	animation-duration: 0.8s;
 	animation-iteration-count: 1;
+	opacity: 100%;
 }
 
 @keyframes animate_hide_animation
@@ -294,8 +295,13 @@ input[type=file]
 
 .widget_login_failed
 {
-	opacity: 0%;
 	transition: 0.8s;
+	opacity: 0 !important;
+}
+
+.widget_login_reset
+{
+	transition: 0.8s !important;
 }
 
 /****    widget_home    ****/
