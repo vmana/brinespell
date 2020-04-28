@@ -6,13 +6,15 @@
 
 class core
 {
-	soma *S;
 
-	public:
-		core();
+	private:
 		template <class C, typename... Args>
 		void internal_send_all(C *object, void (C::*fn)(Args...), Args... args);
 
+	public:
+		soma *S;
+
+		core();
 		template <class C, typename... Args>
 		static std::function<void()> send_all(C *object, void (C::*fn)(Args...), Args... args);
 };
@@ -27,17 +29,9 @@ template <class C, typename... Args>
 std::function<void()> core::send_all(C *object, void (C::*fn)(Args...), Args... args)
 {
 	soma* p_soma = soma::application();
-	if (!p_soma)
-	{
-		debug_line("p_soma error");
-		return bind(fn, object, args...);
-	}
+	if (!p_soma) return bind([](){ debug_line("p_soma is missing"); });
 	core* p_core = p_soma->C;
-	if (!p_core)
-	{
-		debug_line("p_core error");
-		return bind(fn, object, args...);
-	}
+	if (!p_core) return bind([](){ debug_line("p_core is missing"); });
 
 	return bind(&core::internal_send_all<C, Args...>, p_core, object, fn, args...);
 }

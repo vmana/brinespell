@@ -6,12 +6,14 @@ body
 	font-size: 12px;
 	padding: 0px;
 	margin: 0px;
+	background: url('/img/background.jpg') bottom center no-repeat fixed;
+	background-size: cover;
 }
 .main-background
 {
 	height: 100vh;
-	background: url('/img/background.jpg') bottom center no-repeat fixed;
-	background-size: cover;
+	/* background: url('/img/background.jpg') bottom center no-repeat fixed; */
+	/* background-size: cover; */
 }
 .stack-background
 {
