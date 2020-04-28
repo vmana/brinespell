@@ -5,6 +5,7 @@ wcontainer::wcontainer()
 {
 	this->S = soma::application();
 	this->D = S->D;
+	this->C = S->C;
 }
 
 wcontainer::wcontainer(string filename) :

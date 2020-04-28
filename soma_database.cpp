@@ -2,6 +2,7 @@
 #include "soma_database.h"
 #include "db/user.h"
 #include "db/player.h"
+#include "db/campaign.h"
 
 thread_local dbo::Session soma_database::thread_dbo_session;
 thread_local bool soma_database::use_thread_session = false;
@@ -48,6 +49,7 @@ void soma_database::new_session(bool use_wt_session)
 		p_session.setConnection(move(mysql));
 		p_session.mapClass<user>("user");
 		p_session.mapClass<player>("player");
+		p_session.mapClass<campaign>("campaign");
 
 	}
 	catch (dbo::Exception e) { debug_line(e.what()); throw e; }
@@ -81,6 +83,7 @@ void soma_database::create_default_user()
 		dbo_session session;
 		dbo::ptr<user> p_user;
 
+		// default master
 		p_user = session->find<user>().where("login = ?").bind("mana");
 		if (!p_user)
 		{
@@ -89,6 +92,40 @@ void soma_database::create_default_user()
 			new_user->password = cypher::sha_string("789brinepass");
 			p_user = session->add(move(new_user));
 		}
+
+		// create default campaign
+		string campaign_name = "Curse of Strahd";
+		dbo::ptr<campaign> p_campaign = session->find<campaign>().where("name = ?").bind(campaign_name);
+		if (!p_campaign)
+		{
+			auto new_campaign = make_unique<campaign>();
+			new_campaign->name = campaign_name;
+			new_campaign->p_master = p_user;
+			p_campaign = session->add(move(new_campaign));
+		}
+
+		// default players
+		auto player_names = {"bob", "john"};
+		for (auto &pn : player_names)
+		{
+			// add it as a new user
+			p_user = session->find<user>().where("login = ?").bind(pn);
+			if (!p_user)
+			{
+				auto new_user = make_unique<user>();
+				new_user->login = pn;
+				new_user->password = cypher::sha_string("789brinepass");
+				p_user = session->add(move(new_user));
+
+				// add user as a player
+				auto new_player = make_unique<player>();
+				new_player->name = string(pn) + " character";
+				new_player->p_user = p_user;
+				new_player->p_campaign = p_campaign;
+				session->add(move(new_player));
+			}
+		}
+
 	} catch (dbo::Exception e) { debug_line(e.what()); }
 }
 

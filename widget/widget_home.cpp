@@ -4,9 +4,19 @@
 #include <Wt/WText.h>
 #include <Wt/WFileUpload.h>
 
+using namespace std::placeholders;
+
 widget_home::widget_home() : wcontainer("home")
 {
 	setStyleClass("widget_home");
+
+	/* this->clicked().connect(bind(&core::send_all<widget_home, string>, C, this, &widget_home::test, "AAA")); */
+
+	/* this->clicked().connect(bind(&core::send_all<widget_home, string, string>, C, this, &widget_home::test2, "AAA", "BBB")); */
+
+	/* this->clicked().connect(f); */
+	this->clicked().connect(core::send_all(this, &widget_home::test2, {"aaa"}, {"bbb"}));
+
 	/* auto player = this->addChild(make_unique<WMediaPlayer>(MediaType::Audio)); */
 	/* auto player = this->bindNew<WMediaPlayer>("player", MediaType::Audio); */
 
@@ -30,3 +40,17 @@ widget_home::widget_home() : wcontainer("home")
 	/* if (it != test.end()) debug_line(it->second); */
 }
 
+void widget_home::vtest()
+{
+	debug_line("vtest");
+}
+
+void widget_home::test(string a)
+{
+	debug_line("test " + a);
+}
+
+void widget_home::test2(string a, string b)
+{
+	debug_line("test2 " + a + b);
+}

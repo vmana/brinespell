@@ -17,6 +17,7 @@ using namespace mana;
 
 class widget_login;
 class widget_home;
+class core;
 
 class soma : public WApplication
 {
@@ -25,6 +26,7 @@ class soma : public WApplication
 
 	public:
 		shared_ptr<soma_database> D;
+		core *C = NULL;
 
 		bool is_mobile = false;
 

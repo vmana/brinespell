@@ -35,6 +35,7 @@ HEADERS  += config.h\
 				db/user.h\
 				db/player.h\
 				db/campaign.h\
+				core.h\
 				soma.h\
 				soma_database.h\
 				widget/wcontainer_nolayout.h\
@@ -49,6 +50,7 @@ SOURCES +=	main.cpp\
 				db/user.cpp\
 				db/player.cpp\
 				db/campaign.cpp\
+				core.cpp\
 				soma.cpp\
 				soma_database.cpp\
 				widget/wcontainer_nolayout.cpp\
