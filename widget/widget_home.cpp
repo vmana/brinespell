@@ -15,7 +15,7 @@ widget_home::widget_home() : wcontainer("home")
 	/* this->clicked().connect(bind(&core::send_all<widget_home, string, string>, C, this, &widget_home::test2, "AAA", "BBB")); */
 
 	/* this->clicked().connect(f); */
-	this->clicked().connect(core::send_all(this, &widget_home::test2, {"aaa"}, {"bbb"}));
+	this->clicked().connect(broadcast::all(&widget_home::test2, {"aaa"}, {"bbb"}));
 
 	/* auto player = this->addChild(make_unique<WMediaPlayer>(MediaType::Audio)); */
 	/* auto player = this->bindNew<WMediaPlayer>("player", MediaType::Audio); */
@@ -52,5 +52,6 @@ void widget_home::test(string a)
 
 void widget_home::test2(string a, string b)
 {
+	string id = soma::instance()->sessionId();
 	debug_line("test2 " + a + b);
 }

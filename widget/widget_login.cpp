@@ -1,6 +1,7 @@
 #include "widget_login.h"
 #include "soma.h"
 #include "db/user.h"
+#include "db/campaign.h"
 #include <Wt/WLineEdit.h>
 #include <Wt/WTimer.h>
 
@@ -39,7 +40,16 @@ void widget_login::on_enter_pressed()
 	if (p_user)
 	{
 		// login success
+
+		// set a default campaign for now
+		try
+		{
+			dbo_session session;
+			S->p_campaign = session->find<campaign>().where("name = 'Curse of Strahd'");
+		} catch (dbo::Exception e) { debug_line(e.what()); }
+
 		S->setInternalPath("/home", true);
+
 	}
 	else
 	{

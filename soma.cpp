@@ -1,7 +1,7 @@
 #include "soma.h"
+#include "db/campaign.h"
 #include "widget/widget_login.h"
 #include "widget/widget_home.h"
-#include "core.h"
 
 soma::soma(const WEnvironment& env) : WApplication(env)
 	/* ,sig(this, "unique_name") */
@@ -16,9 +16,6 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 		D = make_shared<soma_database>();
 		soma_database::new_session(true);
 	} catch (dbo::Exception e) { debug_line(e.what()); system::sleep(1000); quit(); }
-
-	// core
-	C = new core();
 
 	// change default encoding for all WString
 	WString::setDefaultEncoding(CharEncoding::UTF8);
@@ -129,5 +126,4 @@ int soma::max_screen_height()
 
 soma::~soma()
 {
-	if (C) delete C;
 }

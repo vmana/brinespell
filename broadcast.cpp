@@ -1,7 +1,7 @@
-#include "core.h"
+#include "broadcast.h"
 #include "soma.h"
 
-core::core()
+broadcast::broadcast()
 {
 	this->S = soma::application();
 }

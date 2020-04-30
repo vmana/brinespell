@@ -17,7 +17,7 @@ using namespace mana;
 
 class widget_login;
 class widget_home;
-class core;
+class campaign;
 
 class soma : public WApplication
 {
@@ -26,7 +26,6 @@ class soma : public WApplication
 
 	public:
 		shared_ptr<soma_database> D;
-		core *C = NULL;
 
 		bool is_mobile = false;
 
@@ -37,6 +36,8 @@ class soma : public WApplication
 
 		// save icon
 		widget_save_icon *save_icon;
+
+		dbo::ptr<campaign> p_campaign = dbo::ptr<campaign>();
 
 		/* JSignal<string> sig; */
 		/* void callback(string value); */

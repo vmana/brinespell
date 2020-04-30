@@ -4,7 +4,7 @@
 #include <Wt/WApplication.h>
 
 #include "mana.h"
-#include "core.h"
+#include "broadcast.h"
 #include "soma_database.h"
 #include "wt/generic/widget_template.h"
 
@@ -18,7 +18,6 @@ class wcontainer : public widget_template
 	public:
 		soma *S;
 		shared_ptr<soma_database> D;
-		core *C;
 
 		// signals
 		Wt::Signal<bool>& on_visible_change();
