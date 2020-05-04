@@ -41,6 +41,7 @@ HEADERS  += config.h\
 				widget/wcontainer_nolayout.h\
 				widget/wcontainer.h\
 				widget/widget_login.h\
+				widget/widget_search.h\
 				widget/widget_home.h\
 				thread/background.h\
 
@@ -56,5 +57,6 @@ SOURCES +=	main.cpp\
 				widget/wcontainer_nolayout.cpp\
 				widget/wcontainer.cpp\
 				widget/widget_login.cpp\
+				widget/widget_search.cpp\
 				widget/widget_home.cpp\
 				thread/background.cpp\

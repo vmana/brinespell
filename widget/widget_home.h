@@ -2,12 +2,14 @@
 #define widget_home_H
 
 #include "wcontainer.h"
+#include "widget_search.h"
 #include "db/campaign.h"
 
 class widget_home : public wcontainer
 {
 	public:
 		shared_ptr<campaign> p_campaign;
+		widget_search *search;
 
 		widget_home();
 		static void vtest();

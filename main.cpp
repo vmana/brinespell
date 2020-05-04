@@ -3,6 +3,7 @@
 #include "test/unit_test.h"
 #include "thread/background.h"
 #include "Wt/WServer.h"
+#include "fuzzy.h"
 
 unique_ptr<WApplication> create_application(const Wt::WEnvironment& env)
 {

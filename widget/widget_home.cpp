@@ -19,6 +19,7 @@ widget_home::widget_home() : wcontainer("home")
 
 	/* auto player = this->addChild(make_unique<WMediaPlayer>(MediaType::Audio)); */
 	/* auto player = this->bindNew<WMediaPlayer>("player", MediaType::Audio); */
+	search = bindNew<widget_search>("widget_search");
 
 	/* player->addSource(MediaEncoding::MP3, "template/a.mp3"); */
 	/* player->setControlsWidget(0); */
