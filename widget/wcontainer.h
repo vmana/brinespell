@@ -25,7 +25,12 @@ class wcontainer : public widget_template
 		wcontainer();
 		wcontainer(string filename); // filename located in template/, with or without .html
 		void setHidden(bool hidden, const WAnimation& animation = WAnimation());
-		~wcontainer();
+};
+
+class wtemplate : public widget_template
+{
+	public:
+		wtemplate(string filename); // filename located in template/, with or without .html
 };
 
 #endif // wcontainer_H

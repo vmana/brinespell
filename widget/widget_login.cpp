@@ -39,17 +39,7 @@ void widget_login::on_enter_pressed()
 	auto p_user = user::check_login(edit_login->text().toUTF8(), edit_pass->text().toUTF8());
 	if (p_user)
 	{
-		// login success
-
-		// set a default campaign for now
-		try
-		{
-			dbo_session session;
-			S->p_campaign = session->find<campaign>().where("name = 'Curse of Strahd'");
-		} catch (dbo::Exception e) { debug_line(e.what()); }
-
-		S->setInternalPath("/home", true);
-
+		S->on_login_success(p_user);
 	}
 	else
 	{

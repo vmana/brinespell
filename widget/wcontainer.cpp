@@ -33,7 +33,17 @@ Wt::Signal<bool>& wcontainer::on_visible_change()
 	return signal_on_visible_change;
 }
 
-wcontainer::~wcontainer()
+wtemplate::wtemplate(string filename)
 {
+	if (strpos(filename, ".html") == string::npos) filename += ".html";
+	string tpl;
+	if (file::read_content(global::template_path + filename, &tpl))
+	{
+		setTemplateText(tpl, TextFormat::UnsafeXHTML);
+	}
+	else
+	{
+		debug_line("filename " + filename + " not found");
+	}
 }
 

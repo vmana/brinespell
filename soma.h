@@ -17,6 +17,7 @@ using namespace mana;
 
 class widget_login;
 class widget_home;
+class user;
 class campaign;
 
 class soma : public WApplication
@@ -37,6 +38,7 @@ class soma : public WApplication
 		// save icon
 		widget_save_icon *save_icon;
 
+		dbo::ptr<user> p_user = dbo::ptr<user>();
 		dbo::ptr<campaign> p_campaign = dbo::ptr<campaign>();
 
 		/* JSignal<string> sig; */
@@ -45,6 +47,7 @@ class soma : public WApplication
 		soma(const WEnvironment& env);
 		static soma* application();
 		void init(shared_ptr<soma> sthis);
+		void on_login_success(dbo::ptr<user> p_user);
 		void on_disconnect();
 		void internal_path_handler(const string &path);
 		void update_stack_view(WWidget *view);

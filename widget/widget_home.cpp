@@ -10,16 +10,13 @@ widget_home::widget_home() : wcontainer("home")
 {
 	setStyleClass("widget_home");
 
-	/* this->clicked().connect(bind(&core::send_all<widget_home, string>, C, this, &widget_home::test, "AAA")); */
-
-	/* this->clicked().connect(bind(&core::send_all<widget_home, string, string>, C, this, &widget_home::test2, "AAA", "BBB")); */
-
-	/* this->clicked().connect(f); */
-	this->clicked().connect(broadcast::all(&widget_home::test2, {"aaa"}, {"bbb"}));
+	/* this->clicked().connect(broadcast::all(&widget_home::test2, {"aaa"}, {"bbb"})); */
 
 	/* auto player = this->addChild(make_unique<WMediaPlayer>(MediaType::Audio)); */
 	/* auto player = this->bindNew<WMediaPlayer>("player", MediaType::Audio); */
 	search = bindNew<widget_search>("widget_search");
+	search->set_data(file::read_vector("/home/mana/search.txt"));
+	search->edit_search->setFocus(true);
 
 	/* player->addSource(MediaEncoding::MP3, "template/a.mp3"); */
 	/* player->setControlsWidget(0); */

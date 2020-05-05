@@ -1,4 +1,5 @@
 #include "soma.h"
+#include "db/user.h"
 #include "db/campaign.h"
 #include "widget/widget_login.h"
 #include "widget/widget_home.h"
@@ -73,6 +74,13 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 	/* this->doJavaScript("Wt.emit('app','unique_name','ok ok');"); */
 
 	setInternalPath("/login", true);
+
+	try
+	{
+		dbo_session session;
+		p_user = session->find<user>().where("login = 'mana'");
+	} catch (dbo::Exception e) { debug_line(e.what()); }
+	on_login_success(p_user);
 }
 
 /* void soma::callback(string value) { debug_line(value); } */
@@ -80,6 +88,19 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 soma* soma::application()
 {
 	return (soma*)WApplication::instance();
+}
+
+void soma::on_login_success(dbo::ptr<user> p_user)
+{
+	if (!p_user) return;
+	this->p_user = p_user;
+	try
+	{
+		dbo_session session;
+		p_campaign = session->find<campaign>().where("name = 'Curse of Strahd'");
+	} catch (dbo::Exception e) { debug_line(e.what()); }
+
+	setInternalPath("/home", true);
 }
 
 void soma::on_disconnect()

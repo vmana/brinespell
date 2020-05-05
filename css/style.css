@@ -311,3 +311,56 @@ input[type=file]
 .widget_home
 {
 }
+
+.widget_home_search
+{
+	position: absolute;
+	width: 470px;
+	top: 190px;
+	left: 230px;
+}
+
+/****    widget_search    ****/
+
+.widget_search_edit
+{
+	font-family: 'Hack Nerd Font', monospace;
+	width: 100%;
+}
+
+.widget_search_suggestions
+{
+	position: absolute;
+	top: 35px;
+	left: 12px;
+	/* width: 100%; */
+	min-width: 100%;
+	max-width: 200%;
+	color: #c6e8f9;
+	background: #0a141c;
+	font-size: 15px;
+	opacity: 0.88;
+	border-radius: 20px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.widget_search_line_suggestion
+{
+	border: solid 0px;
+	width: 100%;
+	height: 22px;
+	line-height: 24px;
+	padding: 4px 12px;
+	cursor: pointer;
+}
+.widget_search_line_suggestion:hover
+{
+	background: #2a343c;
+}
+
+.widget_search_match
+{
+	color: #05edff;
+}
