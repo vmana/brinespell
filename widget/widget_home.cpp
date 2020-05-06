@@ -17,6 +17,7 @@ widget_home::widget_home() : wcontainer("home")
 	search = bindNew<widget_search>("widget_search");
 	search->set_data(file::read_vector("/home/mana/search.txt"));
 	search->edit_search->setFocus(true);
+	search->on_select_event.connect([=](string value){ debug_line(value); });
 
 	/* player->addSource(MediaEncoding::MP3, "template/a.mp3"); */
 	/* player->setControlsWidget(0); */

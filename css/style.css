@@ -355,10 +355,12 @@ input[type=file]
 	padding: 4px 12px;
 	cursor: pointer;
 }
-.widget_search_line_suggestion:hover
+.widget_search_line_suggestion:hover,
+.widget_search_selected
 {
 	background: #2a343c;
 }
+
 
 .widget_search_match
 {

@@ -4,11 +4,15 @@
 #include "wcontainer.h"
 #include <Wt/WLineEdit.h>
 #include <Wt/WEvent.h>
+#include <Wt/WSignal.h>
 
 class widget_search : public wcontainer
 {
 	protected:
 		fuzzy F;
+		vector<fuzzy_choice> results;
+		vector<widget_template*> wresults;
+		int selected = 0;
 
 	public:
 
@@ -17,8 +21,12 @@ class widget_search : public wcontainer
 
 		widget_search();
 		void set_data(const vector<string> &data);
-		void on_key_pressed();
+		void on_input_changed();
+		void on_key_pressed(const WKeyEvent &event);
+		void on_enter_pressed();
 		void on_select_choice(string value);
+		void update_selected();
+		Signal<string> on_select_event;
 };
 
 #endif // widget_search_H
