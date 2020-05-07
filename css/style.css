@@ -12,8 +12,6 @@ body
 .main-background
 {
 	height: 100vh;
-	/* background: url('/img/background.jpg') bottom center no-repeat fixed; */
-	/* background-size: cover; */
 }
 .stack-background
 {
@@ -34,7 +32,6 @@ input[type=password]
 {
 	font-size: 16px;
 	border: solid 0px;
-	/* background: #132433; */
 	background: #0a141c;
 	opacity: 0.88;
 	color: #c6e8f9;
@@ -59,77 +56,10 @@ input[type=file]
 
 /****    generic widget    ****/
 
-.widget-panel-header
-{
-	background-color: #156984;
-	font-size: 14px;
-	font-weight: bold;
-	text-align: left;
-	line-height: 30px;
-	border-top-left-radius: 15px;
-	border-top-right-radius: 15px;
-	border-bottom-left-radius: 15px;
-	border-bottom-right-radius: 15px;
-	transition: background-color 0.4s;
-}
-
-.widget-panel-header-expand
-{
-	border-bottom-left-radius: 0px;
-}
-
-.widget-panel-body
-{
-	border: 0px solid #156984;
-}
-
-.widget-panel-body-expand
-{
-	border-bottom-left-radius: 15px;
-	border-left: solid 2px #156984;
-	border-bottom: solid 2px #156984;
-}
-
-.widget-button-del
-{
-	padding-left: 8px;
-	text-align: left;
-	line-height: 30px;
-	border-radius: 15px;
-	transition: background-color 0.4s;
-}
-
-.widget-button-del-D
-{
-	line-height: 30px;
-	border-radius: 15px;
-	background-image: url("../img/small_remove.png");
-	background-repeat: no-repeat;
-	background-position: center center;
-	transition: background-color 0.5s;
-}
-
-.widget-button-del-D:hover
-{
-	background-color: #456;
-}
-
 .Wt-msgbox-text
 {
 	overflow: auto;
 	color: #333;
-}
-
-.fa-question::before
-{
-	content: "\f128";
-	color: #dc0800;
-}
-
-.fa-info::before
-{
-	content: "\f129";
-	color: #dc0800;
 }
 
 .Wt-dialog .closeicon
@@ -147,36 +77,6 @@ input[type=file]
 .Wt-dialog .closeicon:hover
 {
 	background-position: right 0px;
-}
-
-.Wt-panel
-{
-	border: 0px solid #888;
-	background: transparent;
-}
-
-.Wt-panel .titlebar
-{
-	color: #FFFFFF;
-	padding: 8px 6px 8px;
-	font-size: 14px;
-	font-weight: bold;
-	background: #156984;
-	text-align: center;
-	height: 17px;
-	max-height: 17px;
-	border-radius: 16px;
-}
-
-.Wt-panel .body {
-	background: transparent;
-	padding: 0px 6px 8px;
-	-webkit-backface-visibility: hidden;
-	clear: left;
-	margin-top: 5px;
-	border-bottom-left-radius: 8px;
-	border-left: solid 2px #156984;
-	border-bottom: solid 2px #156984;
 }
 
 .Wt-dialog .titlebar {
@@ -197,20 +97,20 @@ input[type=file]
 
 .Wt-progressbar .Wt-pgb-bar
 {
-	position: absolute;
-	left: 0px;
-	top: 0px;
-	height: 100%;
+	background: #0a141cc1;
 }
 
 .Wt-progressbar
 {
-	background: #555;
-	position: relative;
-	border: solid 0px #555;
-	overflow: hidden;
+	background: #00000065;
+	border: solid 0px;
 	color: #FFF;
-	font-weight: bold;
+}
+
+/* disable blue overlay */
+div.jp-seeking-bg
+{
+	background: #00000065 !important;
 }
 
 @keyframes widget-save-icon-animation
@@ -310,6 +210,7 @@ input[type=file]
 
 .widget_home
 {
+	position: relative;
 }
 
 .widget_home_search
@@ -318,6 +219,16 @@ input[type=file]
 	width: 470px;
 	top: 190px;
 	left: 230px;
+}
+
+.widget_home_audio
+{
+	position: absolute;
+	width: calc(100% - 32px);
+	top: 6px;
+	left: 0px;
+	margin-left: 16px;
+	margin-right: 16px;
 }
 
 /****    widget_search    ****/
@@ -333,7 +244,6 @@ input[type=file]
 	position: absolute;
 	top: 35px;
 	left: 12px;
-	/* width: 100%; */
 	min-width: 100%;
 	max-width: 200%;
 	color: #c6e8f9;
@@ -355,14 +265,63 @@ input[type=file]
 	padding: 4px 12px;
 	cursor: pointer;
 }
+
 .widget_search_line_suggestion:hover,
 .widget_search_selected
 {
 	background: #2a343c;
 }
 
-
 .widget_search_match
 {
 	color: #05edff;
+}
+
+/****    widget_audio    ****/
+
+.widget_audio
+{
+	display: flex;
+	align-items: center;
+}
+
+.widget_audio_progress
+{
+	height: 12px;
+}
+
+.widget_audio_volume
+{
+	height: 12px;
+	width: 140px;
+}
+
+.widget_audio_button
+{
+	flex-shrink: 0;
+	width: 24px;
+	height: 24px;
+	opacity: 0.88;
+}
+
+.widget_audio_button_play
+{
+	background: url('/img/play.svg') center center no-repeat;
+	background-size: cover;
+	margin-right: 8px;
+}
+
+.widget_audio_button_pause
+{
+	background: url('/img/pause.svg') center center no-repeat;
+	background-size: cover;
+	margin-right: 8px;
+}
+
+.widget_audio_button_volume
+{
+	background: url('/img/volume.svg') center center no-repeat;
+	background-size: 20px 24px;
+	margin-left: 8px;
+	margin-right: 4px;
 }

@@ -1,8 +1,5 @@
 #include "widget_home.h"
 #include "soma.h"
-#include <Wt/WMediaPlayer.h>
-#include <Wt/WText.h>
-#include <Wt/WFileUpload.h>
 
 using namespace std::placeholders;
 
@@ -13,30 +10,20 @@ widget_home::widget_home() : wcontainer("home")
 	/* this->clicked().connect(broadcast::all(&widget_home::test2, {"aaa"}, {"bbb"})); */
 
 	/* auto player = this->addChild(make_unique<WMediaPlayer>(MediaType::Audio)); */
-	/* auto player = this->bindNew<WMediaPlayer>("player", MediaType::Audio); */
 	search = bindNew<widget_search>("widget_search");
-	search->set_data(file::read_vector("/home/mana/search.txt"));
+	/* search->set_data(file::read_vector("/home/mana/search.txt")); */
+	search->set_data({"data/a.mp4", "data/rest.webm"});
 	search->edit_search->setFocus(true);
 	search->on_select_event.connect([=](string value){ debug_line(value); });
+
+	auto audio = bindNew<widget_audio>("widget_audio");
+
+	search->on_select_event.connect([=](string value){ audio->load_audio(value); audio->player->play(); });
 
 	/* player->addSource(MediaEncoding::MP3, "template/a.mp3"); */
 	/* player->setControlsWidget(0); */
 	/* player->setVolume(0.5); */
 	/* player->play(); */
-
-	/* auto button_minus = bindNew<WText>("minus"); */
-	/* button_minus->setText("-"); */
-	/* button_minus->clicked().connect([=](){ player->setVolume(player->volume() - 0.1); }); */
-
-	/* auto button_plus = bindNew<WText>("plus"); */
-	/* button_plus->setText("+"); */
-	/* button_plus->clicked().connect([=](){ player->setVolume(player->volume() + 0.1); }); */
-
-	/* sound->setLoops(1); */
-	/* sound->play(); */
-	/* map<string, int> test = {{"aaa", 1}, {"bbb", 2}}; */
-	/* auto it = test.find("aaa"); */
-	/* if (it != test.end()) debug_line(it->second); */
 }
 
 void widget_home::vtest()

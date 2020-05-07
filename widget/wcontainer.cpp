@@ -10,6 +10,11 @@ wcontainer::wcontainer()
 wcontainer::wcontainer(string filename) :
 	wcontainer()
 {
+	load(filename);
+}
+
+void wcontainer::load(string filename)
+{
 	if (strpos(filename, ".html") == string::npos) filename += ".html";
 	string tpl;
 	if (file::read_content(global::template_path + filename, &tpl))

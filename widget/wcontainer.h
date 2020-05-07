@@ -24,6 +24,7 @@ class wcontainer : public widget_template
 
 		wcontainer();
 		wcontainer(string filename); // filename located in template/, with or without .html
+		void load(string filename); // filename located in template/, with or without .html
 		void setHidden(bool hidden, const WAnimation& animation = WAnimation());
 };
 
