@@ -12,7 +12,7 @@ class widget_audio : public wcontainer
 		double current_volume = 0.5;
 
 	public:
-		WMediaPlayer *player;
+		WMediaPlayer *player = NULL;
 		WText *button_play_pause;
 		WProgressBar *progress_bar;
 		WText *button_volume;

@@ -12,7 +12,7 @@ widget_home::widget_home() : wcontainer("home")
 	/* auto player = this->addChild(make_unique<WMediaPlayer>(MediaType::Audio)); */
 	search = bindNew<widget_search>("widget_search");
 	/* search->set_data(file::read_vector("/home/mana/search.txt")); */
-	search->set_data({"data/a.mp4", "data/rest.webm"});
+	search->set_data(system::ls("/dalaran/brinespell/data"));
 	search->edit_search->setFocus(true);
 	search->on_select_event.connect([=](string value){ debug_line(value); });
 

@@ -4,8 +4,7 @@
 widget_audio::widget_audio() : wcontainer("audio")
 {
 	setStyleClass("widget_audio");
-	audio_filename = "data/a.mp4";
-	render_widget();
+	load_audio("a.mp4");
 }
 
 void widget_audio::render_widget()
@@ -71,7 +70,7 @@ void widget_audio::on_play_pause_click()
 
 void widget_audio::load_audio(string filename)
 {
-	player->stop();
-	audio_filename = filename;
+	if (player) player->stop();
+	audio_filename = "data/" + filename;
 	render_widget();
 }
