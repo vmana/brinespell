@@ -30,7 +30,6 @@ void widget_home::change_audio_track(string filename)
 	auto &audio = p_soma->view_home->audio;
 
 	audio->load_audio(filename);
-	audio->player->play();
-	p_soma->triggerUpdate();
+	audio->mediaplayer->play();
 }
 

@@ -30,40 +30,40 @@ void widget_audio::render_widget()
 	volume_bar = bindNew<WProgressBar>("volume_bar");
 	volume_bar->setStyleClass("widget_audio_volume");
 
-	// player
-	player = bindNew<WMediaPlayer>("player", MediaType::Audio);
-	player->setControlsWidget(0);
-	player->setProgressBar(MediaPlayerProgressBarId::Time, progress_bar);
-	player->setProgressBar(MediaPlayerProgressBarId::Volume, volume_bar);
-	player->setVolume(current_volume);
+	// mediaplayer
+	mediaplayer = bindNew<WMediaPlayer>("mediaplayer", MediaType::Audio);
+	mediaplayer->setControlsWidget(0);
+	mediaplayer->setProgressBar(MediaPlayerProgressBarId::Time, progress_bar);
+	mediaplayer->setProgressBar(MediaPlayerProgressBarId::Volume, volume_bar);
+	mediaplayer->setVolume(current_volume);
 
 	// signals binding
-	player->ended().connect([&](){ player->play(); });
-	player->playbackStarted().connect([&](){ button_play_pause->setStyleClass("widget_audio_button widget_audio_button_pause"); });
-	player->playbackPaused().connect([&](){ button_play_pause->setStyleClass("widget_audio_button widget_audio_button_play"); });
+	mediaplayer->ended().connect([&](){ mediaplayer->play(); });
+	mediaplayer->playbackStarted().connect([&](){ button_play_pause->setStyleClass("widget_audio_button widget_audio_button_pause"); });
+	mediaplayer->playbackPaused().connect([&](){ button_play_pause->setStyleClass("widget_audio_button widget_audio_button_play"); });
 	button_play_pause->clicked().connect(this, &widget_audio::on_play_pause_click);
 	volume_bar->mouseWheel().connect(this, &widget_audio::on_volume_mouse_wheel);
-	player->volumeChanged().connect([&](const double &v){ current_volume = v; }); // keep track of volume when re-rendering
+	mediaplayer->volumeChanged().connect([&](const double &v){ current_volume = v; }); // keep track of volume when re-rendering
 
-	player->addSource(MediaEncoding::M4A, audio_filename);
+	mediaplayer->addSource(MediaEncoding::M4A, audio_filename);
 	string ext = file::extension(audio_filename);
-	if (ext == "mp4") player->addSource(MediaEncoding::M4A, audio_filename);
-	else if (ext == "mp3") player->addSource(MediaEncoding::MP3, audio_filename);
-	else if (ext == "webm") player->addSource(MediaEncoding::WEBMA, audio_filename);
-	else if (ext == "wav") player->addSource(MediaEncoding::WAV, audio_filename);
-	else if (ext == "ogg") player->addSource(MediaEncoding::OGA, audio_filename);
+	if (ext == "mp4") mediaplayer->addSource(MediaEncoding::M4A, audio_filename);
+	else if (ext == "mp3") mediaplayer->addSource(MediaEncoding::MP3, audio_filename);
+	else if (ext == "webm") mediaplayer->addSource(MediaEncoding::WEBMA, audio_filename);
+	else if (ext == "wav") mediaplayer->addSource(MediaEncoding::WAV, audio_filename);
+	else if (ext == "ogg") mediaplayer->addSource(MediaEncoding::OGA, audio_filename);
 }
 
 void widget_audio::on_play_pause_click()
 {
-	if (player->playing())
+	if (mediaplayer->playing())
 	{
-		player->pause();
+		mediaplayer->pause();
 		button_play_pause->setStyleClass("widget_audio_button widget_audio_button_play");
 	}
 	else
 	{
-		player->play();
+		mediaplayer->play();
 		button_play_pause->setStyleClass("widget_audio_button widget_audio_button_pause");
 	}
 }
@@ -72,21 +72,21 @@ void widget_audio::on_volume_mouse_wheel(const WMouseEvent &event)
 {
 	if (event.wheelDelta() > 0) // up
 	{
-		double new_volume = player->volume() + 0.05;
+		double new_volume = mediaplayer->volume() + 0.05;
 		if (new_volume > 1.0) new_volume = 1.0;
-		player->setVolume(new_volume);
+		mediaplayer->setVolume(new_volume);
 	}
 	else if (event.wheelDelta() < 0) // down
 	{
-		double new_volume = player->volume() - 0.05;
+		double new_volume = mediaplayer->volume() - 0.05;
 		if (new_volume < 0.0) new_volume = 0.0;
-		player->setVolume(new_volume);
+		mediaplayer->setVolume(new_volume);
 	}
 }
 
 void widget_audio::load_audio(string filename)
 {
-	if (player) player->stop();
+	if (mediaplayer) mediaplayer->stop();
 	audio_filename = filename;
 	render_widget();
 }

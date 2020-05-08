@@ -98,6 +98,10 @@ void soma::on_login_success(dbo::ptr<user> p_user)
 	{
 		dbo_session session;
 		p_campaign = session->find<campaign>().where("name = 'Curse of Strahd'");
+
+		// test bad campaign for broadcast
+		if (p_user->login == "bad") p_campaign = session->find<campaign>().where("name = 'bad'");
+
 	} catch (dbo::Exception e) { debug_line(e.what()); }
 
 	setInternalPath("/home", true);

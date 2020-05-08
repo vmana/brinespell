@@ -30,6 +30,8 @@ void broadcast::internal_all(int campaign_id, void (*fn)(Args...), Args... args)
 		if (p_soma->p_campaign.id() == campaign_id)
 		{
 			(fn)(args...);
+			// since it will likely change the ui, update it
+			p_soma->triggerUpdate();
 		}
 	}
 }
