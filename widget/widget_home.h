@@ -14,9 +14,8 @@ class widget_home : public wcontainer
 		widget_audio *audio;
 
 		widget_home();
-		static void vtest();
-		void test(string a);
-		static void test2(string a, string b);
+		// static call from broadcast
+		static void change_audio_track(string filename);
 };
 
 #endif // widget_home_H

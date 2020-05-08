@@ -15,7 +15,8 @@ class broadcast
 	public:
 
 		template <typename... Args>
-		static std::function<void()> all(void (*fn)(Args...), Args... args);
+		/* static std::function<void()> all(void (*fn)(Args...), Args... args); */
+		static void all(void (*fn)(Args...), Args... args);
 };
 
 template <typename... Args>
@@ -34,21 +35,17 @@ void broadcast::internal_all(int campaign_id, void (*fn)(Args...), Args... args)
 }
 
 template <typename... Args>
-std::function<void()> broadcast::all(void (*fn)(Args...), Args... args)
+void broadcast::all(void (*fn)(Args...), Args... args)
 {
 	soma* p_soma = soma::application();
-	if (!p_soma) return bind([](){ debug_line("p_soma is null"); });
-	if (!p_soma->p_campaign) return bind([](){ debug_line("p_campaign is null"); });
+	if (!(p_soma && p_soma->p_campaign)) return;
 	int campaign_id = p_soma->p_campaign.id();
 
-	return bind([=]()
+	WServer *wt_server = WServer::instance();
+	if (wt_server)
 	{
-		WServer *wt_server = WServer::instance();
-		if (wt_server)
-		{
-			wt_server->postAll(std::bind(&broadcast::internal_all<Args...>, campaign_id, fn, args...));
-		}
-	});
+		wt_server->postAll(std::bind(&broadcast::internal_all<Args...>, campaign_id, fn, args...));
+	}
 }
 
 #endif

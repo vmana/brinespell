@@ -11,28 +11,26 @@ widget_home::widget_home() : wcontainer("home")
 
 	/* auto player = this->addChild(make_unique<WMediaPlayer>(MediaType::Audio)); */
 	search = bindNew<widget_search>("widget_search");
-	/* search->set_data(file::read_vector("/home/mana/search.txt")); */
 	search->set_data(system::ls("/dalaran/brinespell/data"));
 	search->edit_search->setFocus(true);
 	/* search->on_select_event.connect([=](string value){ debug_line(value); }); */
 
-	auto audio = bindNew<widget_audio>("widget_audio");
+	audio = bindNew<widget_audio>("widget_audio");
 
-	search->on_select_event.connect([=](string value){ audio->load_audio("data/" + value); audio->player->play(); });
+	// signal binding
+	search->on_select_event.connect([&](string filename){ broadcast::all(&widget_home::change_audio_track, "data/" + filename); });
 }
 
-void widget_home::vtest()
+void widget_home::change_audio_track(string filename)
 {
-	debug_line("vtest");
+	debug_line(filename);
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+
+	auto &audio = p_soma->view_home->audio;
+
+	audio->load_audio(filename);
+	audio->player->play();
+	p_soma->triggerUpdate();
 }
 
-void widget_home::test(string a)
-{
-	debug_line("test " + a);
-}
-
-void widget_home::test2(string a, string b)
-{
-	string id = soma::instance()->sessionId();
-	debug_line("test2 " + a + b);
-}
