@@ -42,7 +42,7 @@ void widget_audio::render_widget()
 	player->playbackStarted().connect([&](){ button_play_pause->setStyleClass("widget_audio_button widget_audio_button_pause"); });
 	player->playbackPaused().connect([&](){ button_play_pause->setStyleClass("widget_audio_button widget_audio_button_play"); });
 	button_play_pause->clicked().connect(this, &widget_audio::on_play_pause_click);
-	button_volume->clicked().connect([&](){ this->load_audio("data/rest.webm"); });
+	volume_bar->mouseWheel().connect(this, &widget_audio::on_volume_mouse_wheel);
 	player->volumeChanged().connect([&](const double &v){ current_volume = v; }); // keep track of volume when re-rendering
 
 	player->addSource(MediaEncoding::M4A, audio_filename);
@@ -68,9 +68,25 @@ void widget_audio::on_play_pause_click()
 	}
 }
 
+void widget_audio::on_volume_mouse_wheel(const WMouseEvent &event)
+{
+	if (event.wheelDelta() > 0) // up
+	{
+		double new_volume = player->volume() + 0.05;
+		if (new_volume > 1.0) new_volume = 1.0;
+		player->setVolume(new_volume);
+	}
+	else if (event.wheelDelta() < 0) // down
+	{
+		double new_volume = player->volume() - 0.05;
+		if (new_volume < 0.0) new_volume = 0.0;
+		player->setVolume(new_volume);
+	}
+}
+
 void widget_audio::load_audio(string filename)
 {
 	if (player) player->stop();
-	audio_filename = "data/" + filename;
+	audio_filename = filename;
 	render_widget();
 }

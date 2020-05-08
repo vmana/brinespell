@@ -15,7 +15,7 @@ class widget_home : public wcontainer
 
 		widget_home();
 		static void vtest();
-		static void test(string a);
+		void test(string a);
 		static void test2(string a, string b);
 };
 

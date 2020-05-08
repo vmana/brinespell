@@ -288,12 +288,14 @@ div.jp-seeking-bg
 .widget_audio_progress
 {
 	height: 12px;
+	border-radius: 6px;
 }
 
 .widget_audio_volume
 {
 	height: 12px;
 	width: 140px;
+	border-radius: 6px;
 }
 
 .widget_audio_button

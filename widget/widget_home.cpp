@@ -14,16 +14,11 @@ widget_home::widget_home() : wcontainer("home")
 	/* search->set_data(file::read_vector("/home/mana/search.txt")); */
 	search->set_data(system::ls("/dalaran/brinespell/data"));
 	search->edit_search->setFocus(true);
-	search->on_select_event.connect([=](string value){ debug_line(value); });
+	/* search->on_select_event.connect([=](string value){ debug_line(value); }); */
 
 	auto audio = bindNew<widget_audio>("widget_audio");
 
-	search->on_select_event.connect([=](string value){ audio->load_audio(value); audio->player->play(); });
-
-	/* player->addSource(MediaEncoding::MP3, "template/a.mp3"); */
-	/* player->setControlsWidget(0); */
-	/* player->setVolume(0.5); */
-	/* player->play(); */
+	search->on_select_event.connect([=](string value){ audio->load_audio("data/" + value); audio->player->play(); });
 }
 
 void widget_home::vtest()

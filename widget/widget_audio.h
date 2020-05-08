@@ -20,6 +20,7 @@ class widget_audio : public wcontainer
 
 		widget_audio();
 		void on_play_pause_click();
+		void on_volume_mouse_wheel(const WMouseEvent &event);
 		void render_widget();
 		void load_audio(string filename);
 };
