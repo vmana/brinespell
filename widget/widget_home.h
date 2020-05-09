@@ -13,6 +13,10 @@ class widget_home : public wcontainer
 		widget_search *search;
 		widget_audio *audio;
 		widget_template *animated_d20;
+		widget_template *dices_area;
+
+		JSignal<string> signal_dice_results;
+		void dice_results_callback(string value);
 
 		widget_home();
 		// static call from broadcast

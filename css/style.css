@@ -233,6 +233,15 @@ div.jp-seeking-bg
 
 /****    dices    ****/
 
+.div_dices_area
+{
+	position: absolute;
+	top: 30%;
+	left: 20%;
+	/* background: #20304050; */
+	/* border-radius: 20px; */
+}
+
 .div_animated_d20
 {
 	position: absolute;

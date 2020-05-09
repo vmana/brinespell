@@ -4,7 +4,7 @@
 widget_audio::widget_audio() : wcontainer("audio")
 {
 	setStyleClass("widget_audio");
-	load_audio("a.mp4");
+	load_audio("");
 }
 
 void widget_audio::render_widget()
@@ -72,13 +72,13 @@ void widget_audio::on_volume_mouse_wheel(const WMouseEvent &event)
 {
 	if (event.wheelDelta() > 0) // up
 	{
-		double new_volume = mediaplayer->volume() + 0.05;
+		double new_volume = mediaplayer->volume() + 0.1;
 		if (new_volume > 1.0) new_volume = 1.0;
 		mediaplayer->setVolume(new_volume);
 	}
 	else if (event.wheelDelta() < 0) // down
 	{
-		double new_volume = mediaplayer->volume() - 0.05;
+		double new_volume = mediaplayer->volume() - 0.1;
 		if (new_volume < 0.0) new_volume = 0.0;
 		mediaplayer->setVolume(new_volume);
 	}

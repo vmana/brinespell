@@ -1,6 +1,8 @@
 "use strict";
 
 function init_dice_object(dice) {
+	this.wt_callback_id = '';
+
 	this.frame_rate = 1 / 60;
 	function rnd() { return Math.random(); }
 
@@ -307,30 +309,6 @@ function init_dice_object(dice) {
 		if (!this.d10_geometry) this.d10_geometry = this.create_d10_geometry(this.scale * 0.9);
 		if (!this.d100_material) this.d100_material = this.create_dice_materials(this.standart_d100_dice_face_labels, this.scale / 2, 1.5);
 		return new THREE.Mesh(this.d10_geometry, this.d100_material);
-	}
-
-	this.parse_notation = function(notation) {
-		var no = notation.split('@');
-		var dr0 = /\s*(\d*)([a-z]+)(\d+)(\s*(\+|\-)\s*(\d+)){0,1}\s*(\+|$)/gi;
-		var dr1 = /(\b)*(\d+)(\b)*/gi;
-		var ret = { set: [], constant: 0, result: [], error: false }, res;
-		while (res = dr0.exec(no[0])) {
-			var command = res[2];
-			if (command != 'd') { ret.error = true; continue; }
-			var count = parseInt(res[1]);
-			if (res[1] == '') count = 1;
-			var type = 'd' + res[3];
-			if (this.known_types.indexOf(type) == -1) { ret.error = true; continue; }
-			while (count--) ret.set.push(type);
-			if (res[5] && res[6]) {
-				if (res[5] == '+') ret.constant += parseInt(res[6]);
-				else ret.constant -= parseInt(res[6]);
-			}
-		}
-		while (res = dr1.exec(no[1])) {
-			ret.result.push(parseInt(res[2]));
-		}
-		return ret;
 	}
 
 	this.stringify_notation = function(nn) {
@@ -711,8 +689,6 @@ function init_dice_object(dice) {
 
 	this.dice_box.prototype.draw_d20 = function() {
 		this.clear();
-		var step = this.w / 4.5;
-		var mouse_captured = false;
 
 		that.scale = 100;
 		var dice = that.create_d20();
@@ -720,54 +696,74 @@ function init_dice_object(dice) {
 		dice.userData = '';
 		this.dices.push(dice); this.scene.add(dice);
 
-		this.running = (new Date()).getTime();
+		this.running = true;
 		this.last_time = 0;
-		if (this.animate_selector) this.__selector_animate(this.running);
-		else this.renderer.render(this.scene, this.camera);
+		this.__selector_animate(this.running);
 	}
 
-	function throw_dices(box, vector, boost, dist, notation_getter, after_roll) {
-		var uat = $teal.dice.use_adapvite_timestep;
+	function parse_notation(notation) {
+		var no = notation.split('@');
+		var dr0 = /\s*(\d*)([a-z]+)(\d+)(\s*(\+|\-)\s*(\d+)){0,1}\s*(\+|$)/gi;
+		var dr1 = /(\b)*(\d+)(\b)*/gi;
+		var ret = { set: [], constant: 0, result: [], error: false }, res;
+		var known_types = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'];
+		while (res = dr0.exec(no[0])) {
+			var command = res[2];
+			if (command != 'd') { ret.error = true; continue; }
+			var count = parseInt(res[1]);
+			if (res[1] == '') count = 1;
+			var type = 'd' + res[3];
+
+			if (known_types.indexOf(type) == -1) { ret.error = true; continue; }
+			while (count--) ret.set.push(type);
+			if (res[5] && res[6]) {
+				if (res[5] == '+') ret.constant += parseInt(res[6]);
+				else ret.constant -= parseInt(res[6]);
+			}
+		}
+		while (res = dr1.exec(no[1])) {
+			ret.result.push(parseInt(res[2]));
+		}
+		return ret;
+	}
+
+	function throw_dices(box, vector, boost, dist, dices_set, after_roll) {
+		var uat = true;
 		function roll(request_results) {
 			if (after_roll) {
 				box.clear();
 				box.roll(vectors, request_results || notation.result, function(result) {
 					if (after_roll) after_roll.call(box, notation, result);
 					box.rolling = false;
-					$teal.dice.use_adapvite_timestep = uat;
+					// $teal.dice.use_adapvite_timestep = uat;
 				});
 			}
 		}
 		vector.x /= dist; vector.y /= dist;
-		var notation = notation_getter.call(box);
+
+		var notation = parse_notation(dices_set);
 		if (notation.set.length == 0) return;
 		var vectors = box.generate_vectors(notation, vector, boost);
 		box.rolling = true;
-		// TODO change
-		var canvas = $teal.id('canvas');
-		info_div.style.display = 'none';
-		canvas.className = 'show-me';
-		selector_div.style.display = 'none';
-
 		roll();
 	}
 
-	this.dice_box.prototype.bind_throw = function(button, notation_getter, after_roll) {
+	this.dice_box.prototype.bind_throw = function(button, dices_set, after_roll) {
 		var box = this;
 		$teal.bind(button, ['mouseup', 'touchend'], function(ev) {
 			ev.stopPropagation();
-			box.start_throw(notation_getter, after_roll);
+			box.start_throw(dices_set, after_roll);
 		});
 	}
 
-	this.dice_box.prototype.start_throw = function(notation_getter, after_roll) {
+	this.dice_box.prototype.start_throw = function(dices_set, after_roll) {
 		var box = this;
 		if (box.rolling) return;
 
 		var vector = { x: (rnd() * 2 - 1) * box.w, y: -(rnd() * 2 - 1) * box.h };
 		var dist = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
 		var boost = (rnd() + 3) * dist;
-		throw_dices(box, vector, boost, dist, notation_getter, after_roll);
+		throw_dices(box, vector, boost, dist, dices_set, after_roll);
 	}
 
 }
@@ -836,4 +832,28 @@ function init_animated_d20()
 	var div_animated_d20 = $teal.id('div_animated_d20');
 	var box_animated_d20 = new $teal.animated_d20.dice_box(div_animated_d20, { w: 100, h: 100 });
 	box_animated_d20.draw_d20();
+}
+
+// function notation_getter()
+// {
+// 	return $teal.dices.parse_notation("4d6 + 2d20");
+// }
+
+function after_roll(notation, result)
+{
+	var res = result.join(' ');
+	Wt.emit($teal.box_dices.wt_callback_id, 'signal_dice_results', res);
+}
+
+function init_dices_area(wt_callback_id)
+{
+	init_dice_object.apply(teal.dices = teal.dices || {});
+	var div_dices_area = $teal.id('div_dices_area');
+	$teal.box_dices = new $teal.dices.dice_box(div_dices_area, { w: 800, h: 400 });
+	$teal.box_dices.wt_callback_id = wt_callback_id;
+}
+
+function thow_dices_area(dices_set)
+{
+	$teal.box_dices.start_throw(dices_set, after_roll);
 }
