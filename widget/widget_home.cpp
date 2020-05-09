@@ -5,6 +5,9 @@ using namespace std::placeholders;
 
 widget_home::widget_home() : wcontainer("home")
 {
+	S->application()->require("js/cannon.min.js");
+	S->application()->require("js/three.min.js");
+	S->application()->require("js/dice.js");
 	setStyleClass("widget_home");
 
 	/* this->clicked().connect(broadcast::all(&widget_home::test2, {"aaa"}, {"bbb"})); */
@@ -16,6 +19,12 @@ widget_home::widget_home() : wcontainer("home")
 	/* search->on_select_event.connect([=](string value){ debug_line(value); }); */
 
 	audio = bindNew<widget_audio>("widget_audio");
+
+	animated_d20 = bindNew<widget_template>("div_animated_d20");
+	animated_d20->set_text("<div id=\"div_animated_d20\" class=\"div_animated_d20\"/>");
+	doJavaScript("init_animated_d20();");
+
+	animated_d20->clicked().connect([](){ debug_line("d20 clicked"); });
 
 	// signal binding
 	search->on_select_event.connect([&](string filename){ broadcast::all(&widget_home::change_audio_track, "data/" + filename); });

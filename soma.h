@@ -28,8 +28,6 @@ class soma : public WApplication
 	public:
 		shared_ptr<soma_database> D;
 
-		bool is_mobile = false;
-
 		// view
 		widget_stack *stack;
 		widget_login *view_login = NULL;

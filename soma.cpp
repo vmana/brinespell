@@ -7,9 +7,11 @@
 soma::soma(const WEnvironment& env) : WApplication(env)
 	/* ,sig(this, "unique_name") */
 {
-	setTitle("");
+	setTitle("Brine Spell");
+
+	/****    css & js    ****/
 	useStyleSheet("css/style.css");
-	messageResourceBundle().use("/dalaran/brinespell/brinespell/wt");
+
 	enableUpdates(true); // allow server update
 
 	try
@@ -20,17 +22,6 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 
 	// change default encoding for all WString
 	WString::setDefaultEncoding(CharEncoding::UTF8);
-
-	// check for mobile device
-	if (environment().screenWidth() < 1024
-	|| environment().agentIsIEMobile()
-	|| environment().agentIsMobileWebKit())
-		is_mobile = true;
-
-	if (is_mobile)
-	{
-		useStyleSheet("css/override.css");
-	}
 
 	// main div - height: 100vh
 	auto main_div = root()->addNew<WContainerWidget>();

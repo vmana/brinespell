@@ -19,7 +19,7 @@ void wcontainer::load(string filename)
 	string tpl;
 	if (file::read_content(global::template_path + filename, &tpl))
 	{
-		setTemplateText(tpl, TextFormat::UnsafeXHTML);
+		set_text(tpl);
 	}
 	else
 	{
@@ -44,7 +44,7 @@ wtemplate::wtemplate(string filename)
 	string tpl;
 	if (file::read_content(global::template_path + filename, &tpl))
 	{
-		setTemplateText(tpl, TextFormat::UnsafeXHTML);
+		set_text(tpl);
 	}
 	else
 	{

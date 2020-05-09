@@ -231,6 +231,15 @@ div.jp-seeking-bg
 	margin-right: 16px;
 }
 
+/****    dices    ****/
+
+.div_animated_d20
+{
+	position: absolute;
+	bottom: 60px;
+	right: 100px;
+}
+
 /****    widget_search    ****/
 
 .widget_search_edit

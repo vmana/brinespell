@@ -12,6 +12,7 @@ class widget_home : public wcontainer
 		shared_ptr<campaign> p_campaign;
 		widget_search *search;
 		widget_audio *audio;
+		widget_template *animated_d20;
 
 		widget_home();
 		// static call from broadcast
