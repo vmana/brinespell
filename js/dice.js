@@ -849,7 +849,7 @@ function init_dices_area(wt_callback_id)
 {
 	init_dice_object.apply(teal.dices = teal.dices || {});
 	var div_dices_area = $teal.id('div_dices_area');
-	$teal.box_dices = new $teal.dices.dice_box(div_dices_area, { w: 800, h: 400 });
+	$teal.box_dices = new $teal.dices.dice_box(div_dices_area, { w: 1200, h: 800 });
 	$teal.box_dices.wt_callback_id = wt_callback_id;
 }
 
