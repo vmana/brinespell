@@ -2,9 +2,21 @@
 
 function init_dice_object(dice) {
 	this.wt_callback_id = '';
+	var current_random_number = 0;
+	var wt_random_numbers = [];
 
 	this.frame_rate = 1 / 60;
-	function rnd() { return Math.random(); }
+	function rnd()
+	{
+		var ret = 0;
+		if (wt_random_numbers.length > 0)
+		{
+			if (current_random_number >= wt_random_numbers.length) current_random_number = 0;
+			ret = wt_random_numbers[current_random_number++];
+		}
+		else ret = Math.random();
+		return ret;
+	}
 
 	function create_shape(vertices, faces, radius) {
 		var cv = new Array(vertices.length), cf = new Array(faces.length);
@@ -332,7 +344,7 @@ function init_dice_object(dice) {
 		container.style.width = dimentions.w + 'px';
 		container.style.height = dimentions.h + 'px';
 
-		this.use_adapvite_timestep = true;
+		this.use_adapvite_timestep = false;
 		this.animate_selector = true;
 
 		this.dices = [];
@@ -756,9 +768,15 @@ function init_dice_object(dice) {
 		});
 	}
 
-	this.dice_box.prototype.start_throw = function(dices_set, after_roll) {
+	this.dice_box.prototype.start_throw = function(dices_set, after_roll, random_numbers) {
 		var box = this;
 		if (box.rolling) return;
+
+		if (typeof random_numbers !== 'undefined')
+		{
+			current_random_number = 0;
+			wt_random_numbers = random_numbers;
+		}
 
 		var vector = { x: (rnd() * 2 - 1) * box.w, y: -(rnd() * 2 - 1) * box.h };
 		var dist = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
@@ -834,11 +852,6 @@ function init_animated_d20()
 	box_animated_d20.draw_d20();
 }
 
-// function notation_getter()
-// {
-// 	return $teal.dices.parse_notation("4d6 + 2d20");
-// }
-
 function after_roll(notation, result)
 {
 	var res = result.join(' ');
@@ -856,4 +869,10 @@ function init_dices_area(wt_callback_id)
 function thow_dices_area(dices_set)
 {
 	$teal.box_dices.start_throw(dices_set, after_roll);
+}
+
+function thow_initialized_dices_area(dices_set, random_numbers)
+{
+	// console.log('ok 22');
+	$teal.box_dices.start_throw(dices_set, after_roll, random_numbers);
 }

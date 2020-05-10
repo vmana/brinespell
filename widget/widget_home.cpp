@@ -30,7 +30,13 @@ widget_home::widget_home() :
 	dices_area->set_text("<div id=\"div_dices_area\" class=\"div_dices_area\"/>");
 	doJavaScript("init_dices_area('" + this->id() + "');");
 
-	animated_d20->clicked().connect([&](){ doJavaScript("thow_dices_area('2d20');"); });
+	fake_rand = "";
+	for (int i = 0; i < 100; i++)
+	{
+		fake_rand += "0." + rand_int_string(4) + ",";
+	}
+	fake_rand = substr(fake_rand, 0, -1); /// remove last ,
+	animated_d20->clicked().connect([&](){ doJavaScript("thow_initialized_dices_area('2d20 + 3d6', [" + fake_rand + "]);"); });
 
 	// signal binding
 	search->on_select_event.connect([&](string filename){ broadcast::all(&widget_home::change_audio_track, "data/" + filename); });

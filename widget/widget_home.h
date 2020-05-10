@@ -15,6 +15,8 @@ class widget_home : public wcontainer
 		widget_template *animated_d20;
 		widget_template *dices_area;
 
+		string fake_rand;
+
 		JSignal<string> signal_dice_results;
 		void dice_results_callback(string value);
 
