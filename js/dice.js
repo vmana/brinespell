@@ -674,22 +674,26 @@ function init_dice_object(dice) {
 
 	this.dice_box.prototype.search_dice_by_mouse = function(ev) {
 		var m = $teal.get_mouse_coords(ev);
+		console.log('m.x = ' +m.x + ', this.cw = ' + this.cw + ', this.aspect = ' + this.aspect + ', m.y = ' + m.y + ', this.ch = ' + this.ch + ', this.w = ' + this.w);
 		var intersects = (new THREE.Raycaster(this.camera.position,
 			(new THREE.Vector3((m.x - this.cw) / this.aspect,
-				1 - (m.y - this.ch) / this.aspect, this.w / 9))
+				1 - (m.y - this.ch) / this.aspect, 1))
+				// 1 - (m.y - this.ch) / this.aspect, this.w / 9))
 			.sub(this.camera.position).normalize())).intersectObjects(this.dices);
 		if (intersects.length) return intersects[0].object.userData;
 	}
 
 	this.dice_box.prototype.draw_selector = function() {
 		this.clear();
-		var step = this.w / 4.5;
-		var mouse_captured = false;
+		var step = 140;
+		// this.animate_selector = false;
 
-		for (var i = 0, pos = -3; i < that.known_types.length; ++i, ++pos) {
-			var dice = $teal.dice['create_' + that.known_types[i]]();
+		that.scale = 70;
+		var known_types = ['4', '6', '8', '10', '12', '20', '100'];
+		for (var i = 0, pos = -3; i < known_types.length; ++i, ++pos) {
+			var dice = that['create_d' + known_types[i]]();
 			dice.position.set(pos * step, 0, step * 0.5);
-			dice.userData = that.known_types[i];
+			dice.userData = known_types[i];
 			this.dices.push(dice); this.scene.add(dice);
 		}
 
@@ -840,16 +844,46 @@ teal.bind = function(sel, eventname, func, bubble) {
 
 teal.get_mouse_coords = function(ev) {
 	var touches = ev.changedTouches;
-	if (touches) return { x: touches[0].clientX, y: touches[0].clientY };
-	return { x: ev.clientX, y: ev.clientY };
+	if (touches) return { x: touches[0].layerX, y: touches[0].layerY };
+	return { x: ev.layerX, y: ev.layerY };
 }
 
 function init_animated_d20()
 {
 	init_dice_object.apply(teal.animated_d20 = teal.animated_d20 || {});
 	var div_animated_d20 = $teal.id('div_animated_d20');
-	var box_animated_d20 = new $teal.animated_d20.dice_box(div_animated_d20, { w: 100, h: 100 });
+	box_animated_d20 = new $teal.animated_d20.dice_box(div_animated_d20, { w: 100, h: 100 });
 	box_animated_d20.draw_d20();
+}
+
+// global area variables
+var box_animated_d20;
+var box_animated_selector;
+var div_dices_area;
+
+function init_animated_selector(wt_callback_id)
+{
+	// wt_callback_id is needed for sending mouse click events to wt
+	init_dice_object.apply(teal.animated_selector = teal.animated_selector || {});
+	var div_animated_selector = $teal.id('div_animated_selector');
+	box_animated_selector = new $teal.animated_selector.dice_box(div_animated_selector, { w: 700, h: 180 });
+	$teal.animated_selector.wt_callback_id = wt_callback_id;
+	box_animated_selector.draw_selector();
+}
+
+function on_selector_click(e)
+{
+	e = e || window.event;
+	var count = 1;
+	if (e.buttons == 2)
+	{
+		e.preventDefault();
+		count = -1;
+	}
+	var res = box_animated_selector.search_dice_by_mouse(e);
+	if (res == undefined) return;
+	Wt.emit($teal.animated_selector.wt_callback_id, 'signal_selector_click', res, count);
+	// console.log(res);
 }
 
 function after_roll(notation, result)
@@ -860,8 +894,9 @@ function after_roll(notation, result)
 
 function init_dices_area(wt_callback_id)
 {
+	// wt_callback_id is needed for sending dice results to wt
 	init_dice_object.apply(teal.dices = teal.dices || {});
-	var div_dices_area = $teal.id('div_dices_area');
+	div_dices_area = $teal.id('div_dices_area');
 	$teal.box_dices = new $teal.dices.dice_box(div_dices_area, { w: 1200, h: 800 });
 	$teal.box_dices.wt_callback_id = wt_callback_id;
 }
@@ -873,6 +908,5 @@ function thow_dices_area(dices_set)
 
 function thow_initialized_dices_area(dices_set, random_numbers)
 {
-	// console.log('ok 22');
 	$teal.box_dices.start_throw(dices_set, after_roll, random_numbers);
 }

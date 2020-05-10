@@ -8,16 +8,19 @@ body
 	margin: 0px;
 	background: url('/img/background.jpg') bottom center no-repeat fixed;
 	background-size: cover;
+	z-index: -100;
 }
 .main-background
 {
 	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.3);
+	z-index: -99;
 }
 .stack-background
 {
 	min-height: 100%; height: 100%;
 	min-width: 100%; width: 100%;
-	background-color: rgba(0, 0, 0, 0.3);
+	z-index: 0;
 }
 
 textarea
@@ -231,7 +234,7 @@ div.jp-seeking-bg
 	margin-right: 16px;
 }
 
-/****    dices    ****/
+/****    widget_dice    ****/
 
 .div_dices_area
 {
@@ -239,8 +242,28 @@ div.jp-seeking-bg
 	top: 24px;
 	right: 0px;
 	/* background: #10102060; */
+	z-index: -1;
 	/* box-shadow: 0px 0px 14px 14px #20202090; */
 	/* border-radius: 20px; */
+}
+
+.div_animated_selector
+{
+	position: absolute;
+	bottom: 270px;
+	right: 100px;
+	/* background: #10102090; */
+}
+.div_selector_notation
+{
+	position: absolute;
+	bottom: 210px;
+	right: 100px;
+	/* background: #10108040; */
+	width: 700px;
+	height: 50px;
+	text-align: center;
+	font-size: 38px;
 }
 
 .div_animated_d20

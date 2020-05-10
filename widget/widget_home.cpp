@@ -1,11 +1,7 @@
 #include "widget_home.h"
 #include "soma.h"
 
-using namespace std::placeholders;
-
-widget_home::widget_home() :
-	wcontainer("home"),
-	signal_dice_results(this, "signal_dice_results")
+widget_home::widget_home() : wcontainer("home")
 {
 	S->application()->require("js/cannon.min.js");
 	S->application()->require("js/three.min.js");
@@ -21,26 +17,10 @@ widget_home::widget_home() :
 	/* search->on_select_event.connect([=](string value){ debug_line(value); }); */
 
 	audio = bindNew<widget_audio>("widget_audio");
-
-	animated_d20 = bindNew<widget_template>("div_animated_d20");
-	animated_d20->set_text("<div id=\"div_animated_d20\" class=\"div_animated_d20\"/>");
-	doJavaScript("init_animated_d20();");
-
-	dices_area = bindNew<widget_template>("div_dices_area");
-	dices_area->set_text("<div id=\"div_dices_area\" class=\"div_dices_area\"/>");
-	doJavaScript("init_dices_area('" + this->id() + "');");
-
-	fake_rand = "";
-	for (int i = 0; i < 100; i++)
-	{
-		fake_rand += "0." + rand_int_string(4) + ",";
-	}
-	fake_rand = substr(fake_rand, 0, -1); /// remove last ,
-	animated_d20->clicked().connect([&](){ doJavaScript("thow_initialized_dices_area('2d20 + 3d6', [" + fake_rand + "]);"); });
+	dices = bindNew<widget_dice>("widget_dice");
 
 	// signal binding
 	search->on_select_event.connect([&](string filename){ broadcast::all(&widget_home::change_audio_track, "data/" + filename); });
-	signal_dice_results.connect(this, &widget_home::dice_results_callback);
 }
 
 void widget_home::change_audio_track(string filename)
@@ -55,8 +35,4 @@ void widget_home::change_audio_track(string filename)
 	audio->mediaplayer->play();
 }
 
-void widget_home::dice_results_callback(string value)
-{
-	debug_line(value);
-}
 
