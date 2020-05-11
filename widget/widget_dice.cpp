@@ -91,7 +91,7 @@ void widget_dice::dice_results_callback(string value)
 {
 	debug_line(value);
 	// hide dices area after a delay
-	dices_area->setStyleClass("div_dices_area_hide");
+	dices_area->addStyleClass("div_dices_area_hide");
 }
 
 void widget_dice::selector_click_callback(int dice_type, int count)
