@@ -65,6 +65,8 @@ void widget_dice::on_clear_click()
 
 void widget_dice::on_throw_click()
 {
+	if (selector_notation == "") return; // no dice to throw
+
 	// hide selector
 	dice_selector->setStyleClass("div_dice_selector animate_hide");
 	// show dices area
