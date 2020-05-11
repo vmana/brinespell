@@ -13,7 +13,7 @@ body
 .main-background
 {
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.3);
+	background-color: rgba(0, 0, 0, 0.28);
 	z-index: -99;
 }
 .stack-background
@@ -228,6 +228,7 @@ div.jp-seeking-bg
 }
 .div_dices_area_hide
 {
+	z-index: -1;
 	animation-name: animate_dices_area_hidden;
 	animation-duration: 3s;
 	animation-iteration-count: 1;

@@ -897,7 +897,7 @@ function init_dices_area(wt_callback_id)
 	// wt_callback_id is needed for sending dice results to wt
 	init_dice_object.apply(teal.dices = teal.dices || {});
 	div_dices_area = $teal.id('div_dices_area');
-	$teal.box_dices = new $teal.dices.dice_box(div_dices_area, { w: 1200, h: 800 });
+	$teal.box_dices = new $teal.dices.dice_box(div_dices_area, { w: 1000, h: 800 });
 	$teal.box_dices.wt_callback_id = wt_callback_id;
 }
 
