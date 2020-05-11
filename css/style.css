@@ -317,6 +317,8 @@ div.jp-seeking-bg
 	bottom: 0px;
 	border-radius: 20px;
 	cursor: pointer;
+	user-select: none;
+	-moz-user-select: none;
 }
 .selector_buttons:hover
 {
