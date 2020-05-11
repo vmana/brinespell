@@ -655,7 +655,7 @@ function init_dice_object(dice) {
 		var time = (new Date()).getTime();
 		var time_diff = (time - this.last_time) / 1000;
 		if (time_diff > 3) time_diff = that.frame_rate;
-		var angle_change = 0.004;
+		var angle_change = 0.0025;
 
 		if (angle_change < 0) this.running = false;
 		for (var i in this.dices) {

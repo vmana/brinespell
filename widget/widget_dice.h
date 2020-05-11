@@ -14,15 +14,24 @@ class widget_dice : public wcontainer
 
 	public:
 
-		widget_template *dices_area;
-		widget_template *animated_d20;
-		widget_template *text_notation;
 		string rand_init;
+		widget_template *dices_area;
+		wtemplate *dice_selector;
+		widget_template *animated_d20;
+		WText *text_notation;
+
+		// selector buttons
+		WText *button_clear;
+		WText *button_throw;
 
 		JSignal<string> signal_dice_results;
 		JSignal<int, int> signal_selector_click;
 
 		widget_dice();
+		void on_animated_d20_click();
+		void on_clear_click();
+		void on_throw_click();
+
 		void throw_dice(string notation); // notation = "2d20 + 4d6"
 		void throw_initialized_dice(string notation, string rand_init); // notation = "2d20 + 4d6"
 		void dice_results_callback(string value);
