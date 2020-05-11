@@ -22,9 +22,6 @@ class campaign;
 
 class soma : public WApplication
 {
-	private:
-		WGridLayout *main_layout;
-
 	public:
 		shared_ptr<soma_database> D;
 

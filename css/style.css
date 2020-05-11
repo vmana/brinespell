@@ -21,6 +21,7 @@ body
 	min-height: 100%; height: 100%;
 	min-width: 100%; width: 100%;
 	z-index: 0;
+	position: relative;
 }
 
 textarea
@@ -220,7 +221,7 @@ div.jp-seeking-bg
 
 .widget_home
 {
-	position: relative;
+	/* position: relative; */
 }
 
 .widget_home_search

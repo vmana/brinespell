@@ -27,20 +27,8 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 	auto main_div = root()->addNew<WContainerWidget>();
 	main_div->setStyleClass("main-background");
 
-	// main_layout
-	main_layout = main_div->setLayout(make_unique<WGridLayout>());
-	main_layout->setContentsMargins(0, 0, 0, 0);
-	main_layout->setVerticalSpacing(0);
-	main_layout->setHorizontalSpacing(0);
-
-	int widget_count = 0;
-
-	// menu widget
-	/* view_menu = main_layout->addWidget( make_unique<widget_menu>(this), widget_count++, 0 ); */
-	/* view_menu->hide(); // start hidden */
-
 	// main stack
-	stack = main_layout->addWidget( make_unique<widget_stack>(), widget_count++, 0 );
+	stack = main_div->addNew<widget_stack>();
 	stack->setStyleClass("stack-background");
 
 	// save icon
@@ -56,8 +44,6 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 	// force init to /
 	setInternalPath("/");
 
-	main_layout->setRowStretch(widget_count - 1, 1); // stack always gets full space
-
 	/* this->doJavaScript("var xxx = 42;"); */
 	/* sig.connect(this, &soma::callback); */
 	/* debug_line(sig.createCall({"xxx"})); */
@@ -66,12 +52,12 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 
 	setInternalPath("/login", true);
 
-	try
-	{
-		dbo_session session;
-		p_user = session->find<user>().where("login = 'mana'");
-	} catch (dbo::Exception e) { debug_line(e.what()); }
-	on_login_success(p_user);
+	/* try */
+	/* { */
+	/* 	dbo_session session; */
+	/* 	p_user = session->find<user>().where("login = 'mana'"); */
+	/* } catch (dbo::Exception e) { debug_line(e.what()); } */
+	/* on_login_success(p_user); */
 }
 
 /* void soma::callback(string value) { debug_line(value); } */
