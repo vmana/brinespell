@@ -1,7 +1,7 @@
 body
 {
 	font-family: sans-serif;
-	color: #fff;
+	color: #f9e9b8;
 	font-weight: normal;
 	font-size: 12px;
 	padding: 0px;
@@ -27,7 +27,6 @@ body
 textarea
 {
 	background: #FFF;
-	color: #222;
 	border: solid 1px #555;
 }
 
@@ -38,7 +37,7 @@ input[type=password]
 	border: solid 0px;
 	background: #0a141c;
 	opacity: 0.88;
-	color: #c6e8f9;
+	color: #f9e9b8;
 	height: 22px;
 	padding: 4px 12px;
 	border-radius: 20px;
@@ -55,7 +54,7 @@ input[type=text]::-webkit-input-placeholder
 
 input[type=file]
 {
-	color: #222;
+	/* color: #222; */
 }
 
 /****    generic widget    ****/
@@ -115,38 +114,6 @@ input[type=file]
 div.jp-seeking-bg
 {
 	background: #00000065 !important;
-}
-
-@keyframes widget-save-icon-animation
-{
-	0%   { opacity: 0; }
-	50%  { opacity: 1; }
-	100%	{ opacity: 0; }
-}
-.widget-save-icon
-{
-	position: absolute;
-	right: 30px;
-	top: 120px;
-	width: 62px;
-	height: 62px;
-	border-radius: 16px;
-	background-color: #54A42B;
-	background-image: url("../img/save.png");
-	animation-name: widget-save-icon-animation;
-	animation-duration: 2s;
-	animation-iteration-count: 1;
-}
-
-.widget-save-icon-hidden
-{
-	opacity: 0;
-	position: absolute;
-	right: 30px;
-	top: 140px;
-	width: 62px;
-	height: 62px;
-	z-index: -1;
 }
 
 /****    animations    ****/
@@ -297,7 +264,6 @@ div.jp-seeking-bg
 }
 .selector_notation_text
 {
-	color: #f4e5b3;
 	background: #0a141c90;
 	border-radius: 25px;
 }
@@ -310,7 +276,6 @@ div.jp-seeking-bg
 	line-height: 42px;
 	background: #0a141c;
 	opacity: 0.88;
-	color: #c6e8f9;
 	font-size: 26px;
 	text-align: center;
 	position: absolute;
@@ -371,7 +336,6 @@ div.jp-seeking-bg
 	left: 12px;
 	min-width: 100%;
 	max-width: 200%;
-	color: #c6e8f9;
 	background: #0a141c;
 	font-size: 15px;
 	opacity: 0.88;
@@ -399,7 +363,7 @@ div.jp-seeking-bg
 
 .widget_search_match
 {
-	color: #05edff;
+	color: #6adfe8;
 }
 
 /****    widget_audio    ****/
