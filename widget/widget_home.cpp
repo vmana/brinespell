@@ -19,6 +19,8 @@ widget_home::widget_home() : wcontainer("home")
 	audio = bindNew<widget_audio>("widget_audio");
 	dices = bindNew<widget_dice>("widget_dice");
 
+	/* dices->doJavaScript("xxx();"); */
+
 	// signal binding
 	search->on_select_event.connect([&](string filename){ broadcast::all(&widget_home::change_audio_track, "data/" + filename); });
 }

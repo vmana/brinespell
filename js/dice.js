@@ -674,7 +674,6 @@ function init_dice_object(dice) {
 
 	this.dice_box.prototype.search_dice_by_mouse = function(ev) {
 		var m = $teal.get_mouse_coords(ev);
-		console.log('m.x = ' +m.x + ', this.cw = ' + this.cw + ', this.aspect = ' + this.aspect + ', m.y = ' + m.y + ', this.ch = ' + this.ch + ', this.w = ' + this.w);
 		var intersects = (new THREE.Raycaster(this.camera.position,
 			(new THREE.Vector3((m.x - this.cw) / this.aspect,
 				1 - (m.y - this.ch) / this.aspect, 1))
@@ -785,6 +784,7 @@ function init_dice_object(dice) {
 		var vector = { x: (rnd() * 2 - 1) * box.w, y: -(rnd() * 2 - 1) * box.h };
 		var dist = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
 		var boost = (rnd() + 3) * dist;
+		if (boost < 1300) boost += 800;
 		throw_dices(box, vector, boost, dist, dices_set, after_roll);
 	}
 
@@ -897,7 +897,7 @@ function init_dices_area(wt_callback_id)
 	// wt_callback_id is needed for sending dice results to wt
 	init_dice_object.apply(teal.dices = teal.dices || {});
 	div_dices_area = $teal.id('div_dices_area');
-	$teal.box_dices = new $teal.dices.dice_box(div_dices_area, { w: 1000, h: 800 });
+	$teal.box_dices = new $teal.dices.dice_box(div_dices_area, { w: 1000, h: 760 });
 	$teal.box_dices.wt_callback_id = wt_callback_id;
 }
 
@@ -909,4 +909,28 @@ function thow_dices_area(dices_set)
 function thow_initialized_dices_area(dices_set, random_numbers)
 {
 	$teal.box_dices.start_throw(dices_set, after_roll, random_numbers);
+}
+
+function xxx()
+{
+	var context = document.getElementById('canvas_button').getContext('2d');
+	var canvas = document.getElementById('canvas_button');
+	context.fillStyle = '#0a141c';
+	context.beginPath();
+	// right circle
+	context.arc(canvas.width - (canvas.height / 2), (canvas.height / 2), (canvas.height / 2), 0, 2 * Math.PI, false);
+	// rectangle button
+	context.fillRect(0, 0, canvas.width - (canvas.height / 2), canvas.height);
+	context.fill();
+	// remove half a circle of the left
+	context.save();
+	context.globalCompositeOperation = 'destination-out';
+	context.beginPath();
+
+	var left_radius = 100;
+	var radius_x = -80;
+
+	context.arc(radius_x, (canvas.height / 2), left_radius, 0, 2 * Math.PI, false);
+	context.fill();
+	context.restore();
 }

@@ -7,7 +7,7 @@
 soma::soma(const WEnvironment& env) : WApplication(env)
 	/* ,sig(this, "unique_name") */
 {
-	setTitle("Brine Spell");
+	setTitle("~ Brine Spell");
 
 	/****    css & js    ****/
 	useStyleSheet("css/style.css");
@@ -28,7 +28,7 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 	main_div->setStyleClass("main-background");
 
 	// main stack
-	stack = main_div->addNew<widget_stack>();
+	stack = main_div->addNew<WStackedWidget>();
 	stack->setStyleClass("stack-background");
 
 	// save icon
