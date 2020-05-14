@@ -3,12 +3,12 @@
 
 #include <Wt/WApplication.h>
 #include <Wt/WEnvironment.h>
+#include <Wt/WJavaScript.h>
+#include <Wt/WText.h>
+#include <Wt/WStackedWidget.h>
 
 #include "config.h"
-#include "wt/generic/widget_stack.h"
-#include "wt/generic/widget_save_icon.h"
 #include "soma_database.h"
-#include <Wt/WJavaScript.h>
 
 namespace dbo = Wt::Dbo;
 using namespace Wt;
@@ -26,12 +26,9 @@ class soma : public WApplication
 		shared_ptr<soma_database> D;
 
 		// view
-		widget_stack *stack;
+		WStackedWidget *stack;
 		widget_login *view_login = NULL;
 		widget_home *view_home = NULL;
-
-		// save icon
-		widget_save_icon *save_icon;
 
 		dbo::ptr<user> p_user = dbo::ptr<user>();
 		dbo::ptr<campaign> p_campaign = dbo::ptr<campaign>();

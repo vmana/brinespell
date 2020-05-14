@@ -21,7 +21,7 @@ int server_run(int argc, char *argv[], ApplicationCreator createApplication)
 		WServer server(argv[0]);
 		server.setServerConfiguration(argc, argv, WTHTTP_CONFIGURATION);
 
-		server.addEntryPoint(Wt::EntryPointType::Application, createApplication);
+		server.addEntryPoint(Wt::EntryPointType::Application, createApplication, "", "/img/favicon.ico");
 		if (server.start())
 		{
 			// wait for signal
