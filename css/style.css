@@ -125,7 +125,7 @@ div.jp-seeking-bg
 .animate_show
 {
 	animation-name: animate_show_animation;
-	animation-duration: 0.8s;
+	animation-duration: 0.6s;
 	animation-iteration-count: 1;
 	opacity: 1;
 }
@@ -138,7 +138,7 @@ div.jp-seeking-bg
 .animate_hide
 {
 	animation-name: animate_hide_animation;
-	animation-duration: 0.8s;
+	animation-duration: 0.6s;
 	animation-iteration-count: 1;
 	visibility: hidden;
 }
