@@ -36,9 +36,6 @@ class soma : public WApplication
 		dbo::ptr<user> p_user = dbo::ptr<user>();
 		dbo::ptr<campaign> p_campaign = dbo::ptr<campaign>();
 
-		/* JSignal<string> sig; */
-		/* void callback(string value); */
-
 		soma(const WEnvironment& env);
 		static soma* application();
 		void init(shared_ptr<soma> sthis);

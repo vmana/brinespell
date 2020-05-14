@@ -5,7 +5,6 @@
 #include "widget/widget_home.h"
 
 soma::soma(const WEnvironment& env) : WApplication(env)
-	/* ,sig(this, "unique_name") */
 {
 	setTitle("Brine Spell");
 
@@ -43,13 +42,6 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 
 	// force init to /
 	setInternalPath("/");
-
-	/* this->doJavaScript("var xxx = 42;"); */
-	/* sig.connect(this, &soma::callback); */
-	/* debug_line(sig.createCall({"xxx"})); */
-	/* this->doJavaScript(sig.createCall({"xxx"})); */
-	/* this->doJavaScript("Wt.emit('app','unique_name','ok ok');"); */
-
 	setInternalPath("/login", true);
 
 	try
