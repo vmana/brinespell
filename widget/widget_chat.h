@@ -18,6 +18,9 @@ class widget_chat : public wcontainer
 
 		Signal<string> chat_input_event;
 
+		// add timestamp, username
+		static string prepare_message(string message);
+
 		void add_message(string message);
 		void on_chat_enter_pressed();
 		void hide_chat_timeout();

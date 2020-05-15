@@ -1,5 +1,5 @@
 #include "widget_chat.h"
-#include "db/user.h"
+#include "db/player.h"
 #include "soma.h"
 #include "wt/wt.h"
 
@@ -40,21 +40,28 @@ widget_chat::widget_chat() : wcontainer("chat")
 	chat_input->enterPressed().connect(this, &widget_chat::on_chat_enter_pressed);
 }
 
-void widget_chat::add_message(string message)
+string widget_chat::prepare_message(string message)
 {
+	soma *p_soma = soma::application();
+	if (!p_soma) return message;
+	if (!p_soma->p_player) return message;
+
 	// format msg
 	string current_time = wt::current_time().toString("HH:mm").toUTF8();
-	if (S->p_user) message =
+	message =
 		"<span class=\"widget_chat_timestamp\">"
 		+ current_time
 		+ "</span>"
 		"<span class=\"widget_chat_player_name\">"
-		+ S->p_user->login
+		+ p_soma->p_player->name
 		+ " </span> : "
 		+ message
 		+ "<br />\n";
+	return message;
+}
 
-	/* for (int i = 0; i < 30; i++) */
+void widget_chat::add_message(string message)
+{
 	chat_lines->setText(chat_lines->text() + WString::fromUTF8(message));
 
 	// reset visible & timeout
@@ -72,6 +79,8 @@ void widget_chat::on_chat_enter_pressed()
 
 	string message = parser.text().toUTF8();
 	if (message == "") return;
+
+	message = prepare_message(message);
 
 	chat_input->setText(""); // clear
 	chat_input_event.emit(message);

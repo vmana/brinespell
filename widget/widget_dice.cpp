@@ -113,13 +113,13 @@ void widget_dice::throw_dice_nocallback(string notation, string rand_init)
 
 void widget_dice::dice_results_callback(string value)
 {
-	debug_line(value);
+	/* debug_line(value); */
 	auto values = explode(" ", value);
 	int sum = 0;
 	for (auto &v : values)
 		sum += convert::string_int(v);
 
-	dice_results_event.emit("<i>Dice results " + value + " (total: <span class=\"widget_chat_dice_total\">" + convert::int_string(sum) + "</span>)</i>");
+	dice_results_event.emit("<i>Dice results " + value + " (<span class=\"widget_chat_dice_total\">" + convert::int_string(sum) + "</span>)</i>");
 }
 
 void widget_dice::selector_click_callback(int dice_type, int count)

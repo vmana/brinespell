@@ -14,7 +14,7 @@
 	width: calc(100% + 18px);
 	padding: 0 0 0 0;
 	position: relative;
-	overflow-x: auto;
+	overflow-x: hidden;
 	overflow-y: scroll;
 	box-sizing: border-box;
 }

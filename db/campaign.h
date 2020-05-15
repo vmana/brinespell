@@ -9,7 +9,6 @@ class campaign
 	public:
 
 		string name;
-		dbo::ptr<user> p_master;
 		dbo::collection<dbo::ptr<player>> players;
 
 		campaign();
@@ -18,7 +17,6 @@ class campaign
 		void persist(Action &a)
 		{
 			dbo::field(a, name, "name");
-			dbo::belongsTo(a, p_master, "master", dbo::OnDeleteSetNull);
 			dbo::hasMany(a, players, dbo::ManyToOne, "campaign");
 		}
 

@@ -44,12 +44,12 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 	setInternalPath("/");
 	setInternalPath("/login", true);
 
-	try
-	{
-		dbo_session session;
-		p_user = session->find<user>().where("login = 'mana'");
-	} catch (dbo::Exception e) { debug_line(e.what()); }
-	on_login_success(p_user);
+	/* try */
+	/* { */
+	/* 	dbo_session session; */
+	/* 	p_user = session->find<user>().where("login = 'mana'"); */
+	/* } catch (dbo::Exception e) { debug_line(e.what()); } */
+	/* on_login_success(p_user); */
 }
 
 /* void soma::callback(string value) { debug_line(value); } */
@@ -63,13 +63,15 @@ void soma::on_login_success(dbo::ptr<user> p_user)
 {
 	if (!p_user) return;
 	this->p_user = p_user;
+	// temporary : force init
 	try
 	{
 		dbo_session session;
 		p_campaign = session->find<campaign>().where("name = 'Curse of Strahd'");
-
-		// test bad campaign for broadcast
-		if (p_user->login == "bad") p_campaign = session->find<campaign>().where("name = 'bad'");
+		p_player = session->find<player>()
+			.where("campaign_id = ? and user_id = ?")
+			.bind(p_campaign.id())
+			.bind(p_user.id());
 
 	} catch (dbo::Exception e) { debug_line(e.what()); }
 

@@ -10,6 +10,7 @@ class player
 {
 	public:
 		string name;
+		bool game_master = false;
 		dbo::ptr<user> p_user;
 		dbo::ptr<campaign> p_campaign;
 
@@ -17,6 +18,7 @@ class player
 		void persist(Action &a)
 		{
 			dbo::field(a, name, "name");
+			dbo::field(a, game_master, "game_master");
 			dbo::belongsTo(a, p_user, dbo::OnDeleteCascade);
 			dbo::belongsTo(a, p_campaign, "campaign", dbo::OnDeleteCascade);
 		}

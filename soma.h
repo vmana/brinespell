@@ -18,6 +18,7 @@ using namespace mana;
 class widget_login;
 class widget_home;
 class user;
+class player;
 class campaign;
 
 class soma : public WApplication
@@ -31,6 +32,7 @@ class soma : public WApplication
 		widget_home *view_home = NULL;
 
 		dbo::ptr<user> p_user = dbo::ptr<user>();
+		dbo::ptr<player> p_player = dbo::ptr<player>();
 		dbo::ptr<campaign> p_campaign = dbo::ptr<campaign>();
 
 		soma(const WEnvironment& env);
