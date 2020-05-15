@@ -212,6 +212,16 @@ div.jp-seeking-bg
 	margin-right: 16px;
 }
 
+.widget_home_chat
+{
+	position: absolute;
+	left: 10px;
+	bottom: 10px;
+	width: 500px;
+	display: flex;
+	flex-direction: column;
+}
+
 /****    widget_dice    ****/
 
 .div_dices_area
@@ -329,9 +339,6 @@ div.jp-seeking-bg
 
 .widget_chat
 {
-	position: absolute;
-	left: 10px;
-	bottom: 10px;
 	height: 320px;
 	width: 500px;
 	background: #0a141c;
@@ -353,6 +360,17 @@ div.jp-seeking-bg
 {
 	font-weight: bold;
 	color: #d9b150;
+}
+
+.widget_chat_input
+{
+	width: calc(100% - (36px + 12px) + 16px); /* 36 + 12 = padding, 16 = chat_container padding */
+	margin-top: 8px;
+	padding-left: 36px !important;
+	opacity: 0.90 !important;
+	background-image: url('/img/speech.svg') !important;
+	background-repeat: no-repeat !important;
+	background-position: 10px 5px !important;
 }
 
 .div_sun_moon_chat

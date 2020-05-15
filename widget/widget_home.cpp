@@ -26,6 +26,10 @@ widget_home::widget_home() : wcontainer("home")
 		string message = "Dice results " + res;
 		broadcast::all(&widget_home::chat_message, message);
 	});
+	chat->chat_input_event.connect([&](string message)
+	{
+		broadcast::all(&widget_home::chat_message, message);
+	});
 }
 
 void widget_home::change_audio_track(string filename)

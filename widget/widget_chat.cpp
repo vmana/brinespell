@@ -8,17 +8,25 @@ widget_chat::widget_chat() : wcontainer("chat")
 	S->application()->require("js/scrollbar.min.js");
 	S->application()->useStyleSheet("css/scrollbar.css");
 
-	setStyleClass("widget_chat hidden");
-	chat_lines = bindNew<WText>("lines");
+	chat_container = bindNew<widget_template>("chat");
+	chat_container->setStyleClass("widget_chat hidden");
+	chat_container->set_text("${lines}");
+
+	chat_lines = chat_container->bindNew<WText>("lines");
 	chat_lines->setStyleClass("widget_chat_lines");
 	chat_lines->setText("");
+
+	chat_input = bindNew<WLineEdit>("chat_input");
+	chat_input->setStyleClass("widget_chat_input");
+	chat_input->setText("");
+
 	/* string lines = ""; */
 	/* for (int i = 0; i < 40; i++) */
 	/* 	lines += "line " + convert::int_string(i) + "<br />\n"; */
 	/* chat_lines->setText(lines); */
 
 	// change scrollbar display, and scrolls to the bottom when the content change
-	doJavaScript("init_chat_box('" + this->id() + "');");
+	doJavaScript("init_chat_box('" + chat_container->id() + "');");
 
 	chat_auto_hide.setInterval(chrono::milliseconds(50000));
 	chat_auto_hide.timeout().connect(this, &widget_chat::hide_chat_timeout);
@@ -26,8 +34,9 @@ widget_chat::widget_chat() : wcontainer("chat")
 
 	// signal binding
 	// prevent hiding when mouse is over, force show when mouse is over
-	this->mouseWentOver().connect([&](){ this->setStyleClass("widget_chat ss-container"); chat_auto_hide.stop(); });
-	this->mouseWentOut().connect([&](){ chat_auto_hide.start(); });
+	chat_container->mouseWentOver().connect([&](){ chat_container->setStyleClass("widget_chat ss-container"); chat_auto_hide.stop(); });
+	chat_container->mouseWentOut().connect([&](){ chat_auto_hide.start(); });
+	chat_input->enterPressed().connect(this, &widget_chat::on_chat_enter_pressed);
 }
 
 void widget_chat::add_message(string message)
@@ -41,14 +50,22 @@ void widget_chat::add_message(string message)
 	chat_lines->setText(chat_lines->text() + message);
 
 	// reset visible & timeout
-	this->setStyleClass("widget_chat ss-container");
+	chat_container->setStyleClass("widget_chat ss-container");
 	chat_auto_hide.stop();
 	chat_auto_hide.start();
 }
 
+void widget_chat::on_chat_enter_pressed()
+{
+	string message = chat_input->text().toUTF8();
+	if (message == "") return;
+	chat_input->setText(""); // clear
+	chat_input_event.emit(message);
+}
+
 void widget_chat::hide_chat_timeout()
 {
-	this->setStyleClass("widget_chat ss-container hidden");
+	chat_container->setStyleClass("widget_chat ss-container hidden");
 }
 
 widget_chat::~widget_chat()
