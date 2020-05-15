@@ -333,7 +333,7 @@ div.jp-seeking-bg
 	width: 500px;
 	background: #0a141c;
 	font-size: 15px;
-	opacity: 0.88;
+	opacity: 0.84;
 	padding: 6px 8px;
 	border-radius: 14px;
 }
@@ -349,6 +349,22 @@ div.jp-seeking-bg
 {
 	font-weight: bold;
 	color: #d9b150;
+}
+
+.div_sun_moon_chat
+{
+	position: absolute;
+	bottom: -50px;
+	left: -50px;
+	width: 240px;
+	height: 240px;
+	background: url('/img/sun-moon.svg') center center no-repeat;
+	background-color: #040c1370;
+	background-size: contain;
+	border-radius: 50%;
+	animation: spin 120s linear infinite reverse;
+	z-index: -1;
+	opacity: 0.80;
 }
 
 /****    widget_search    ****/
