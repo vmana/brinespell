@@ -41,6 +41,9 @@ input[type=password]
 	height: 22px;
 	padding: 4px 12px;
 	border-radius: 20px;
+	outline-style: none;
+	box-shadow: none;
+	border-color: transparent;
 }
 input[type=text]::-webkit-input-placeholder
 {
