@@ -72,11 +72,6 @@ void widget_dice::on_throw_click()
 {
 	if (selector_notation == "") return; // no dice to throw
 
-	/* // hide selector */
-	/* dice_selector->setStyleClass("div_dice_selector animate_hide"); */
-	/* // show dices area */
-	/* dices_area->removeStyleClass("div_dices_area_hide"); */
-
 	// throw_initialized_dice_event, so everyone can see the throw
 	rand_init = "";
 	for (int i = 0; i < 100; i++)
@@ -102,8 +97,6 @@ void widget_dice::throw_dice(string notation, string rand_init)
 
 	// hide selector
 	dice_selector->setStyleClass("div_dice_selector animate_hide");
-	// show dices area
-	dices_area->removeStyleClass("div_dices_area_hide");
 
 	doJavaScript("thow_initialized_dices_area('" + notation+ "', [" + rand_init + "]);");
 }
@@ -114,16 +107,12 @@ void widget_dice::throw_dice_nocallback(string notation, string rand_init)
 
 	// hide selector
 	dice_selector->setStyleClass("div_dice_selector animate_hide");
-	// show dices area
-	dices_area->removeStyleClass("div_dices_area_hide");
 
 	doJavaScript("thow_initialized_dices_area_nocallback('" + notation + "', [" + rand_init + "]);");
 }
 
 void widget_dice::dice_results_callback(string value)
 {
-	// hide dices area after a delay
-	dices_area->addStyleClass("div_dices_area_hide");
 	debug_line(value);
 	auto values = explode(" ", value);
 	int sum = 0;
