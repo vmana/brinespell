@@ -57,8 +57,14 @@ void widget_chat::add_message(string message)
 
 void widget_chat::on_chat_enter_pressed()
 {
-	string message = chat_input->text().toUTF8();
+	// remove xss/script elements
+	WText parser;
+	parser.setTextFormat(TextFormat::XHTML);
+	if (!parser.setText(chat_input->text())) return;
+
+	string message = parser.text().toUTF8();
 	if (message == "") return;
+
 	chat_input->setText(""); // clear
 	chat_input_event.emit(message);
 }
