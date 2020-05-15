@@ -312,12 +312,6 @@ div.jp-seeking-bg
 	right: 180px;
 }
 
-.dice_text_total
-{
-	color: #d7795c;
-	font-weight: bold;
-}
-
 .div_sun_moon
 {
 	position: absolute;
@@ -362,10 +356,25 @@ div.jp-seeking-bg
 	display: inline-block
 }
 
+.widget_chat_timestamp
+{
+	color: #7f9cb9;
+	min-width: 46px;
+	text-align: left;
+	font-size: 14px;
+	display: inline-block;
+}
+
 .widget_chat_player_name
 {
 	font-weight: bold;
 	color: #d9b150;
+}
+
+.widget_chat_dice_total
+{
+	color: #d7795c;
+	font-weight: bold;
 }
 
 .widget_chat_input

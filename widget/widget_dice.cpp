@@ -119,7 +119,7 @@ void widget_dice::dice_results_callback(string value)
 	for (auto &v : values)
 		sum += convert::string_int(v);
 
-	dice_results_event.emit("<i>Dice results " + value + " (total: <span class=\"dice_text_total\">" + convert::int_string(sum) + "</span>)</i>");
+	dice_results_event.emit("<i>Dice results " + value + " (total: <span class=\"widget_chat_dice_total\">" + convert::int_string(sum) + "</span>)</i>");
 }
 
 void widget_dice::selector_click_callback(int dice_type, int count)

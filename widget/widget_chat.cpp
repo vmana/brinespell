@@ -1,6 +1,7 @@
 #include "widget_chat.h"
 #include "db/user.h"
 #include "soma.h"
+#include "wt/wt.h"
 
 widget_chat::widget_chat() : wcontainer("chat")
 {
@@ -42,7 +43,11 @@ widget_chat::widget_chat() : wcontainer("chat")
 void widget_chat::add_message(string message)
 {
 	// format msg
+	string current_time = wt::current_time().toString("HH:mm").toUTF8();
 	if (S->p_user) message =
+		"<span class=\"widget_chat_timestamp\">"
+		+ current_time
+		+ "</span>"
 		"<span class=\"widget_chat_player_name\">"
 		+ S->p_user->login
 		+ " </span> : "
