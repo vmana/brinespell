@@ -23,8 +23,7 @@ widget_home::widget_home() : wcontainer("home")
 	});
 	dices->dice_results_event.connect([&](string res)
 	{
-		string message = "<i>Dice results " + res + "</i>";
-		broadcast::all(&widget_home::chat_message, message);
+		broadcast::all(&widget_home::chat_message, res);
 	});
 	chat->chat_input_event.connect([&](string message)
 	{

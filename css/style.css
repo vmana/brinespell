@@ -312,6 +312,12 @@ div.jp-seeking-bg
 	right: 180px;
 }
 
+.dice_text_total
+{
+	color: #d7795c;
+	font-weight: bold;
+}
+
 .div_sun_moon
 {
 	position: absolute;
