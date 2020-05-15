@@ -2,10 +2,15 @@
 #include "soma.h"
 
 widget_dice::widget_dice() :
-	wcontainer("widget_dice"),
+	wcontainer("dice"),
 	signal_dice_results(this, "signal_dice_results"),
 	signal_selector_click(this, "signal_selector_click")
 {
+	// load js lib if not loaded
+	S->application()->require("js/cannon.min.js");
+	S->application()->require("js/three.min.js");
+	S->application()->require("js/dice.js");
+
 	// dices area
 	dices_area = bindNew<widget_template>("div_dices_area");
 	dices_area->set_text("<div id=\"div_dices_area\" class=\"div_dices_area\"></div>");
@@ -17,7 +22,7 @@ widget_dice::widget_dice() :
 	doJavaScript("init_animated_d20();");
 
 	// selector
-	dice_selector = bindNew<wtemplate>("div_dice_selector", "widget_selector");
+	dice_selector = bindNew<wtemplate>("div_dice_selector", "selector");
 	dice_selector->setStyleClass("div_dice_selector hidden");
 	text_notation = dice_selector->bindNew<WText>("text_notation");
 	text_notation->setStyleClass("selector_notation_text");
@@ -91,9 +96,14 @@ void widget_dice::throw_initialized_dice(string notation, string rand_init)
 
 void widget_dice::dice_results_callback(string value)
 {
-	debug_line(value);
 	// hide dices area after a delay
 	dices_area->addStyleClass("div_dices_area_hide");
+	debug_line(value);
+	auto values = explode(" ", value);
+	int sum = 0;
+	for (auto &v : values)
+		sum += convert::string_int(v);
+	dice_results_event.emit(value + " (total: " + convert::int_string(sum) + ")");
 }
 
 void widget_dice::selector_click_callback(int dice_type, int count)

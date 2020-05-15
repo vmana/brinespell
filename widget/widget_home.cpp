@@ -3,11 +3,10 @@
 
 widget_home::widget_home() : wcontainer("home")
 {
-	S->application()->require("js/cannon.min.js");
-	S->application()->require("js/three.min.js");
-	S->application()->require("js/dice.js");
-	setStyleClass("widget_home");
+	// load js custom lib if not loaded
+	S->application()->require("js/function.js");
 
+	setStyleClass("widget_home");
 	/* this->clicked().connect(broadcast::all(&widget_home::test2, {"aaa"}, {"bbb"})); */
 
 	/* auto player = this->addChild(make_unique<WMediaPlayer>(MediaType::Audio)); */
@@ -18,11 +17,14 @@ widget_home::widget_home() : wcontainer("home")
 
 	audio = bindNew<widget_audio>("widget_audio");
 	dices = bindNew<widget_dice>("widget_dice");
-
-	/* dices->doJavaScript("xxx();"); */
+	chat = bindNew<widget_chat>("widget_chat");
 
 	// signal binding
 	search->on_select_event.connect([&](string filename){ broadcast::all(&widget_home::change_audio_track, "data/" + filename); });
+	dices->dice_results_event.connect([&](string res)
+	{
+		chat->add_message("Dice results " + res);
+	});
 }
 
 void widget_home::change_audio_track(string filename)

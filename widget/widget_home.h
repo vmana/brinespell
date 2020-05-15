@@ -5,6 +5,7 @@
 #include "widget_search.h"
 #include "widget_audio.h"
 #include "widget_dice.h"
+#include "widget_chat.h"
 #include "db/campaign.h"
 
 class widget_home : public wcontainer
@@ -14,6 +15,7 @@ class widget_home : public wcontainer
 		widget_search *search;
 		widget_audio *audio;
 		widget_dice *dices;
+		widget_chat *chat;
 
 		widget_home();
 		// static call from broadcast

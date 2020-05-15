@@ -848,6 +848,11 @@ teal.get_mouse_coords = function(ev) {
 	return { x: ev.layerX, y: ev.layerY };
 }
 
+// global area variables
+var box_animated_d20;
+var box_animated_selector;
+var div_dices_area;
+
 function init_animated_d20()
 {
 	init_dice_object.apply(teal.animated_d20 = teal.animated_d20 || {});
@@ -855,11 +860,6 @@ function init_animated_d20()
 	box_animated_d20 = new $teal.animated_d20.dice_box(div_animated_d20, { w: 100, h: 100 });
 	box_animated_d20.draw_d20();
 }
-
-// global area variables
-var box_animated_d20;
-var box_animated_selector;
-var div_dices_area;
 
 function init_animated_selector(wt_callback_id)
 {
@@ -883,7 +883,6 @@ function on_selector_click(e)
 	var res = box_animated_selector.search_dice_by_mouse(e);
 	if (res == undefined) return;
 	Wt.emit($teal.animated_selector.wt_callback_id, 'signal_selector_click', res, count);
-	// console.log(res);
 }
 
 function after_roll(notation, result)
@@ -909,28 +908,4 @@ function thow_dices_area(dices_set)
 function thow_initialized_dices_area(dices_set, random_numbers)
 {
 	$teal.box_dices.start_throw(dices_set, after_roll, random_numbers);
-}
-
-function xxx()
-{
-	var context = document.getElementById('canvas_button').getContext('2d');
-	var canvas = document.getElementById('canvas_button');
-	context.fillStyle = '#0a141c';
-	context.beginPath();
-	// right circle
-	context.arc(canvas.width - (canvas.height / 2), (canvas.height / 2), (canvas.height / 2), 0, 2 * Math.PI, false);
-	// rectangle button
-	context.fillRect(0, 0, canvas.width - (canvas.height / 2), canvas.height);
-	context.fill();
-	// remove half a circle of the left
-	context.save();
-	context.globalCompositeOperation = 'destination-out';
-	context.beginPath();
-
-	var left_radius = 100;
-	var radius_x = -80;
-
-	context.arc(radius_x, (canvas.height / 2), left_radius, 0, 2 * Math.PI, false);
-	context.fill();
-	context.restore();
 }

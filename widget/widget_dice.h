@@ -26,6 +26,7 @@ class widget_dice : public wcontainer
 
 		JSignal<string> signal_dice_results;
 		JSignal<int, int> signal_selector_click;
+		Signal<string> dice_results_event;
 
 		widget_dice();
 		void on_animated_d20_click();

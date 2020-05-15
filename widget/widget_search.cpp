@@ -1,6 +1,6 @@
 #include "widget_search.h"
 
-widget_search::widget_search() : wcontainer("widget_search")
+widget_search::widget_search() : wcontainer("search")
 {
 	edit_search = bindNew<WLineEdit>("edit_search");
 	edit_search->setStyleClass("widget_search_edit");
