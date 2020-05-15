@@ -145,7 +145,7 @@ div.jp-seeking-bg
 
 .hidden
 {
-	opacity: 0;
+	opacity: 0 !important;
 }
 
 /****    widget_login    ****/
@@ -336,6 +336,7 @@ div.jp-seeking-bg
 	opacity: 0.84;
 	padding: 6px 8px;
 	border-radius: 14px;
+	transition: opacity 0.6s;
 }
 
 .widget_chat_lines

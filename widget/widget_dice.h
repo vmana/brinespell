@@ -26,6 +26,7 @@ class widget_dice : public wcontainer
 
 		JSignal<string> signal_dice_results;
 		JSignal<int, int> signal_selector_click;
+		Signal<string, string> throw_dice_event; // notation + rand_init
 		Signal<string> dice_results_event;
 
 		widget_dice();
@@ -34,7 +35,8 @@ class widget_dice : public wcontainer
 		void on_throw_click();
 
 		void throw_dice(string notation); // notation = "2d20 + 4d6"
-		void throw_initialized_dice(string notation, string rand_init); // notation = "2d20 + 4d6"
+		void throw_dice(string notation, string rand_init);
+		void throw_dice_nocallback(string notation, string rand_init);
 		void dice_results_callback(string value);
 		void selector_click_callback(int dice_type, int count); // dice_type 20 for d20 ..., count is either 1 or -1
 };

@@ -20,6 +20,8 @@ class widget_home : public wcontainer
 		widget_home();
 		// static call from broadcast
 		static void change_audio_track(string filename);
+		static void throw_dice(string notation, string rand_init);
+		static void chat_message(string message);
 };
 
 #endif // widget_home_H

@@ -2,8 +2,10 @@
 
 function init_dice_object(dice) {
 	this.wt_callback_id = '';
+	this.wt_allow_callback = true;
 	var current_random_number = 0;
 	var wt_random_numbers = [];
+
 
 	this.frame_rate = 1 / 60;
 	function rnd()
@@ -888,7 +890,11 @@ function on_selector_click(e)
 function after_roll(notation, result)
 {
 	var res = result.join(' ');
-	Wt.emit($teal.box_dices.wt_callback_id, 'signal_dice_results', res);
+	if ($teal.box_dices.wt_allow_callback)
+	{
+		// no restrictions
+		Wt.emit($teal.box_dices.wt_callback_id, 'signal_dice_results', res);
+	}
 }
 
 function init_dices_area(wt_callback_id)
@@ -902,10 +908,18 @@ function init_dices_area(wt_callback_id)
 
 function thow_dices_area(dices_set)
 {
+	$teal.box_dices.wt_allow_callback = true;
 	$teal.box_dices.start_throw(dices_set, after_roll);
 }
 
 function thow_initialized_dices_area(dices_set, random_numbers)
 {
+	$teal.box_dices.wt_allow_callback = true;
+	$teal.box_dices.start_throw(dices_set, after_roll, random_numbers);
+}
+
+function thow_initialized_dices_area_nocallback(dices_set, random_numbers)
+{
+	$teal.box_dices.wt_allow_callback = false;
 	$teal.box_dices.start_throw(dices_set, after_roll, random_numbers);
 }

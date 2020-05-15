@@ -72,11 +72,19 @@ void widget_dice::on_throw_click()
 {
 	if (selector_notation == "") return; // no dice to throw
 
-	// hide selector
-	dice_selector->setStyleClass("div_dice_selector animate_hide");
-	// show dices area
-	dices_area->removeStyleClass("div_dices_area_hide");
-	throw_dice(selector_notation);
+	/* // hide selector */
+	/* dice_selector->setStyleClass("div_dice_selector animate_hide"); */
+	/* // show dices area */
+	/* dices_area->removeStyleClass("div_dices_area_hide"); */
+
+	// throw_initialized_dice_event, so everyone can see the throw
+	rand_init = "";
+	for (int i = 0; i < 100; i++)
+		rand_init += "0." + rand_int_string(4) + ",";
+	rand_init = substr(rand_init, 0, -1); // remove last ,
+
+	throw_dice_event.emit(selector_notation, rand_init);
+	throw_dice(selector_notation, rand_init);
 }
 
 void widget_dice::throw_dice(string notation)
@@ -85,13 +93,31 @@ void widget_dice::throw_dice(string notation)
 	for (int i = 0; i < 100; i++)
 		rand_init += "0." + rand_int_string(4) + ",";
 	rand_init = substr(rand_init, 0, -1); // remove last ,
-	throw_initialized_dice(notation, rand_init);
+	throw_dice(notation, rand_init);
 }
 
-void widget_dice::throw_initialized_dice(string notation, string rand_init)
+void widget_dice::throw_dice(string notation, string rand_init)
 {
 	this->rand_init = rand_init;
+
+	// hide selector
+	dice_selector->setStyleClass("div_dice_selector animate_hide");
+	// show dices area
+	dices_area->removeStyleClass("div_dices_area_hide");
+
 	doJavaScript("thow_initialized_dices_area('" + notation+ "', [" + rand_init + "]);");
+}
+
+void widget_dice::throw_dice_nocallback(string notation, string rand_init)
+{
+	this->rand_init = rand_init;
+
+	// hide selector
+	dice_selector->setStyleClass("div_dice_selector animate_hide");
+	// show dices area
+	dices_area->removeStyleClass("div_dices_area_hide");
+
+	doJavaScript("thow_initialized_dices_area_nocallback('" + notation + "', [" + rand_init + "]);");
 }
 
 void widget_dice::dice_results_callback(string value)
