@@ -199,7 +199,7 @@ div.jp-seeking-bg
 	position: absolute;
 	width: 470px;
 	top: 190px;
-	left: 230px;
+	left: calc(50% - 270px);
 }
 
 .widget_home_audio
