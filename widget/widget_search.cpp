@@ -90,6 +90,13 @@ void widget_search::on_key_pressed(const WKeyEvent &event)
 	{
 		on_enter_pressed();
 	}
+	else if (event.key() == Key::Escape)
+	{
+		selected = -1;
+		suggestions->setTemplateText("");
+		edit_search->setText("");
+		edit_search->setFocus(true);
+	}
 }
 
 void widget_search::on_enter_pressed()
