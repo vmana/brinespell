@@ -15,8 +15,20 @@ widget_home::widget_home() : wcontainer("home")
 	dices = bindNew<widget_dice>("widget_dice");
 	chat = bindNew<widget_chat>("widget_chat");
 
+
 	// signal binding
-	search->on_select_event.connect([&](string filename){ broadcast::all(&widget_home::change_audio_track, "data/" + filename); });
+	search->on_select_event.connect([&](string filename)
+	{
+		// only broadcast if we are the game master
+		if (!S->p_player->game_master) return;
+		broadcast::all(&widget_home::change_audio_track, "data/" + filename);
+	});
+	audio->on_switch_pause_event.connect([&](bool paused)
+	{
+		// only broadcast if we are the game master
+		if (!S->p_player->game_master) return;
+		broadcast::others(&widget_home::switch_pause_audio_track, paused);
+	});
 	dices->throw_dice_event.connect([&](string notation, string rand_init)
 	{
 		broadcast::others(&widget_home::throw_dice, notation, rand_init);
@@ -30,6 +42,7 @@ widget_home::widget_home() : wcontainer("home")
 	{
 		broadcast::all(&widget_home::chat_message, message);
 	});
+	S->globalEnterPressed().connect([&](){ chat->chat_input->setFocus(true); });
 }
 
 void widget_home::change_audio_track(string filename)
@@ -41,7 +54,24 @@ void widget_home::change_audio_track(string filename)
 	auto &audio = p_soma->view_home->audio;
 
 	audio->load_audio(filename);
-	audio->mediaplayer->play();
+	audio->play();
+}
+
+void widget_home::switch_pause_audio_track(bool paused)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+
+	auto &audio = p_soma->view_home->audio;
+
+	if (paused)
+	{
+		audio->pause();
+	}
+	else
+	{
+		audio->play();
+	}
 }
 
 void widget_home::throw_dice(string notation, string rand_init)

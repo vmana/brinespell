@@ -18,7 +18,11 @@ class widget_audio : public wcontainer
 		WText *button_volume;
 		WProgressBar *volume_bar;
 
+		Signal<bool> on_switch_pause_event;
+
 		widget_audio();
+		void play();
+		void pause();
 		void on_play_pause_click();
 		void on_volume_mouse_wheel(const WMouseEvent &event);
 		void render_widget();

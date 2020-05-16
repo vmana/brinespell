@@ -38,7 +38,7 @@ void widget_audio::render_widget()
 
 	// signals binding
 	mediaplayer->ended().connect([&](){ mediaplayer->play(); });
-	mediaplayer->playbackStarted().connect([&](){ button_play_pause->setStyleClass("widget_audio_button widget_audio_button_pause"); });
+	/* mediaplayer->playbackStarted().connect([&](){ button_play_pause->setStyleClass("widget_audio_button widget_audio_button_pause"); }); */
 	/* mediaplayer->playbackPaused().connect([&](){ button_play_pause->setStyleClass("widget_audio_button widget_audio_button_play"); }); */
 	button_play_pause->clicked().connect(this, &widget_audio::on_play_pause_click);
 	volume_bar->mouseWheel().connect(this, &widget_audio::on_volume_mouse_wheel);
@@ -53,17 +53,31 @@ void widget_audio::render_widget()
 	else if (ext == "ogg") mediaplayer->addSource(MediaEncoding::OGA, audio_filename);
 }
 
+void widget_audio::play()
+{
+	mediaplayer->play();
+	button_play_pause->setStyleClass("widget_audio_button widget_audio_button_pause");
+}
+
+void widget_audio::pause()
+{
+	mediaplayer->pause();
+	button_play_pause->setStyleClass("widget_audio_button widget_audio_button_play");
+}
+
 void widget_audio::on_play_pause_click()
 {
 	if (mediaplayer->playing())
 	{
 		mediaplayer->pause();
 		button_play_pause->setStyleClass("widget_audio_button widget_audio_button_play");
+		on_switch_pause_event.emit(true);
 	}
 	else
 	{
 		mediaplayer->play();
 		button_play_pause->setStyleClass("widget_audio_button widget_audio_button_pause");
+		on_switch_pause_event.emit(false);
 	}
 }
 

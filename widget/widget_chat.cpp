@@ -29,7 +29,7 @@ widget_chat::widget_chat() : wcontainer("chat")
 	// change scrollbar display, and scrolls to the bottom when the content change
 	doJavaScript("init_chat_box('" + chat_container->id() + "');");
 
-	chat_auto_hide.setInterval(chrono::milliseconds(50000));
+	chat_auto_hide.setInterval(chrono::milliseconds(18000));
 	chat_auto_hide.timeout().connect(this, &widget_chat::hide_chat_timeout);
 	chat_auto_hide.start();
 
