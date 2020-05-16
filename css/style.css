@@ -335,7 +335,7 @@ div.jp-seeking-bg
 	opacity: 0.90;
 	background-size: contain;
 	border-radius: 50%;
-	animation: spin 40s linear infinite reverse;
+	/* animation: spin 40s linear infinite reverse; */
 }
 
 .div_sun_moon
