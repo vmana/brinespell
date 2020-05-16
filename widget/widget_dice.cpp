@@ -25,8 +25,8 @@ widget_dice::widget_dice() :
 
 	// signal binding
 	animated_d20->clicked().connect(this, &widget_dice::on_animated_d20_click);
-	button_clear->clicked().connect(this, &widget_dice::on_clear_click);
-	button_throw->clicked().connect(this, &widget_dice::on_throw_click);
+	button_left->clicked().connect(this, &widget_dice::on_clear_click);
+	button_right->clicked().connect(this, &widget_dice::on_throw_click);
 	signal_dice_results.connect(this, &widget_dice::dice_results_callback);
 	signal_selector_click.connect(this, &widget_dice::selector_click_callback);
 }
@@ -37,19 +37,27 @@ void widget_dice::draw_selector()
 	dice_selector = bindNew<wtemplate>("div_dice_selector", "selector");
 	dice_selector->setStyleClass("div_dice_selector hidden");
 	/* dice_selector->setStyleClass("div_dice_selector"); */
+
 	text_notation = dice_selector->bindNew<WText>("text_notation");
 	text_notation->setStyleClass("selector_notation_text");
 	doJavaScript("init_animated_selector('" + this->id() + "');");
 
 	// selector buttons
-	button_clear = dice_selector->bindNew<widget_template>("button_clear");
-	button_clear->set_text("<canvas id=\"selector_clear_canvas\">");
+
+	button_left = dice_selector->bindNew<WText>("button_left");
+	button_left->setStyleClass("selector_button_left");
 
 	button_middle = dice_selector->bindNew<WText>("button_middle");
 	button_middle->setStyleClass("selector_button_middle");
 
-	button_throw = dice_selector->bindNew<widget_template>("button_throw");
-	button_throw->set_text("<canvas id=\"selector_throw_canvas\" />");
+	button_right = dice_selector->bindNew<WText>("button_right");
+	button_right->setStyleClass("selector_button_right");
+
+	canvas_decoration_left = dice_selector->bindNew<widget_template>("canvas_decoration_left");
+	canvas_decoration_left->set_text("<canvas id=\"canvas_decoration_left\">");
+
+	canvas_decoration_right = dice_selector->bindNew<widget_template>("canvas_decoration_right");
+	canvas_decoration_right->set_text("<canvas id=\"canvas_decoration_right\">");
 
 	doJavaScript("init_selector_buttons();");
 }

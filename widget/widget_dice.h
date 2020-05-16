@@ -22,9 +22,14 @@ class widget_dice : public wcontainer
 		WText *text_notation;
 
 		// selector buttons
-		widget_template *button_clear;
+		// decorations => canvas so it's pretty
+		widget_template *canvas_decoration_left;
+		widget_template *canvas_decoration_right;
+
+		// actual buttons for click purpose
+		WText *button_left;
 		WText *button_middle;
-		widget_template *button_throw;
+		WText *button_right;
 
 		JSignal<string> signal_dice_results;
 		JSignal<int, int> signal_selector_click;

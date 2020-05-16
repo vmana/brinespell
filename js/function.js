@@ -28,9 +28,9 @@ function init_selector_buttons()
 	var button_font = 26;
 
 	// button left
-	var canvas = document.getElementById('selector_clear_canvas');
+	var canvas = document.getElementById('canvas_decoration_left');
 	var context = canvas.getContext('2d');
-	canvas.classList.add('selector_buttons');
+	canvas.classList.add('selector_decoration');
 	canvas.width = button_width + radius_middle;
 	canvas.height = 140;
 	canvas.style.left = 'calc(50% - ' + button_width + 'px - ' + radius_middle + 'px)';
@@ -64,9 +64,9 @@ function init_selector_buttons()
 	context.fillText('CLEAR', button_width/2, canvas.height/2 + 3);
 
 	// button right
-	canvas = document.getElementById('selector_throw_canvas');
+	canvas = document.getElementById('canvas_decoration_right');
 	context = canvas.getContext('2d');
-	canvas.classList.add('selector_buttons');
+	canvas.classList.add('selector_decoration');
 	canvas.width = button_width + radius_middle;
 	canvas.height = 140;
 	canvas.style.right = 'calc(50% - ' + button_width + 'px - ' + radius_middle + 'px)';
