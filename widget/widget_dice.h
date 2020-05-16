@@ -11,6 +11,7 @@ class widget_dice : public wcontainer
 		map<int, int> selector_pool =
 			{{4,0}, {6,0}, {8,0}, {10,0}, {12,0}, {20,0}, {100,0}};
 		string selector_notation;
+		void draw_selector();
 
 	public:
 
@@ -21,8 +22,9 @@ class widget_dice : public wcontainer
 		WText *text_notation;
 
 		// selector buttons
-		WText *button_clear;
-		WText *button_throw;
+		widget_template *button_clear;
+		WText *button_middle;
+		widget_template *button_throw;
 
 		JSignal<string> signal_dice_results;
 		JSignal<int, int> signal_selector_click;

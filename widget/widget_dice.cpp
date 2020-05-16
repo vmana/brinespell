@@ -21,19 +21,7 @@ widget_dice::widget_dice() :
 	animated_d20->set_text("<div id=\"div_animated_d20\" class=\"div_animated_d20\"></div>");
 	doJavaScript("init_animated_d20();");
 
-	// selector
-	dice_selector = bindNew<wtemplate>("div_dice_selector", "selector");
-	dice_selector->setStyleClass("div_dice_selector hidden");
-	text_notation = dice_selector->bindNew<WText>("text_notation");
-	text_notation->setStyleClass("selector_notation_text");
-	doJavaScript("init_animated_selector('" + this->id() + "');");
-	// selector buttons
-	button_clear = dice_selector->bindNew<WText>("button_clear");
-	button_clear->setStyleClass("selector_buttons selector_button_clear");
-	button_clear->setText("CLEAR");
-	button_throw = dice_selector->bindNew<WText>("button_throw");
-	button_throw->setStyleClass("selector_buttons selector_button_throw");
-	button_throw->setText("THROW");
+	draw_selector();
 
 	// signal binding
 	animated_d20->clicked().connect(this, &widget_dice::on_animated_d20_click);
@@ -41,6 +29,29 @@ widget_dice::widget_dice() :
 	button_throw->clicked().connect(this, &widget_dice::on_throw_click);
 	signal_dice_results.connect(this, &widget_dice::dice_results_callback);
 	signal_selector_click.connect(this, &widget_dice::selector_click_callback);
+}
+
+void widget_dice::draw_selector()
+{
+	// selector
+	dice_selector = bindNew<wtemplate>("div_dice_selector", "selector");
+	dice_selector->setStyleClass("div_dice_selector hidden");
+	/* dice_selector->setStyleClass("div_dice_selector"); */
+	text_notation = dice_selector->bindNew<WText>("text_notation");
+	text_notation->setStyleClass("selector_notation_text");
+	doJavaScript("init_animated_selector('" + this->id() + "');");
+
+	// selector buttons
+	button_clear = dice_selector->bindNew<widget_template>("button_clear");
+	button_clear->set_text("<canvas id=\"selector_clear_canvas\">");
+
+	button_middle = dice_selector->bindNew<WText>("button_middle");
+	button_middle->setStyleClass("selector_button_middle");
+
+	button_throw = dice_selector->bindNew<widget_template>("button_throw");
+	button_throw->set_text("<canvas id=\"selector_throw_canvas\" />");
+
+	doJavaScript("init_selector_buttons();");
 }
 
 void widget_dice::on_animated_d20_click()

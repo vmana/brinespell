@@ -266,10 +266,10 @@ div.jp-seeking-bg
 .div_dice_selector
 {
 	width: 700px;
-	height: 180px;
+	height: 280px;
 	position: absolute;
-	bottom: 310px;
-	right: 100px;
+	bottom: 150px;
+	right: 60px;
 }
 
 .div_animated_selector
@@ -297,34 +297,45 @@ div.jp-seeking-bg
 	border-radius: 25px;
 }
 
+.div_selector_buttons
+{
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100px;
+}
+
 .selector_buttons
 {
-	display: block;
-	width: 140px;
-	height: 40px;
-	line-height: 42px;
-	background: #0a141c;
+	position: absolute;
+	/* line-height: 42px; */
 	opacity: 0.88;
 	font-size: 26px;
 	text-align: center;
-	position: absolute;
-	bottom: 0px;
-	border-radius: 20px;
 	cursor: pointer;
 	user-select: none;
 	-moz-user-select: none;
+	transition: opacity 0.6s;
 }
 .selector_buttons:hover
 {
-	background: #1a242c;
+	opacity: 0.7;
 }
-.selector_button_clear
+
+.selector_button_middle
 {
-	left: 180px;
-}
-.selector_button_throw
-{
-	right: 180px;
+	position: absolute;
+	bottom: 0px;
+	left: calc(50% - 70px);
+	width: 140px;
+	height: 140px;
+	background: url('/img/moon-cloud.svg') center center no-repeat;
+	background-color: #040c1bd0;
+	opacity: 0.90;
+	background-size: contain;
+	border-radius: 50%;
+	animation: spin 40s linear infinite reverse;
 }
 
 .div_sun_moon
