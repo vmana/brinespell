@@ -26,6 +26,8 @@ function init_selector_buttons()
 	var button_width = 150;
 	var button_height = 50;
 	var button_font = 26;
+	var text_color = '#f9e9b8';
+	var bg_color = '#0a141c';
 
 	// button left
 	var canvas = document.getElementById('canvas_decoration_left');
@@ -37,7 +39,7 @@ function init_selector_buttons()
 	// canvas.style.bottom = 'calc(' + radius_middle + 'px - (' + canvas.height + 'px / 2))';
 	canvas.style.bottom = '0px';
 
-	context.fillStyle = '#0a141c';
+	context.fillStyle = bg_color;
 	context.beginPath();
 	// left circle
 	context.arc((button_height / 2), (canvas.height / 2), (button_height / 2), 0, 2 * Math.PI, false);
@@ -60,7 +62,7 @@ function init_selector_buttons()
 	context.font = button_font + 'px sans-serif';
 	context.textAlign = "center";
 	context.textBaseline = "middle";
-	context.fillStyle = '#f9e9b8';
+	context.fillStyle = text_color;
 	context.fillText('CLEAR', button_width/2, canvas.height/2 + 3);
 
 	// button right
@@ -72,7 +74,7 @@ function init_selector_buttons()
 	canvas.style.right = 'calc(50% - ' + button_width + 'px - ' + radius_middle + 'px)';
 	canvas.style.bottom = '0px';
 
-	context.fillStyle = '#0a141c';
+	context.fillStyle =  bg_color;
 	context.beginPath();
 	// right circle
 	context.arc(canvas.width - (button_height / 2), (canvas.height / 2), (button_height / 2), 0, 2 * Math.PI, false);
@@ -94,6 +96,6 @@ function init_selector_buttons()
 	context.font = button_font + 'px sans-serif';
 	context.textAlign = "center";
 	context.textBaseline = "middle";
-	context.fillStyle = '#f9e9b8';
+	context.fillStyle = text_color;
 	context.fillText('THROW', radius_middle + button_width/2, canvas.height/2 + 3);
 }
