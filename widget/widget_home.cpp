@@ -15,6 +15,8 @@ widget_home::widget_home() : wcontainer("home")
 	dices = bindNew<widget_dice>("widget_dice");
 	chat = bindNew<widget_chat>("widget_chat");
 
+	tmp_img = bindNew<widget_image>("tmp_img");;
+	/* tmp_img2 = bindNew<widget_image>("tmp_img2");; */
 
 	// signal binding
 	search->on_select_event.connect([&](string filename)

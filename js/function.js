@@ -1,3 +1,185 @@
+'use strict';
+
+
+/****    images    ****/
+
+function w_image(id)
+{
+	// console.log('init ' + id);
+	var img = document.getElementById(id);
+	var bar = img.getElementsByClassName('widget_image_bar')[0];
+	var content = img.getElementsByClassName('widget_image_content')[0];
+
+	var border_top = img.getElementsByClassName('widget_image_border_top')[0];
+	var border_left = img.getElementsByClassName('widget_image_border_left')[0];
+	var border_right = img.getElementsByClassName('widget_image_border_right')[0];
+	var border_bottom = img.getElementsByClassName('widget_image_border_bottom')[0];
+	var corner_nw = img.getElementsByClassName('widget_image_corner_nw')[0];
+	var corner_ne = img.getElementsByClassName('widget_image_corner_ne')[0];
+	var corner_sw = img.getElementsByClassName('widget_image_corner_sw')[0];
+	var corner_se = img.getElementsByClassName('widget_image_corner_se')[0];
+
+	var moving = false;
+	var position = [];
+	var resize_class = '';
+
+	bar.onmousedown = on_bar_mousedown;
+
+	function on_bar_mousedown(e)
+	{
+		e = e || window.event;
+		e.preventDefault();
+		if (e.buttons == 1) // left click
+		{
+			// get the mouse cursor position at startup
+			position = [e.clientX, e.clientY];
+			img.style.opacity = 0.7;
+			document.onmouseup = on_bar_mouseup;
+			// call a function whenever the cursor moves
+			document.onmousemove = on_bar_mousemove;
+		}
+	}
+
+	function on_bar_mouseup(e)
+	{
+		// stop moving when mouse button is released
+		img.style.opacity = 1;
+		document.onmouseup = null;
+		document.onmousemove = null;
+	}
+
+	function on_bar_mousemove(e)
+	{
+		e = e || window.event;
+		e.preventDefault();
+		// calculate the new cursor position:
+		var delta_x = e.clientX - position[0];
+		var delta_y = e.clientY - position[1];
+
+		// boundaries checks
+		var safe_margin = 8;
+
+		var new_position = [e.clientX, e.clientY];
+		var new_top = img.offsetTop + delta_y;
+		var new_left = img.offsetLeft + delta_x;
+
+		if (img.offsetTop + delta_y < 0)
+		{
+			new_top = 0;
+			position[1] = 0;
+		}
+		if (img.offsetTop + delta_y > window.innerHeight - safe_margin)
+		{
+			new_top = (window.innerHeight - safe_margin) + "px";
+			new_position[1] = window.innerHeight - safe_margin;
+		}
+		if (img.offsetLeft + img.clientWidth + delta_x < safe_margin)
+		{
+			new_left = safe_margin + "px";
+			new_position[0] = safe_margin;
+		}
+		if (img.offsetLeft + delta_x > window.innerWidth - safe_margin)
+		{
+			new_left = (window.innerWidth - safe_margin) + "px";
+			new_position[0] = window.innerWidth - safe_margin;
+		}
+
+		position = new_position;
+
+		img.style.top = new_top + "px";
+		img.style.left = new_left + "px";
+	}
+
+	border_top.onmousedown = on_border_mousedown;
+	border_left.onmousedown = on_border_mousedown;
+	border_right.onmousedown = on_border_mousedown;
+	border_bottom.onmousedown = on_border_mousedown;
+	corner_nw.onmousedown = on_border_mousedown;
+	corner_ne.onmousedown = on_border_mousedown;
+	corner_sw.onmousedown = on_border_mousedown;
+	corner_se.onmousedown = on_border_mousedown;
+
+	function on_border_mousedown(e)
+	{
+		e = e || window.event;
+		e.preventDefault();
+		// isolate resize_class
+		var main_class = '';
+		for (i = 0; i < e.target.classList.length; i++)
+		{
+			var name = e.target.classList[i];
+			if (name == 'widget_image_border' || name == 'widget_image_corner') continue;
+			resize_class = name;
+			break;
+		}
+		if (e.buttons == 1) // left click
+		{
+			// get the mouse cursor position at startup
+			position = [e.clientX, e.clientY];
+			document.onmouseup = on_border_mouseup;
+			// call a function whenever the cursor moves
+			document.onmousemove = on_border_mousemove;
+		}
+	}
+
+	function on_border_mouseup(e)
+	{
+		// stop moving when mouse button is released
+		console.log(resize_class);
+		document.onmouseup = null;
+		document.onmousemove = null;
+	}
+
+	function on_border_mousemove(e)
+	{
+		e = e || window.event;
+		e.preventDefault();
+		// calculate the new cursor position:
+		var delta_x = e.clientX - position[0];
+		var delta_y = e.clientY - position[1];
+
+		// // boundaries checks
+		// var safe_margin = 8;
+
+		// var new_position = [e.clientX, e.clientY];
+		// var new_top = img.offsetTop + delta_y;
+		// var new_left = img.offsetLeft + delta_x;
+
+		// if (img.offsetTop + delta_y < 0)
+		// {
+		// 	new_top = 0;
+		// 	position[1] = 0;
+		// }
+		// if (img.offsetTop + delta_y > window.innerHeight - safe_margin)
+		// {
+		// 	new_top = (window.innerHeight - safe_margin) + "px";
+		// 	new_position[1] = window.innerHeight - safe_margin;
+		// }
+		// if (img.offsetLeft + img.clientWidth + delta_x < safe_margin)
+		// {
+		// 	new_left = safe_margin + "px";
+		// 	new_position[0] = safe_margin;
+		// }
+		// if (img.offsetLeft + delta_x > window.innerWidth - safe_margin)
+		// {
+		// 	new_left = (window.innerWidth - safe_margin) + "px";
+		// 	new_position[0] = window.innerWidth - safe_margin;
+		// }
+
+		// position = new_position;
+
+		// img.style.top = new_top + "px";
+		// img.style.left = new_left + "px";
+	}
+
+
+}
+
+function init_widget_image(id)
+{
+	w_image(id);
+}
+
 /****    chat    ****/
 
 function init_chat_box(wt_chat_id)
