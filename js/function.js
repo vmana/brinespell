@@ -20,7 +20,7 @@ function w_image(id)
 	var corner_se = img.getElementsByClassName('widget_image_corner_se')[0];
 
 	var moving = false;
-	var position = [];
+	var position = []; // init mouse position when moving / resizing
 	var resize_class = '';
 
 	bar.onmousedown = on_bar_mousedown;
@@ -66,7 +66,7 @@ function w_image(id)
 		if (img.offsetTop + delta_y < 0)
 		{
 			new_top = 0;
-			position[1] = 0;
+			new_position[1] = 0;
 		}
 		if (img.offsetTop + delta_y > window.innerHeight - safe_margin)
 		{
@@ -125,7 +125,6 @@ function w_image(id)
 	function on_border_mouseup(e)
 	{
 		// stop moving when mouse button is released
-		console.log(resize_class);
 		document.onmouseup = null;
 		document.onmousemove = null;
 	}
@@ -138,12 +137,139 @@ function w_image(id)
 		var delta_x = e.clientX - position[0];
 		var delta_y = e.clientY - position[1];
 
-		// // boundaries checks
-		// var safe_margin = 8;
+		// boundaries checks
+		var safe_margin = 8;
+		var bar_size = 22; // min size, height or width
 
-		// var new_position = [e.clientX, e.clientY];
-		// var new_top = img.offsetTop + delta_y;
-		// var new_left = img.offsetLeft + delta_x;
+		var new_position = [e.clientX, e.clientY];
+
+		/****    resize functions    ****/
+
+		function resize_top()
+		{
+			var pos_bottom = img.offsetHeight + img.offsetTop;
+			var new_top = img.offsetTop + delta_y;
+			// prevent window overflow
+			if (new_top < 0)
+			{
+				new_top = 0;
+				new_position[1] = 0;
+			}
+			// prevent negative size
+			else if (pos_bottom - new_top <= bar_size)
+			{
+				new_top = pos_bottom - bar_size; // old position
+				new_position[1] = position[1];
+			}
+			var new_height = pos_bottom - new_top;
+			// console.log(new_height + ' = ' + pos_bottom + ' - ' + new_top);
+			img.style.top = new_top + 'px';
+			img.style.height = new_height + 'px';
+		}
+
+		function resize_bottom()
+		{
+			var pos_top = img.offsetTop;
+			var new_bottom = img.offsetTop + img.offsetHeight + delta_y;
+			// prevent window overflow
+			if (new_bottom > window.innerHeight)
+			{
+				new_bottom = window.innerHeight;
+				new_position[1] = window.innerHeight;
+			}
+			// prevent negative size
+			else if (new_bottom - pos_top <= bar_size)
+			{
+				new_bottom = pos_top + bar_size; // old position
+				new_position[1] = new_bottom;
+			}
+			var new_height = new_bottom - pos_top;
+			// console.log(new_height + ' = ' + new_bottom + ' - ' + pos_top);
+			img.style.height = new_height + 'px';
+		}
+
+		function resize_left()
+		{
+			var pos_right = img.offsetLeft + img.offsetWidth;
+			var new_left = img.offsetLeft + delta_x;
+			// prevent window overflow
+			if (new_left < 0)
+			{
+				new_left = 0;
+				new_position[0] = 0;
+			}
+			// prevent negative size
+			else if (pos_right - new_left <= bar_size)
+			{
+				new_left = pos_right - bar_size; // old position
+				new_position[0] = position[0];
+			}
+			var new_width = pos_right - new_left;
+			// console.log(new_height + ' = ' + pos_bottom + ' - ' + new_top);
+			img.style.left = new_left + 'px';
+			img.style.width = new_width + 'px';
+		}
+
+		function resize_right()
+		{
+			var pos_left = img.offsetLeft;
+			var new_right = img.offsetLeft + img.offsetWidth + delta_x;
+			// prevent window overflow
+			if (new_right > window.innerWidth)
+			{
+				new_right = window.innerWidth;
+				new_position[0] = window.innerWidth;
+			}
+			// prevent negative size
+			else if (new_right - pos_left <= bar_size)
+			{
+				new_right = pos_left + bar_size; // old position
+				new_position[0] = new_right;
+			}
+			var new_width = new_right - pos_left;
+			// console.log(new_height + ' = ' + new_bottom + ' - ' + pos_top);
+			img.style.width = new_width + 'px';
+		}
+
+		/****    actual resize call    ****/
+
+		switch (resize_class)
+		{
+			case 'widget_image_border_top':
+				resize_top();
+				break;
+			case 'widget_image_border_bottom':
+				resize_bottom();
+				break;
+			case 'widget_image_border_left':
+				resize_left();
+				break;
+			case 'widget_image_border_right':
+				resize_right();
+				break;
+			case 'widget_image_corner_nw':
+				resize_top();
+				resize_left();
+				break;
+			case 'widget_image_corner_ne':
+				resize_top();
+				resize_right();
+				break;
+			case 'widget_image_corner_sw':
+				resize_bottom();
+				resize_left();
+				break;
+			case 'widget_image_corner_se':
+				resize_bottom();
+				resize_right();
+				break;
+		}
+
+		position = new_position;
+
+
+		// var new_y = img.offsetTop + delta_y;
+		// var new_x = img.offsetLeft + delta_x;
 
 		// if (img.offsetTop + delta_y < 0)
 		// {
