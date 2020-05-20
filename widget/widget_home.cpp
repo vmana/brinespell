@@ -55,7 +55,7 @@ widget_home::widget_home() : wcontainer("home")
 		+ "</span>"
 		"<span class=\"widget_chat_join\">"
 		+ S->p_player->name
-		+ " join the session</span>"
+		+ " joins the session</span>"
 		+ "<br />\n";
 	broadcast::all(&widget_home::chat_message, message);
 }
