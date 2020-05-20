@@ -16,6 +16,11 @@ widget_dice::widget_dice() :
 	dices_area->set_text("<div id=\"div_dices_area\" class=\"div_dices_area\"></div>");
 	doJavaScript("init_dices_area('" + this->id() + "');");
 
+	// secret dices area
+	secret_dices_area = bindNew<widget_template>("div_secret_dices_area");
+	secret_dices_area->set_text("<div id=\"div_secret_dices_area\" class=\"div_secret_dices_area\"></div>");
+	doJavaScript("init_secret_dices_area('" + this->id() + "');");
+
 	// animated d20
 	animated_d20 = bindNew<widget_template>("div_animated_d20");
 	animated_d20->set_text("<div id=\"div_animated_d20\" class=\"div_animated_d20\"></div>");
@@ -25,7 +30,7 @@ widget_dice::widget_dice() :
 
 	// signal binding
 	animated_d20->clicked().connect(this, &widget_dice::on_animated_d20_click);
-	button_left->clicked().connect(this, &widget_dice::on_clear_click);
+	button_left->clicked().connect(this, &widget_dice::on_secret_throw_click);
 	button_right->clicked().connect(this, &widget_dice::on_throw_click);
 	signal_dice_results.connect(this, &widget_dice::dice_results_callback);
 	signal_selector_click.connect(this, &widget_dice::selector_click_callback);
@@ -71,11 +76,12 @@ void widget_dice::on_animated_d20_click()
 	}
 	else
 	{
+		clear_notation();
 		dice_selector->setStyleClass("div_dice_selector animate_show");
 	}
 }
 
-void widget_dice::on_clear_click()
+void widget_dice::clear_notation()
 {
 	for (auto &d : selector_pool)
 	{
@@ -83,8 +89,7 @@ void widget_dice::on_clear_click()
 		selector_pool[d_type] = 0;
 	}
 	selector_notation = "";
-	text_notation->setText(selector_notation);
-	text_notation->setPadding(0, Side::Left|Side::Right);
+	text_notation->setText("Choose your dice");
 }
 
 void widget_dice::on_throw_click()
@@ -99,6 +104,15 @@ void widget_dice::on_throw_click()
 
 	throw_dice_event.emit(selector_notation, rand_init);
 	throw_dice(selector_notation, rand_init);
+}
+
+void widget_dice::on_secret_throw_click()
+{
+	if (selector_notation == "") return; // no dice to throw
+	// hide selector
+	dice_selector->setStyleClass("div_dice_selector animate_hide");
+
+	doJavaScript("throw_secret_dices_area('" + selector_notation + "');");
 }
 
 void widget_dice::throw_dice(string notation)
@@ -117,7 +131,7 @@ void widget_dice::throw_dice(string notation, string rand_init)
 	// hide selector
 	dice_selector->setStyleClass("div_dice_selector animate_hide");
 
-	doJavaScript("thow_initialized_dices_area('" + notation+ "', [" + rand_init + "]);");
+	doJavaScript("throw_initialized_dices_area('" + notation + "', [" + rand_init + "]);");
 }
 
 void widget_dice::throw_dice_nocallback(string notation, string rand_init)
@@ -127,18 +141,24 @@ void widget_dice::throw_dice_nocallback(string notation, string rand_init)
 	// hide selector
 	dice_selector->setStyleClass("div_dice_selector animate_hide");
 
-	doJavaScript("thow_initialized_dices_area_nocallback('" + notation + "', [" + rand_init + "]);");
+	doJavaScript("throw_initialized_dices_area_nocallback('" + notation + "', [" + rand_init + "]);");
 }
 
-void widget_dice::dice_results_callback(string value)
+void widget_dice::dice_results_callback(string value, bool is_secret)
 {
-	/* debug_line(value); */
 	auto values = explode(" ", value);
 	int sum = 0;
 	for (auto &v : values)
 		sum += convert::string_int(v);
 
-	dice_results_event.emit("<i>Dice results " + value + " (<span class=\"widget_chat_dice_total\">" + convert::int_string(sum) + "</span>)</i>");
+	if (!is_secret)
+	{
+		dice_results_event.emit("<i>Dice results " + value + " (<span class=\"widget_chat_dice_total\">" + convert::int_string(sum) + "</span>)</i>");
+	}
+	else
+	{
+		dice_secret_results_event.emit("<i>Secret dice results " + value + " (<span class=\"widget_chat_dice_total\">" + convert::int_string(sum) + "</span>)</i>");
+	}
 }
 
 void widget_dice::selector_click_callback(int dice_type, int count)
@@ -160,11 +180,13 @@ void widget_dice::selector_click_callback(int dice_type, int count)
 	}
 	// remove last " + "
 	selector_notation = substr(selector_notation, 0, -3);
-	text_notation->setText(selector_notation);
 
-	// adjust padding if needed
-	text_notation->setPadding(20, Side::Left|Side::Right);
-	if (selector_notation == "") text_notation->setPadding(0, Side::Left|Side::Right);
-
-	/* debug_line(selector_notation); */
+	if (selector_notation != "")
+	{
+		text_notation->setText(selector_notation);
+	}
+	else
+	{
+		text_notation->setText("Choose your dice");
+	}
 }

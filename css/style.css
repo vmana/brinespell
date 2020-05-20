@@ -252,9 +252,14 @@ div.jp-seeking-bg
 	position: absolute;
 	top: 24px;
 	right: 0px;
-	/* background: #10102060; */
 	z-index: -1;
-	/* box-shadow: 0px 0px 14px 14px #20202090; */
+}
+.div_secret_dices_area
+{
+	position: absolute;
+	top: 24px;
+	right: 0px;
+	z-index: -2;
 }
 
 @keyframes animate_dices_area_hidden
@@ -283,7 +288,7 @@ div.jp-seeking-bg
 .div_animated_selector
 {
 	position: absolute;
-	top: 0px;
+	top: 6px;
 	left: 0px;
 	/* background: #10102090; */
 }
@@ -302,7 +307,8 @@ div.jp-seeking-bg
 .selector_notation_text
 {
 	background: #0a141c90;
-	border-radius: 25px;
+	border-radius: 26px;
+	padding: 3px 25px;
 }
 
 .div_selector_buttons
@@ -324,10 +330,10 @@ div.jp-seeking-bg
 .selector_button_left
 {
 	position: absolute;
-	left: calc(700px / 2 - 70px - 150px);
+	left: calc(700px / 2 - 70px - 160px);
 	top: 45px;
 	height: 50px;
-	width: 150px;
+	width: 160px;
 	border-top-left-radius: 25px;
 	border-bottom-left-radius: 25px;
 	cursor: pointer;
@@ -336,10 +342,10 @@ div.jp-seeking-bg
 .selector_button_right
 {
 	position: absolute;
-	right: calc(700px / 2 - 70px - 150px);
+	right: calc(700px / 2 - 70px - 160px);
 	top: 45px;
 	height: 50px;
-	width: 150px;
+	width: 160px;
 	border-top-right-radius: 25px;
 	border-bottom-right-radius: 25px;
 	cursor: pointer;

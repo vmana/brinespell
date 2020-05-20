@@ -17,6 +17,7 @@ class widget_dice : public wcontainer
 
 		string rand_init;
 		widget_template *dices_area;
+		widget_template *secret_dices_area;
 		wtemplate *dice_selector;
 		widget_template *animated_d20;
 		WText *text_notation;
@@ -31,20 +32,22 @@ class widget_dice : public wcontainer
 		WText *button_middle;
 		WText *button_right;
 
-		JSignal<string> signal_dice_results;
+		JSignal<string, bool> signal_dice_results; // result + is_secret
 		JSignal<int, int> signal_selector_click;
 		Signal<string, string> throw_dice_event; // notation + rand_init
 		Signal<string> dice_results_event;
+		Signal<string> dice_secret_results_event;
 
 		widget_dice();
 		void on_animated_d20_click();
-		void on_clear_click();
+		void clear_notation();
 		void on_throw_click();
+		void on_secret_throw_click();
 
 		void throw_dice(string notation); // notation = "2d20 + 4d6"
 		void throw_dice(string notation, string rand_init);
 		void throw_dice_nocallback(string notation, string rand_init);
-		void dice_results_callback(string value);
+		void dice_results_callback(string value, bool is_secret);
 		void selector_click_callback(int dice_type, int count); // dice_type 20 for d20 ..., count is either 1 or -1
 };
 

@@ -32,6 +32,7 @@ widget_home::widget_home() : wcontainer("home")
 		if (!S->p_player->game_master) return;
 		broadcast::others(&widget_home::switch_pause_audio_track, paused);
 	});
+
 	dices->throw_dice_event.connect([&](string notation, string rand_init)
 	{
 		broadcast::others(&widget_home::throw_dice, notation, rand_init);
@@ -41,6 +42,12 @@ widget_home::widget_home() : wcontainer("home")
 		res = widget_chat::prepare_message(res);
 		broadcast::all(&widget_home::chat_message, res);
 	});
+	dices->dice_secret_results_event.connect([&](string res)
+	{
+		res = widget_chat::prepare_message(res);
+		chat_message(res);
+	});
+
 	chat->chat_input_event.connect([&](string message)
 	{
 		broadcast::all(&widget_home::chat_message, message);

@@ -5,7 +5,8 @@ function init_dice_object(dice) {
 	this.wt_allow_callback = true;
 	var current_random_number = 0;
 	var wt_random_numbers = [];
-
+	this.label_color = '#f4b64a';
+	this.dice_color = '#2b1304';
 
 	this.frame_rate = 1 / 60;
 	function rnd()
@@ -267,8 +268,6 @@ function init_dice_object(dice) {
 		shininess: 10,
 		flatShading: true,
 	};
-	this.label_color = '#f4b64a';
-	this.dice_color = '#2b1304';
 	this.ambient_light_color = 0xf0f5fb;
 	this.spot_light_color = 0xefdfd5;
 	this.selector_back_colors = { color: 0xffffff, shininess: 0 };
@@ -342,9 +341,17 @@ function init_dice_object(dice) {
 
 	var that = this;
 
-	this.dice_box = function(container, dimentions) {
+	this.dice_box = function(container, dimentions, color) {
 		container.style.width = dimentions.w + 'px';
 		container.style.height = dimentions.h + 'px';
+
+		if (typeof color !== 'undefined')
+		{
+			that.dice_color = color.dice_color;
+			that.label_color = color.label_color;
+		}
+
+		// console.log(this.dice_color);
 
 		this.use_adapvite_timestep = false;
 		this.animate_selector = true;
@@ -854,6 +861,7 @@ teal.get_mouse_coords = function(ev) {
 var box_animated_d20;
 var box_animated_selector;
 var div_dices_area;
+var div_secret_dices_area;
 
 function init_animated_d20()
 {
@@ -893,10 +901,18 @@ function after_roll(notation, result)
 	if ($teal.box_dices.wt_allow_callback)
 	{
 		// no restrictions
-		Wt.emit($teal.box_dices.wt_callback_id, 'signal_dice_results', res);
+		Wt.emit($teal.box_dices.wt_callback_id, 'signal_dice_results', res, false);
 	}
 	// hide area
 	div_dices_area.classList.add("div_dices_area_hide");
+}
+
+function after_secret_roll(notation, result)
+{
+	var res = result.join(' ');
+	Wt.emit($teal.secret_box_dices.wt_callback_id, 'signal_dice_results', res, true);
+	// hide area
+	div_secret_dices_area.classList.add("div_dices_area_hide");
 }
 
 function init_dices_area(wt_callback_id)
@@ -909,23 +925,40 @@ function init_dices_area(wt_callback_id)
 	$teal.box_dices.wt_callback_id = wt_callback_id;
 }
 
-function thow_dices_area(dices_set)
+function init_secret_dices_area(wt_callback_id)
+{
+	// wt_callback_id is needed for sending dice results to wt
+	init_dice_object.apply(teal.secret_dices = teal.secret_dices || {});
+	div_secret_dices_area = $teal.id('div_secret_dices_area');
+
+	$teal.secret_box_dices = new $teal.secret_dices.dice_box(div_secret_dices_area, { w: 1000, h: 760 }, { dice_color: '#031024', label_color: ' #f4b64a' });
+	$teal.secret_box_dices.wt_callback_id = wt_callback_id;
+}
+
+function throw_dices_area(dices_set)
 {
 	$teal.box_dices.wt_allow_callback = true;
 	div_dices_area.classList.remove("div_dices_area_hide");
 	$teal.box_dices.start_throw(dices_set, after_roll);
 }
 
-function thow_initialized_dices_area(dices_set, random_numbers)
+function throw_initialized_dices_area(dices_set, random_numbers)
 {
 	$teal.box_dices.wt_allow_callback = true;
 	div_dices_area.classList.remove("div_dices_area_hide");
 	$teal.box_dices.start_throw(dices_set, after_roll, random_numbers);
 }
 
-function thow_initialized_dices_area_nocallback(dices_set, random_numbers)
+function throw_initialized_dices_area_nocallback(dices_set, random_numbers)
 {
 	$teal.box_dices.wt_allow_callback = false;
 	div_dices_area.classList.remove("div_dices_area_hide");
 	$teal.box_dices.start_throw(dices_set, after_roll, random_numbers);
+}
+
+function throw_secret_dices_area(dices_set)
+{
+	$teal.secret_box_dices.wt_allow_callback = true;
+	div_secret_dices_area.classList.remove("div_dices_area_hide");
+	$teal.secret_box_dices.start_throw(dices_set, after_secret_roll);
 }

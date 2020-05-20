@@ -331,7 +331,7 @@ function init_selector_buttons()
 	var radius_middle = 70; // middle round button
 	var space_middle = 8;
 	var moon_arc = 20;
-	var button_width = 150;
+	var button_width = 160;
 	var button_height = 50;
 	var button_font = 26;
 	var text_color = '#f9e9b8';
@@ -371,7 +371,7 @@ function init_selector_buttons()
 	context.textAlign = "center";
 	context.textBaseline = "middle";
 	context.fillStyle = text_color;
-	context.fillText('CLEAR', button_width/2, canvas.height/2 + 3);
+	context.fillText('SECRET', button_width/2, canvas.height/2 + 3);
 
 	// button right
 	canvas = document.getElementById('canvas_decoration_right');
@@ -405,5 +405,5 @@ function init_selector_buttons()
 	context.textAlign = "center";
 	context.textBaseline = "middle";
 	context.fillStyle = text_color;
-	context.fillText('THROW', radius_middle + button_width/2, canvas.height/2 + 3);
+	context.fillText('NORMAL', radius_middle + button_width/2, canvas.height/2 + 3);
 }
