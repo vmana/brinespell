@@ -1,5 +1,6 @@
 #include "widget_home.h"
 #include "soma.h"
+#include "wt/wt.h"
 
 widget_home::widget_home() : wcontainer("home")
 {
@@ -15,7 +16,7 @@ widget_home::widget_home() : wcontainer("home")
 	dices = bindNew<widget_dice>("widget_dice");
 	chat = bindNew<widget_chat>("widget_chat");
 
-	tmp_img = bindNew<widget_image>("tmp_img");;
+	/* tmp_img = bindNew<widget_image>("tmp_img");; */
 	/* tmp_img2 = bindNew<widget_image>("tmp_img2");; */
 
 	// signal binding
@@ -45,6 +46,18 @@ widget_home::widget_home() : wcontainer("home")
 		broadcast::all(&widget_home::chat_message, message);
 	});
 	S->globalEnterPressed().connect([&](){ chat->chat_input->setFocus(true); });
+
+	// player join chat info
+	string current_time = wt::current_time().toString("HH:mm").toUTF8();
+	string message =
+		"<span class=\"widget_chat_timestamp\">"
+		+ current_time
+		+ "</span>"
+		"<span class=\"widget_chat_join\">"
+		+ S->p_player->name
+		+ " join the session</span>"
+		+ "<br />\n";
+	broadcast::all(&widget_home::chat_message, message);
 }
 
 void widget_home::change_audio_track(string filename)

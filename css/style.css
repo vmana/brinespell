@@ -425,6 +425,12 @@ div.jp-seeking-bg
 	font-weight: bold;
 }
 
+.widget_chat_join
+{
+	color: #a8a9aa;
+	font-style: italic;
+}
+
 .widget_chat_input
 {
 	width: calc(100% - (36px + 12px) + 16px); /* 36 + 12 = padding, 16 = chat_container padding */
