@@ -9,23 +9,25 @@ widget_home::widget_home() : wcontainer("home")
 
 	setStyleClass("widget_home");
 	search = bindNew<widget_search>("widget_search");
-	search->set_data(system::ls("/dalaran/brinespell/data"));
+	string ls_data = system::shellexec("cd /dalaran/brinespell/data && find . -name '*' -type f | sed -e 's,^\\./,,'");
+	search->set_data(explode("\n", ls_data));
 	search->edit_search->setFocus(true);
 
 	audio = bindNew<widget_audio>("widget_audio");
 	dices = bindNew<widget_dice>("widget_dice");
 	chat = bindNew<widget_chat>("widget_chat");
 
-	/* tmp_img = bindNew<widget_image>("tmp_img");; */
-	/* tmp_img2 = bindNew<widget_image>("tmp_img2");; */
+	/****    signal binding    ****/
 
-	// signal binding
+	// search
 	search->on_select_event.connect([&](string filename)
 	{
-		// only broadcast if we are the game master
-		if (!S->p_player->game_master) return;
-		broadcast::all(&widget_home::change_audio_track, "data/" + filename);
+		search_open(filename);
 	});
+
+	search_open("img/crypt.jpg");
+
+	// audio
 	audio->on_switch_pause_event.connect([&](bool paused)
 	{
 		// only broadcast if we are the game master
@@ -33,6 +35,7 @@ widget_home::widget_home() : wcontainer("home")
 		broadcast::others(&widget_home::switch_pause_audio_track, paused);
 	});
 
+	// dice
 	dices->throw_dice_event.connect([&](string notation, string rand_init)
 	{
 		broadcast::others(&widget_home::throw_dice, notation, rand_init);
@@ -48,6 +51,7 @@ widget_home::widget_home() : wcontainer("home")
 		chat_message(res);
 	});
 
+	// chat
 	chat->chat_input_event.connect([&](string message)
 	{
 		broadcast::all(&widget_home::chat_message, message);
@@ -65,6 +69,29 @@ widget_home::widget_home() : wcontainer("home")
 		+ " joins the session</span>"
 		+ "<br />\n";
 	broadcast::all(&widget_home::chat_message, message);
+}
+
+void widget_home::search_open(string filename)
+{
+	string ext = file::extension(filename);
+	if (
+		ext == "mp4"
+		|| ext == "mp3"
+		|| ext == "webm"
+		|| ext == "wav"
+		|| ext == "ogg")
+	{
+		// only broadcast if we are the game master
+		if (!S->p_player->game_master) return;
+		broadcast::all(&widget_home::change_audio_track, "data/" + filename);
+	}
+	else if (
+		ext == "png"
+		|| ext == "jpg"
+		|| ext == "jpeg")
+	{
+		broadcast::all(&widget_home::open_image, "data/" + filename);
+	}
 }
 
 void widget_home::change_audio_track(string filename)
@@ -112,4 +139,12 @@ void widget_home::chat_message(string message)
 
 	auto &chat = p_soma->view_home->chat;
 	chat->add_message(message);
+}
+
+void widget_home::open_image(string filename)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+
+	p_soma->main_div->addNew<widget_image>(filename);
 }

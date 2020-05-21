@@ -3,7 +3,7 @@
 
 /****    images    ****/
 
-function w_image(id)
+function w_image(id, src)
 {
 	// console.log('init ' + id);
 	var img = document.getElementById(id);
@@ -23,6 +23,11 @@ function w_image(id)
 	var position = []; // init mouse position when moving / resizing
 	var resize_class = '';
 
+	content.style.backgroundImage = "url('" + src + "') ";
+	content.style.backgroundPosition = 'top left';
+	content.style.backgroundRepeat = 'no-repeat';
+	content.style.backgroundSize = 'cover';
+
 	bar.onmousedown = on_bar_mousedown;
 
 	function on_bar_mousedown(e)
@@ -33,19 +38,22 @@ function w_image(id)
 		{
 			// get the mouse cursor position at startup
 			position = [e.clientX, e.clientY];
-			img.style.opacity = 0.7;
+			// img.style.opacity = 0.7;
 			document.onmouseup = on_bar_mouseup;
 			// call a function whenever the cursor moves
 			document.onmousemove = on_bar_mousemove;
+			// remove any animations
+			img.classList.remove("widget_image_animated");
 		}
 	}
 
 	function on_bar_mouseup(e)
 	{
 		// stop moving when mouse button is released
-		img.style.opacity = 1;
+		// img.style.opacity = 1;
 		document.onmouseup = null;
 		document.onmousemove = null;
+		Wt.emit(id, 'signal_move', img.offsetTop, img.offsetLeft);
 	}
 
 	function on_bar_mousemove(e)
@@ -56,9 +64,6 @@ function w_image(id)
 		var delta_x = e.clientX - position[0];
 		var delta_y = e.clientY - position[1];
 
-		// boundaries checks
-		var safe_margin = 8;
-
 		var new_position = [e.clientX, e.clientY];
 		var new_top = img.offsetTop + delta_y;
 		var new_left = img.offsetLeft + delta_x;
@@ -66,22 +71,22 @@ function w_image(id)
 		if (img.offsetTop + delta_y < 0)
 		{
 			new_top = 0;
-			new_position[1] = 0;
+			new_position[1] = position[1];
 		}
-		if (img.offsetTop + delta_y > window.innerHeight - safe_margin)
+		if (img.offsetTop + img.offsetHeight + delta_y > window.innerHeight)
 		{
-			new_top = (window.innerHeight - safe_margin) + "px";
-			new_position[1] = window.innerHeight - safe_margin;
+			new_top = window.innerHeight - img.offsetHeight;
+			new_position[1] = position[1]; // old position
 		}
-		if (img.offsetLeft + img.clientWidth + delta_x < safe_margin)
+		if (img.offsetLeft + delta_x < 0)
 		{
-			new_left = safe_margin + "px";
-			new_position[0] = safe_margin;
+			new_left = 0;
+			new_position[0] = position[0]; // old position
 		}
-		if (img.offsetLeft + delta_x > window.innerWidth - safe_margin)
+		if (img.offsetLeft + img.offsetWidth + delta_x > window.innerWidth)
 		{
-			new_left = (window.innerWidth - safe_margin) + "px";
-			new_position[0] = window.innerWidth - safe_margin;
+			new_left = window.innerWidth - img.offsetWidth;
+			new_position[0] = position[0];
 		}
 
 		position = new_position;
@@ -119,6 +124,8 @@ function w_image(id)
 			document.onmouseup = on_border_mouseup;
 			// call a function whenever the cursor moves
 			document.onmousemove = on_border_mousemove;
+			// remove any animations
+			img.classList.remove("widget_image_animated");
 		}
 	}
 
@@ -127,6 +134,7 @@ function w_image(id)
 		// stop moving when mouse button is released
 		document.onmouseup = null;
 		document.onmousemove = null;
+		Wt.emit(id, 'signal_resize', img.offsetTop, img.offsetLeft, img.offseWidth, img.offsetWidth);
 	}
 
 	function on_border_mousemove(e)
@@ -139,7 +147,8 @@ function w_image(id)
 
 		// boundaries checks
 		var safe_margin = 8;
-		var bar_size = 22; // min size, height or width
+		var min_w_size = 60; // min width size
+		var min_h_size = 30; // min height size
 
 		var new_position = [e.clientX, e.clientY];
 
@@ -156,9 +165,9 @@ function w_image(id)
 				new_position[1] = 0;
 			}
 			// prevent negative size
-			else if (pos_bottom - new_top <= bar_size)
+			else if (pos_bottom - new_top <= min_h_size)
 			{
-				new_top = pos_bottom - bar_size; // old position
+				new_top = pos_bottom - min_h_size; // old position
 				new_position[1] = position[1];
 			}
 			var new_height = pos_bottom - new_top;
@@ -178,9 +187,9 @@ function w_image(id)
 				new_position[1] = window.innerHeight;
 			}
 			// prevent negative size
-			else if (new_bottom - pos_top <= bar_size)
+			else if (new_bottom - pos_top <= min_h_size)
 			{
-				new_bottom = pos_top + bar_size; // old position
+				new_bottom = pos_top + min_h_size; // old position
 				new_position[1] = new_bottom;
 			}
 			var new_height = new_bottom - pos_top;
@@ -199,9 +208,9 @@ function w_image(id)
 				new_position[0] = 0;
 			}
 			// prevent negative size
-			else if (pos_right - new_left <= bar_size)
+			else if (pos_right - new_left <= min_w_size)
 			{
-				new_left = pos_right - bar_size; // old position
+				new_left = pos_right - min_w_size; // old position
 				new_position[0] = position[0];
 			}
 			var new_width = pos_right - new_left;
@@ -221,9 +230,9 @@ function w_image(id)
 				new_position[0] = window.innerWidth;
 			}
 			// prevent negative size
-			else if (new_right - pos_left <= bar_size)
+			else if (new_right - pos_left <= min_w_size)
 			{
-				new_right = pos_left + bar_size; // old position
+				new_right = pos_left + min_w_size; // old position
 				new_position[0] = new_right;
 			}
 			var new_width = new_right - pos_left;
@@ -267,43 +276,27 @@ function w_image(id)
 
 		position = new_position;
 
-
-		// var new_y = img.offsetTop + delta_y;
-		// var new_x = img.offsetLeft + delta_x;
-
-		// if (img.offsetTop + delta_y < 0)
-		// {
-		// 	new_top = 0;
-		// 	position[1] = 0;
-		// }
-		// if (img.offsetTop + delta_y > window.innerHeight - safe_margin)
-		// {
-		// 	new_top = (window.innerHeight - safe_margin) + "px";
-		// 	new_position[1] = window.innerHeight - safe_margin;
-		// }
-		// if (img.offsetLeft + img.clientWidth + delta_x < safe_margin)
-		// {
-		// 	new_left = safe_margin + "px";
-		// 	new_position[0] = safe_margin;
-		// }
-		// if (img.offsetLeft + delta_x > window.innerWidth - safe_margin)
-		// {
-		// 	new_left = (window.innerWidth - safe_margin) + "px";
-		// 	new_position[0] = window.innerWidth - safe_margin;
-		// }
-
-		// position = new_position;
-
-		// img.style.top = new_top + "px";
-		// img.style.left = new_left + "px";
 	}
-
-
 }
 
-function init_widget_image(id)
+function w_image_switch_view(id, view)
 {
-	w_image(id);
+	var img = document.getElementById(id);
+	var content = img.getElementsByClassName('widget_image_content')[0];
+	switch (view)
+	{
+		case 'cover':
+			content.style.backgroundSize = 'cover';
+			break;
+		case 'contain':
+			content.style.backgroundSize = 'contain';
+			break;
+	}
+}
+
+function init_widget_image(id, src)
+{
+	w_image(id, src);
 }
 
 /****    chat    ****/

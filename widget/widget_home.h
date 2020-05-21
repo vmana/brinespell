@@ -19,14 +19,15 @@ class widget_home : public wcontainer
 		widget_chat *chat;
 
 		widget_image *tmp_img;
-		/* widget_image *tmp_img2; */
 
 		widget_home();
 		// static call from broadcast
+		void search_open(string filename);
 		static void change_audio_track(string filename);
 		static void switch_pause_audio_track(bool paused);
 		static void throw_dice(string notation, string rand_init);
 		static void chat_message(string message);
+		static void open_image(string filename);
 };
 
 #endif // widget_home_H

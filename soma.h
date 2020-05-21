@@ -27,6 +27,7 @@ class soma : public WApplication
 		shared_ptr<soma_database> D;
 
 		// view
+		WContainerWidget *main_div;
 		WStackedWidget *stack;
 		widget_login *view_login = NULL;
 		widget_home *view_home = NULL;

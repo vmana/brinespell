@@ -23,7 +23,7 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 	WString::setDefaultEncoding(CharEncoding::UTF8);
 
 	// main div - height: 100vh
-	auto main_div = root()->addNew<WContainerWidget>();
+	main_div = root()->addNew<WContainerWidget>();
 	main_div->setStyleClass("main-background");
 
 	// main stack
