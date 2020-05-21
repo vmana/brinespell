@@ -39,30 +39,26 @@ widget_image::widget_image(string filename, string id, bool share) :
 	button_switch_view->clicked().connect(this, &widget_image::on_switch_view_click);
 	signal_move.connect(this, &widget_image::signal_move_callback);
 	signal_resize.connect(this, &widget_image::signal_resize_callback);
-
-	// emit signal for others
-	if (share) on_create_event.emit(id, init_left, init_top);
 }
 
 void widget_image::on_close_click()
 {
-	if (share) on_close_event.emit(this->id());
-	S->main_div->removeWidget(this);
+	if (share) on_close_event.emit();
+	close();
 }
 
 void widget_image::on_switch_view_click()
 {
 	if (current_view == "cover")
 	{
-		current_view = "contain";
-		button_switch_view->setStyleClass("widget_image_switch_view widget_image_view_cover");
+		switch_view("contain");
 	}
 	else
 	{
-		current_view = "cover";
-		button_switch_view->setStyleClass("widget_image_switch_view widget_image_view_contain");
+		switch_view("cover");
 	}
-	this->doJavaScript("w_image_switch_view('" + this->id() + "', '" + current_view + "');");
+
+	if (share) on_switch_view_event.emit(current_view);
 }
 
 void widget_image::animate_position(int top, int left)
@@ -72,14 +68,42 @@ void widget_image::animate_position(int top, int left)
 	this->setOffsets(left, Side::Left);
 }
 
+void widget_image::animate_resize(int top, int left, int width, int height)
+{
+	this->addStyleClass("widget_image_animated", true);
+	this->setOffsets(top, Side::Top);
+	this->setOffsets(left, Side::Left);
+	this->resize(width, height);
+}
+
 void widget_image::signal_move_callback(int top, int left)
 {
 	if (!share) return;
-	on_move_event.emit(this->id(), top, left);
+	on_move_event.emit(top, left);
 }
 
 void widget_image::signal_resize_callback(int top, int left, int width, int height)
 {
 	if (!share) return;
-	on_resize_event.emit(this->id(), top, left, width, height);
+	on_resize_event.emit({top, left, width, height});
+}
+
+void widget_image::close()
+{
+	S->main_div->removeWidget(this);
+}
+
+void widget_image::switch_view(string view)
+{
+	if (view == "cover")
+	{
+		current_view = "cover";
+		button_switch_view->setStyleClass("widget_image_switch_view widget_image_view_contain");
+	}
+	else
+	{
+		current_view = "contain";
+		button_switch_view->setStyleClass("widget_image_switch_view widget_image_view_cover");
+	}
+	this->doJavaScript("w_image_switch_view('" + this->id() + "', '" + current_view + "');");
 }

@@ -134,7 +134,7 @@ function w_image(id, src)
 		// stop moving when mouse button is released
 		document.onmouseup = null;
 		document.onmousemove = null;
-		Wt.emit(id, 'signal_resize', img.offsetTop, img.offsetLeft, img.offseWidth, img.offsetWidth);
+		Wt.emit(id, 'signal_resize', img.offsetTop, img.offsetLeft, img.offsetWidth, img.offsetHeight);
 	}
 
 	function on_border_mousemove(e)

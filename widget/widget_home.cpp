@@ -22,10 +22,10 @@ widget_home::widget_home() : wcontainer("home")
 	// search
 	search->on_select_event.connect([&](string filename)
 	{
-		search_open(filename);
+		search_master_open(filename);
 	});
 
-	search_open("img/crypt.jpg");
+	/* search_open("img/crypt.jpg"); */
 
 	// audio
 	audio->on_switch_pause_event.connect([&](bool paused)
@@ -71,7 +71,7 @@ widget_home::widget_home() : wcontainer("home")
 	broadcast::all(&widget_home::chat_message, message);
 }
 
-void widget_home::search_open(string filename)
+void widget_home::search_master_open(string filename)
 {
 	string ext = file::extension(filename);
 	if (
@@ -90,7 +90,9 @@ void widget_home::search_open(string filename)
 		|| ext == "jpg"
 		|| ext == "jpeg")
 	{
-		broadcast::all(&widget_home::open_image, "data/" + filename);
+		// open image and, open the same image via broadcast::other with the same id
+		string id = open_image("data/" + filename);
+		broadcast::others(&widget_home::open_shared_image, "data/" + filename, id);
 	}
 }
 
@@ -141,10 +143,109 @@ void widget_home::chat_message(string message)
 	chat->add_message(message);
 }
 
-void widget_home::open_image(string filename)
+string widget_home::open_image(string filename)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return "";
+
+	string id = mana::randstring(16);
+	auto img = p_soma->main_div->addNew<widget_image>(filename, id, true);
+
+	// signals binding
+	img->on_move_event.connect([=](int top, int left)
+	{
+		broadcast::others(&widget_home::move_image, id, top, left);
+	});
+	// needs tuple since wt signal connect only allows 3 parameters max
+	img->on_resize_event.connect([=](tuple<int, int, int, int> pos)
+	{
+		auto &[top, left, width, height] = pos;
+		broadcast::others(&widget_home::resize_image, id, top, left, width, height);
+	});
+	img->on_close_event.connect([=]()
+	{
+		broadcast::others(&widget_home::close_image, id);
+	});
+	img->on_switch_view_event.connect([=](string view)
+	{
+		broadcast::others(&widget_home::switch_view_image, id, view);
+	});
+
+	return id;
+}
+
+void widget_home::open_shared_image(string filename, string id)
 {
 	auto p_soma = soma::application();
 	if (!p_soma->view_home) return;
 
-	p_soma->main_div->addNew<widget_image>(filename);
+	p_soma->main_div->addNew<widget_image>(filename, id, false);
+}
+
+void widget_home::move_image(string id, int top, int left)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+
+	// search for a child with this id
+	for (auto &child : p_soma->main_div->children())
+	{
+		if (child->id() == id)
+		{
+			auto img = (widget_image*)child;
+			img->animate_position(top, left);
+			break;
+		}
+	}
+}
+
+void widget_home::resize_image(string id, int top, int left, int width, int height)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+
+	// search for a child with this id
+	for (auto &child : p_soma->main_div->children())
+	{
+		if (child->id() == id)
+		{
+			auto img = (widget_image*)child;
+			img->animate_resize(top, left, width, height);
+			break;
+		}
+	}
+}
+
+void widget_home::switch_view_image(string id, string view)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+
+	// search for a child with this id
+	for (auto &child : p_soma->main_div->children())
+	{
+		if (child->id() == id)
+		{
+			auto img = (widget_image*)child;
+			img->switch_view(view);
+			break;
+		}
+	}
+}
+
+void widget_home::close_image(string id)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+
+	// search for a child with this id
+	for (auto &child : p_soma->main_div->children())
+	{
+		if (child->id() == id)
+		{
+			auto img = (widget_image*)child;
+			img->close();
+			break;
+		}
+	}
 }
