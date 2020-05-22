@@ -35,9 +35,12 @@ widget_chat::widget_chat() : wcontainer("chat")
 
 	// signal binding
 	// prevent hiding when mouse is over, force show when mouse is over
-	chat_container->mouseWentOver().connect([&](){ chat_container->setStyleClass("widget_chat ss-container"); chat_auto_hide.stop(); });
-	chat_container->mouseWentOut().connect([&](){ chat_auto_hide.start(); });
+	chat_container->mouseWentOver().connect([&](){ chat_container->setStyleClass("widget_chat ss-container"); });
+	chat_container->mouseWentOut().connect([&](){ if (!chat_auto_hide.isActive()) chat_container->setStyleClass("widget_chat ss-container hidden"); });
 	chat_input->enterPressed().connect(this, &widget_chat::on_chat_enter_pressed);
+	chat_input->focussed().connect(this, &widget_chat::reset_hide_timer);
+	chat_input->keyPressed().connect(this, &widget_chat::reset_hide_timer);
+	chat_input->clicked().connect(this, &widget_chat::reset_hide_timer);
 }
 
 string widget_chat::prepare_message(string message)
@@ -65,6 +68,11 @@ void widget_chat::add_message(string message)
 	chat_lines->setText(chat_lines->text() + WString::fromUTF8(message));
 
 	// reset visible & timeout
+	reset_hide_timer();
+}
+
+void widget_chat::reset_hide_timer()
+{
 	chat_container->setStyleClass("widget_chat ss-container");
 	chat_auto_hide.stop();
 	chat_auto_hide.start();
@@ -89,6 +97,7 @@ void widget_chat::on_chat_enter_pressed()
 void widget_chat::hide_chat_timeout()
 {
 	chat_container->setStyleClass("widget_chat ss-container hidden");
+	chat_auto_hide.stop();
 }
 
 widget_chat::~widget_chat()

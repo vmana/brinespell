@@ -22,6 +22,7 @@ class widget_chat : public wcontainer
 		static string prepare_message(string message);
 
 		void add_message(string message);
+		void reset_hide_timer();
 		void on_chat_enter_pressed();
 		void hide_chat_timeout();
 		widget_chat();
