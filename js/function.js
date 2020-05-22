@@ -26,7 +26,7 @@ function w_image(id, src)
 	content.style.backgroundImage = "url('" + src + "') ";
 	content.style.backgroundPosition = 'top left';
 	content.style.backgroundRepeat = 'no-repeat';
-	content.style.backgroundSize = 'cover';
+	content.style.backgroundSize = 'contain';
 
 	bar.onmousedown = on_bar_mousedown;
 

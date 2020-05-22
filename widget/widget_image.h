@@ -8,7 +8,7 @@
 class widget_image : public wcontainer
 {
 	protected:
-		string current_view = "cover";
+		string current_view = "contain";
 		bool share = true; // when false, don't emit events
 
 	public:

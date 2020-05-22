@@ -98,12 +98,12 @@ void widget_image::switch_view(string view)
 	if (view == "cover")
 	{
 		current_view = "cover";
-		button_switch_view->setStyleClass("widget_image_switch_view widget_image_view_contain");
+		button_switch_view->setStyleClass("widget_image_switch_view widget_image_view_cover");
 	}
 	else
 	{
 		current_view = "contain";
-		button_switch_view->setStyleClass("widget_image_switch_view widget_image_view_cover");
+		button_switch_view->setStyleClass("widget_image_switch_view widget_image_view_contain");
 	}
 	this->doJavaScript("w_image_switch_view('" + this->id() + "', '" + current_view + "');");
 }

@@ -92,6 +92,9 @@ void widget_home::search_master_open(string filename)
 	{
 		// open image and, open the same image via broadcast::other with the same id
 		string id = open_image("data/" + filename);
+
+		// only broadcast if we are the game master
+		if (!S->p_player->game_master) return;
 		broadcast::others(&widget_home::open_shared_image, "data/" + filename, id);
 	}
 }
