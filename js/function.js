@@ -278,6 +278,7 @@ function w_image(id, src)
 
 	}
 
+	// try to determine a good ratio for initial display
 	var max_init_size = 500;
 	var image = new Image();
 	image.src = src;
@@ -307,14 +308,14 @@ function w_image(id, src)
 			if (max_wh = 'w')
 			{
 				// resize image
-				orig_h = Math.ceil(orig_h * 400 / orig_w);
-				orig_w = 400;
+				orig_h = Math.ceil(orig_h * max_init_size / orig_w);
+				orig_w = max_init_size;
 			}
 			else
 			{
 				// resize image
-				orig_w = Math.ceil(orig_w * 400 / orig_h);
-				orig_h = 400;
+				orig_w = Math.ceil(orig_w * max_init_size / orig_h);
+				orig_h = max_init_size;
 			}
 		}
 		// set image size
