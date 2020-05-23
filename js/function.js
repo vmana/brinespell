@@ -277,6 +277,51 @@ function w_image(id, src)
 		position = new_position;
 
 	}
+
+	var max_init_size = 500;
+	var image = new Image();
+	image.src = src;
+	image.onload = function()
+	{
+		var orig_w = image.naturalWidth;
+		var orig_h = image.naturalHeight;
+		if (orig_h == 0 || orig_w == 0) return; // should never happen
+		console.log(orig_w  +':'+ orig_h);
+
+		// set img width and height
+		var max_wh, max_size;
+		if (orig_w > orig_h)
+		{
+			max_wh = 'w';
+			max_size = orig_w;
+		}
+		else
+		{
+			max_wh = 'h';
+			max_size = orig_h;
+		}
+
+		// resize image if too large
+		if (max_size > max_init_size)
+		{
+			if (max_wh = 'w')
+			{
+				// resize image
+				orig_h = Math.ceil(orig_h * 400 / orig_w);
+				orig_w = 400;
+			}
+			else
+			{
+				// resize image
+				orig_w = Math.ceil(orig_w * 400 / orig_h);
+				orig_h = 400;
+			}
+		}
+		// set image size
+		console.log(orig_w  +':'+ orig_h);
+		img.style.width = orig_w + 'px';
+		img.style.height = orig_h + 'px';
+	};
 }
 
 function w_image_switch_view(id, view)

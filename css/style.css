@@ -222,7 +222,7 @@ div.jp-seeking-bg
 {
 	position: absolute;
 	width: 470px;
-	top: 190px;
+	top: 160px;
 	left: calc(50% - 270px);
 }
 
@@ -571,8 +571,8 @@ div.jp-seeking-bg
 
 .widget_image
 {
-	width: 300px;
-	height: 300px;
+	/* width: 300px; */
+	/* height: 300px; */
 	display: block;
 	position: absolute;
 	z-index: 2;

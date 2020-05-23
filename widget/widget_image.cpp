@@ -19,8 +19,8 @@ widget_image::widget_image(string filename, string id, bool share) :
 	setId(id);
 	this->share = share;
 
-	int init_top = 300;
-	int init_left = 300;
+	int init_top = 200;
+	int init_left = 200;
 
 	setStyleClass("widget_image");
 	setPositionScheme(PositionScheme::Absolute);
