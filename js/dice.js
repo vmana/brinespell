@@ -881,13 +881,13 @@ function init_animated_selector(wt_callback_id)
 	box_animated_selector.draw_selector();
 }
 
-function on_selector_click(e)
+function on_selector_click(e, context)
 {
 	e = e || window.event;
+	e.preventDefault();
 	var count = 1;
-	if (e.buttons == 2)
+	if (context || e.buttons == 2)
 	{
-		e.preventDefault();
 		count = -1;
 	}
 	var res = box_animated_selector.search_dice_by_mouse(e);
