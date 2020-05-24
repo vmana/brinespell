@@ -22,6 +22,7 @@ function w_image(id, src)
 	var moving = false;
 	var position = []; // init mouse position when moving / resizing
 	var resize_class = '';
+	var orig_h = 0, orig_w = 0, max_wh; // origin size, and maximum between width and height ('w' or 'h')
 
 	content.style.backgroundImage = "url('" + src + "') ";
 	content.style.backgroundPosition = 'top left';
@@ -134,6 +135,9 @@ function w_image(id, src)
 		// stop moving when mouse button is released
 		document.onmouseup = null;
 		document.onmousemove = null;
+
+		if (content.style.backgroundSize == 'contain') autocrop_contain();
+
 		Wt.emit(id, 'signal_resize', img.offsetTop, img.offsetLeft, img.offsetWidth, img.offsetHeight);
 	}
 
@@ -275,6 +279,25 @@ function w_image(id, src)
 		}
 
 		position = new_position;
+	}
+
+	function autocrop_contain()
+	{
+		// crop leftover when image is in contain mode
+		if (orig_h == 0 || orig_w == 0) return; // should never happen
+		var orig_ratio = orig_w / orig_h;
+		var current_ratio = img.offsetWidth / img.offsetHeight;
+
+		if (orig_ratio < current_ratio)
+		{
+			// reduce width
+			img.style.width = Math.ceil(img.offsetHeight * orig_w / orig_h) + 'px';
+		}
+		else
+		{
+			// reduce height
+			img.style.height = Math.ceil(img.offsetWidth * orig_h / orig_w) + 'px';
+		}
 
 	}
 
@@ -284,13 +307,13 @@ function w_image(id, src)
 	image.src = src;
 	image.onload = function()
 	{
-		var orig_w = image.naturalWidth;
-		var orig_h = image.naturalHeight;
+		orig_w = image.naturalWidth;
+		orig_h = image.naturalHeight;
 		if (orig_h == 0 || orig_w == 0) return; // should never happen
-		console.log(orig_w  +':'+ orig_h);
 
 		// set img width and height
-		var max_wh, max_size;
+		var max_size;
+		var new_w = orig_w, new_h = orig_h;
 		if (orig_w > orig_h)
 		{
 			max_wh = 'w';
@@ -305,23 +328,23 @@ function w_image(id, src)
 		// resize image if too large
 		if (max_size > max_init_size)
 		{
-			if (max_wh = 'w')
+			if (max_wh == 'w')
 			{
 				// resize image
-				orig_h = Math.ceil(orig_h * max_init_size / orig_w);
-				orig_w = max_init_size;
+				new_w = max_init_size;
+				new_h = Math.ceil(orig_h * max_init_size / orig_w);
 			}
 			else
 			{
 				// resize image
-				orig_w = Math.ceil(orig_w * max_init_size / orig_h);
-				orig_h = max_init_size;
+				new_h = max_init_size;
+				new_w = Math.ceil(orig_w * max_init_size / orig_h);
 			}
 		}
+
 		// set image size
-		console.log(orig_w  +':'+ orig_h);
-		img.style.width = orig_w + 'px';
-		img.style.height = orig_h + 'px';
+		img.style.width = new_w + 'px';
+		img.style.height = new_h + 'px';
 	};
 }
 
