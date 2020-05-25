@@ -69,6 +69,8 @@ widget_home::widget_home() : wcontainer("home")
 		+ " joins the session</span>"
 		+ "<br />\n";
 	broadcast::all(&widget_home::chat_message, message);
+
+	S->main_div->addNew<widget_image>("data/img/scroll.01.png", "xxxxxx", true);
 }
 
 void widget_home::search_master_open(string filename)
@@ -169,9 +171,9 @@ string widget_home::open_image(string filename)
 	{
 		broadcast::others(&widget_home::close_image, id);
 	});
-	img->on_switch_view_event.connect([=](string view)
+	img->on_view_mode_event.connect([=](string mode)
 	{
-		broadcast::others(&widget_home::switch_view_image, id, view);
+		broadcast::others(&widget_home::switch_mode_image, id, mode);
 	});
 
 	return id;
@@ -219,7 +221,7 @@ void widget_home::resize_image(string id, int top, int left, int width, int heig
 	}
 }
 
-void widget_home::switch_view_image(string id, string view)
+void widget_home::switch_mode_image(string id, string mode)
 {
 	auto p_soma = soma::application();
 	if (!p_soma->view_home) return;
@@ -230,7 +232,7 @@ void widget_home::switch_view_image(string id, string view)
 		if (child->id() == id)
 		{
 			auto img = (widget_image*)child;
-			img->switch_view(view);
+			img->change_view_mode(mode);
 			break;
 		}
 	}

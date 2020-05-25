@@ -31,7 +31,7 @@ class widget_home : public wcontainer
 		static void open_shared_image(string filename, string id);
 		static void move_image(string id, int top, int left);
 		static void resize_image(string id, int top, int left, int width, int height);
-		static void switch_view_image(string id, string view);
+		static void switch_mode_image(string id, string mode);
 		static void close_image(string id);
 };
 

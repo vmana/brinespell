@@ -9,6 +9,7 @@ function w_image(id, src)
 	var img = document.getElementById(id);
 	var bar = img.getElementsByClassName('widget_image_bar')[0];
 	var content = img.getElementsByClassName('widget_image_content')[0];
+	var view_mode = img.getElementsByClassName('widget_image_view_mode')[0];
 
 	var border_top = img.getElementsByClassName('widget_image_border_top')[0];
 	var border_left = img.getElementsByClassName('widget_image_border_left')[0];
@@ -25,7 +26,7 @@ function w_image(id, src)
 	var orig_h = 0, orig_w = 0, max_wh; // origin size, and maximum between width and height ('w' or 'h')
 
 	content.style.backgroundImage = "url('" + src + "') ";
-	content.style.backgroundPosition = 'top left';
+	content.style.backgroundPosition = '0% 0%';
 	content.style.backgroundRepeat = 'no-repeat';
 	content.style.backgroundSize = 'contain';
 
@@ -346,22 +347,130 @@ function w_image(id, src)
 		img.style.width = new_w + 'px';
 		img.style.height = new_h + 'px';
 	};
+
+	function init_zoom_mode()
+	{
+	}
+
+	function on_content_mousedown(e)
+	{
+		e = e || window.event;
+		e.preventDefault();
+
+		if (content.style.backgroundSize == 'contain') return;
+
+		if (e.buttons == 1) // left click
+		{
+			// get the mouse cursor position at startup
+			position = [e.clientX, e.clientY];
+			// img.style.opacity = 0.7;
+			document.onmouseup = on_content_mouseup;
+			// call a function whenever the cursor moves
+			document.onmousemove = on_content_mousemove;
+			// remove any animations
+			img.classList.remove("widget_image_animated");
+		}
+	}
+
+	function on_content_mouseup(e)
+	{
+		// stop moving when mouse button is released
+		document.onmouseup = null;
+		document.onmousemove = null;
+		// if (content.style.backgroundSize == 'contain') return;
+		// get the delta
+		// var delta_x = e.clientX - position[0];
+		// var delta_y = e.clientY - position[1];
+		// var delta_x = position[0] - e.clientX;
+		// var delta_y = position[1] - e.clientY;
+
+		// // var zoom = content.style.backgroundSize.replace(/%/g, '').replace('auto', '').replace(' ', '');
+		// // console.log('zoom: '+zoom);
+		// var zoom = 100;
+		// if (zoom == 0) return;
+		// var new_percent_w = Math.ceil((100 / zoom) *  (delta_x / img.offsetWidth) * 100);
+		// var new_percent_h = Math.ceil((100 / zoom) * (delta_y / img.offsetHeight) * 100);
+		// console.log('new_percent_w: '+ new_percent_w + 'new_percent_h: '+ new_percent_h)
+
+		// // background-position-x
+		// var backpos = content.style.backgroundPosition.replace(/%/g, '').split(' ');
+		// new_percent_w += parseInt(backpos[0], 10);
+		// new_percent_h += parseInt(backpos[1], 10);
+		// console.log('backpos = ' + backpos);
+		// console.log('new_percent_w: '+ new_percent_w + 'new_percent_h: '+ new_percent_h)
+
+		// if (new_percent_w < 0) new_percent_w = 0;
+		// if (new_percent_w > 100) new_percent_w = 100;
+		// if (new_percent_h < 0) new_percent_h = 0;
+		// if (new_percent_h > 100) new_percent_h = 100;
+		// console.log('fnew_percent_w: '+ new_percent_w + 'fnew_percent_h: '+ new_percent_h)
+
+		// content.style.backgroundPosition = new_percent_w + '% ' + new_percent_h + '%';
+	}
+
+	function on_content_mousemove(e)
+	{
+		e = e || window.event;
+		e.preventDefault();
+		if (content.style.backgroundSize == 'contain') return;
+		var new_position = [e.clientX, e.clientY];
+		var delta_x = position[0] - e.clientX;
+		var delta_y = position[1] - e.clientY;
+
+		// var zoom = content.style.backgroundSize.replace(/%/g, '').replace('auto', '').replace(' ', '');
+		// console.log('zoom: '+zoom);
+		var zoom = 100;
+		if (zoom == 0) return;
+		var new_percent_w = Math.ceil((100 / zoom) * (img.offsetWidth / orig_w) * (delta_x / img.offsetWidth) * 100);
+		var new_percent_h = Math.ceil((100 / zoom) * (img.offsetHeight / orig_h) * (delta_y / img.offsetHeight) * 100);
+		console.log('new_percent_w: '+ new_percent_w + 'new_percent_h: '+ new_percent_h)
+
+		// background-position-x
+		var backpos = content.style.backgroundPosition.replace(/%/g, '').split(' ');
+		new_percent_w += parseInt(backpos[0], 10);
+		new_percent_h += parseInt(backpos[1], 10);
+		console.log('backpos = ' + backpos);
+		console.log('new_percent_w: '+ new_percent_w + 'new_percent_h: '+ new_percent_h)
+
+		if (new_percent_w < 0) new_percent_w = 0;
+		if (new_percent_w > 100) new_percent_w = 100;
+		if (new_percent_h < 0) new_percent_h = 0;
+		if (new_percent_h > 100) new_percent_h = 100;
+		console.log('fnew_percent_w: '+ new_percent_w + 'fnew_percent_h: '+ new_percent_h)
+
+		content.style.backgroundPosition = new_percent_w + '% ' + new_percent_h + '%';
+		positio = new_position;
+	}
+
+	content.onmousedown = on_content_mousedown;
+
+	function on_view_mode_change()
+	{
+		var cs = window.getComputedStyle(view_mode);
+		var mode = cs.backgroundImage.match(/.*\/([^.]*)\.svg/)[1];
+		console.log(mode);
+
+	};
+
+	// set event handler for view_mode change
+	var observer_view_mode = new MutationObserver(on_view_mode_change);
+	observer_view_mode.observe(view_mode, { attributes: true, childList: false, subtree: true });
 }
 
-function w_image_switch_view(id, view)
-{
-	var img = document.getElementById(id);
-	var content = img.getElementsByClassName('widget_image_content')[0];
-	switch (view)
-	{
-		case 'cover':
-			content.style.backgroundSize = 'cover';
-			break;
-		case 'contain':
-			content.style.backgroundSize = 'contain';
-			break;
-	}
-}
+// function w_image_switch_view(id, view)
+// {
+// 	var img = document.getElementById(id);
+// 	var content = img.getElementsByClassName('widget_image_content')[0];
+// 	switch (view)
+// 	{
+// 		case 'cover':
+// 			content.style.backgroundSize = 'auto';
+// 			break;
+// 		case 'contain':
+// 			content.style.backgroundSize = 'contain';
+// 			break;
+// 	}
+// }
 
 function init_widget_image(id, src)
 {
