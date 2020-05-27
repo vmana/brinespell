@@ -46,6 +46,7 @@ input[type=password]
 	outline-style: none;
 	box-shadow: none;
 	border-color: transparent;
+	cursor: url('/img/cursor-purple.png'), auto;
 }
 input[type=text]::-webkit-input-placeholder
 {
@@ -342,7 +343,7 @@ div.jp-seeking-bg
 	width: 160px;
 	border-top-left-radius: 25px;
 	border-bottom-left-radius: 25px;
-	cursor: url('/img/cursor-pointer.png'), auto;
+	cursor: url('/img/cursor-purple.png'), auto;
 	z-index: 1;
 }
 .selector_button_right
@@ -354,7 +355,7 @@ div.jp-seeking-bg
 	width: 160px;
 	border-top-right-radius: 25px;
 	border-bottom-right-radius: 25px;
-	cursor: url('/img/cursor-pointer.png'), auto;
+	cursor: url('/img/cursor-purple.png'), auto;
 	z-index: 1;
 }
 
@@ -393,7 +394,7 @@ div.jp-seeking-bg
 	position: absolute;
 	bottom: 19px;
 	right: 19px;
-	cursor: url('/img/cursor-pointer.png'), auto;
+	cursor: url('/img/cursor-purple.png'), auto;
 }
 
 /****    widget_chat    ****/
@@ -630,6 +631,7 @@ div.jp-seeking-bg
 	height: 20px;
 	background: url('/img/close.svg') center center no-repeat;
 	background-size: contain;
+	cursor: url('/img/cursor-purple.png'), auto;
 	z-index: 4;
 }
 .widget_image_view_mode
@@ -640,6 +642,7 @@ div.jp-seeking-bg
 	width: 20px;
 	height: 20px;
 	background-size: contain;
+	cursor: url('/img/cursor-purple.png'), auto;
 	z-index: 4;
 }
 .widget_image_view_zoom
