@@ -20,13 +20,12 @@ function w_image(id, src)
 	var corner_sw = img.getElementsByClassName('widget_image_corner_sw')[0];
 	var corner_se = img.getElementsByClassName('widget_image_corner_se')[0];
 
-	var moving = false;
+	var mode = 'contain';
 	var position = []; // init mouse position when moving / resizing
 	var resize_class = '';
 	var orig_h = 0, orig_w = 0, max_wh; // origin size, and maximum between width and height ('w' or 'h')
 
 	content.style.backgroundImage = "url('" + src + "') ";
-	content.style.backgroundPosition = '0% 0%';
 	content.style.backgroundRepeat = 'no-repeat';
 	content.style.backgroundSize = 'contain';
 
@@ -280,6 +279,8 @@ function w_image(id, src)
 		}
 
 		position = new_position;
+
+		if (content.style.backgroundSize == 'zoom') update_zoom_content();
 	}
 
 	function autocrop_contain()
@@ -348,22 +349,136 @@ function w_image(id, src)
 		img.style.height = new_h + 'px';
 	};
 
-	function init_zoom_mode()
+	/****    zoom & mouse drag functions    ****/
+
+	var zoom = 1;
+	var previous_zoom_e;
+	var zoom_step = 0.1;
+	var zoom_w = img.offsetWidth * zoom;
+	var zoom_h = img.offsetHeight * zoom;
+	var zoom_x = 0;
+	var zoom_y = 0;
+
+	content.addEventListener('wheel', on_content_wheel);
+	content.addEventListener('wheelzoom.reset', reset_zoom);
+	content.addEventListener('mousedown', on_content_mousedown);
+
+	function init_zoom_content()
 	{
+		zoom_w = orig_w * zoom;
+		zoom_h = orig_h * zoom;
+		zoom_x = 0;
+		zoom_y = 0;
+
+		content.style.backgroundSize = zoom_w + 'px '+ zoom_h + 'px';
+		content.style.backgroundPosition = zoom_x + 'px '+ zoom_y + 'px';
+	}
+
+	function reset_zoom()
+	{
+		if (mode != 'zoom') return;
+		zoom = 1;
+		zoom_w = orig_w * zoom;
+		zoom_h = orig_h * zoom;
+		zoom_x = 0;
+		zoom_y = 0;
+		update_zoom_content();
+	}
+
+	function update_zoom_content()
+	{
+		if (zoom_x > 0)
+		{
+			zoom_x = 0;
+		}
+		else if (zoom_x < img.offsetWidth - zoom_w)
+		{
+			zoom_x = img.offsetWidth - zoom_w;
+		}
+
+		if (zoom_y > 0)
+		{
+			zoom_y = 0;
+		}
+		else if (zoom_y < img.offsetHeight - zoom_h)
+		{
+			zoom_y = img.offsetHeight - zoom_h;
+		}
+
+		content.style.backgroundSize = zoom_w + 'px ' + zoom_h + 'px';
+		content.style.backgroundPosition = zoom_x + 'px ' + zoom_y + 'px';
+	}
+
+	function on_content_wheel(e)
+	{
+		e = e || window.event;
+		e.preventDefault();
+		if (mode != 'zoom') return;
+
+		var delta_y = 0;
+		if (e.deltaY)
+		{
+			// FireFox 17+ (IE9+, Chrome 31+?)
+			delta_y = e.deltaY;
+		}
+		else if (e.wheelDelta)
+		{
+			delta_y = -e.wheelDelta;
+		}
+
+		// As far as I know, there is no good cross-browser way to get the cursor position relative to the event target.
+		// We have to calculate the target element's position relative to the document, and subtrack that from the
+		// cursor's position relative to the document.
+		var rect = img.getBoundingClientRect();
+		var offset_x = e.pageX - rect.left - window.pageXOffset;
+		var offset_y = e.pageY - rect.top - window.pageYOffset;
+
+		// Record the offset between the bg edge and cursor:
+		var img_cursor_x = offset_x - zoom_x;
+		var img_cursor_y = offset_y - zoom_y;
+
+		// Use the previous offset to get the percent offset between the bg edge and cursor:
+		var img_ratio_x = img_cursor_x / zoom_w;
+		var img_ratio_y = img_cursor_y / zoom_h;
+
+		// Update the bg size:
+		if (delta_y < 0)
+		{
+			zoom_w += zoom_w * zoom_step;
+			zoom_h += zoom_h * zoom_step;
+		} else
+		{
+			zoom_w -= zoom_w * zoom_step;
+			zoom_h -= zoom_h * zoom_step;
+		}
+
+		// Take the percent offset and apply it to the new size:
+		zoom_x = offset_x - (zoom_w * img_ratio_x);
+		zoom_y = offset_y - (zoom_h * img_ratio_y);
+
+		// Prevent zooming out beyond the starting size
+		// if (zoom_w <= orig_w || zoom_h <= orig_h)
+		// {
+		// 	reset_zoom();
+		// }
+		// else
+		// {
+		// 	update_zoom_content();
+		// }
+
+		update_zoom_content();
 	}
 
 	function on_content_mousedown(e)
 	{
 		e = e || window.event;
 		e.preventDefault();
+		if (mode != 'zoom') return;
 
-		if (content.style.backgroundSize == 'contain') return;
+		previous_zoom_e = e;
 
 		if (e.buttons == 1) // left click
 		{
-			// get the mouse cursor position at startup
-			position = [e.clientX, e.clientY];
-			// img.style.opacity = 0.7;
 			document.onmouseup = on_content_mouseup;
 			// call a function whenever the cursor moves
 			document.onmousemove = on_content_mousemove;
@@ -374,81 +489,35 @@ function w_image(id, src)
 
 	function on_content_mouseup(e)
 	{
-		// stop moving when mouse button is released
 		document.onmouseup = null;
 		document.onmousemove = null;
-		// if (content.style.backgroundSize == 'contain') return;
-		// get the delta
-		// var delta_x = e.clientX - position[0];
-		// var delta_y = e.clientY - position[1];
-		// var delta_x = position[0] - e.clientX;
-		// var delta_y = position[1] - e.clientY;
-
-		// // var zoom = content.style.backgroundSize.replace(/%/g, '').replace('auto', '').replace(' ', '');
-		// // console.log('zoom: '+zoom);
-		// var zoom = 100;
-		// if (zoom == 0) return;
-		// var new_percent_w = Math.ceil((100 / zoom) *  (delta_x / img.offsetWidth) * 100);
-		// var new_percent_h = Math.ceil((100 / zoom) * (delta_y / img.offsetHeight) * 100);
-		// console.log('new_percent_w: '+ new_percent_w + 'new_percent_h: '+ new_percent_h)
-
-		// // background-position-x
-		// var backpos = content.style.backgroundPosition.replace(/%/g, '').split(' ');
-		// new_percent_w += parseInt(backpos[0], 10);
-		// new_percent_h += parseInt(backpos[1], 10);
-		// console.log('backpos = ' + backpos);
-		// console.log('new_percent_w: '+ new_percent_w + 'new_percent_h: '+ new_percent_h)
-
-		// if (new_percent_w < 0) new_percent_w = 0;
-		// if (new_percent_w > 100) new_percent_w = 100;
-		// if (new_percent_h < 0) new_percent_h = 0;
-		// if (new_percent_h > 100) new_percent_h = 100;
-		// console.log('fnew_percent_w: '+ new_percent_w + 'fnew_percent_h: '+ new_percent_h)
-
-		// content.style.backgroundPosition = new_percent_w + '% ' + new_percent_h + '%';
 	}
 
 	function on_content_mousemove(e)
 	{
 		e = e || window.event;
 		e.preventDefault();
-		if (content.style.backgroundSize == 'contain') return;
-		var new_position = [e.clientX, e.clientY];
-		var delta_x = position[0] - e.clientX;
-		var delta_y = position[1] - e.clientY;
-
-		// var zoom = content.style.backgroundSize.replace(/%/g, '').replace('auto', '').replace(' ', '');
-		// console.log('zoom: '+zoom);
-		var zoom = 100;
-		if (zoom == 0) return;
-		var new_percent_w = Math.ceil((100 / zoom) * (img.offsetWidth / orig_w) * (delta_x / img.offsetWidth) * 100);
-		var new_percent_h = Math.ceil((100 / zoom) * (img.offsetHeight / orig_h) * (delta_y / img.offsetHeight) * 100);
-		console.log('new_percent_w: '+ new_percent_w + 'new_percent_h: '+ new_percent_h)
-
-		// background-position-x
-		var backpos = content.style.backgroundPosition.replace(/%/g, '').split(' ');
-		new_percent_w += parseInt(backpos[0], 10);
-		new_percent_h += parseInt(backpos[1], 10);
-		console.log('backpos = ' + backpos);
-		console.log('new_percent_w: '+ new_percent_w + 'new_percent_h: '+ new_percent_h)
-
-		if (new_percent_w < 0) new_percent_w = 0;
-		if (new_percent_w > 100) new_percent_w = 100;
-		if (new_percent_h < 0) new_percent_h = 0;
-		if (new_percent_h > 100) new_percent_h = 100;
-		console.log('fnew_percent_w: '+ new_percent_w + 'fnew_percent_h: '+ new_percent_h)
-
-		content.style.backgroundPosition = new_percent_w + '% ' + new_percent_h + '%';
-		positio = new_position;
+		zoom_x += (e.pageX - previous_zoom_e.pageX);
+		zoom_y += (e.pageY - previous_zoom_e.pageY);
+		previous_zoom_e = e;
+		update_zoom_content();
 	}
-
-	content.onmousedown = on_content_mousedown;
 
 	function on_view_mode_change()
 	{
 		var cs = window.getComputedStyle(view_mode);
-		var mode = cs.backgroundImage.match(/.*\/([^.]*)\.svg/)[1];
-		console.log(mode);
+		mode = cs.backgroundImage.match(/.*\/([^.]*)\.svg/)[1];
+		// console.log(mode);
+		if (mode == 'contain')
+		{
+			content.style.backgroundSize = 'contain';
+			content.style.backgroundPosition = '0% 0%';
+			autocrop_contain();
+		}
+		else if (mode == 'zoom')
+		{
+			init_zoom_content();
+		}
 
 	};
 
@@ -456,21 +525,6 @@ function w_image(id, src)
 	var observer_view_mode = new MutationObserver(on_view_mode_change);
 	observer_view_mode.observe(view_mode, { attributes: true, childList: false, subtree: true });
 }
-
-// function w_image_switch_view(id, view)
-// {
-// 	var img = document.getElementById(id);
-// 	var content = img.getElementsByClassName('widget_image_content')[0];
-// 	switch (view)
-// 	{
-// 		case 'cover':
-// 			content.style.backgroundSize = 'auto';
-// 			break;
-// 		case 'contain':
-// 			content.style.backgroundSize = 'contain';
-// 			break;
-// 	}
-// }
 
 function init_widget_image(id, src)
 {

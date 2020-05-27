@@ -70,7 +70,7 @@ widget_home::widget_home() : wcontainer("home")
 		+ "<br />\n";
 	broadcast::all(&widget_home::chat_message, message);
 
-	/* S->main_div->addNew<widget_image>("data/img/scroll.01.png", "xxxxxx", true); */
+	S->main_div->addNew<widget_image>("data/img/scroll.01.png", "xxxxxx", true);
 }
 
 void widget_home::search_master_open(string filename)

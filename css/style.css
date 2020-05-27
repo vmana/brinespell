@@ -642,9 +642,9 @@ div.jp-seeking-bg
 	background-size: contain;
 	z-index: 4;
 }
-.widget_image_view_cover
+.widget_image_view_zoom
 {
-	background: url('/img/cover.svg') center center no-repeat;
+	background: url('/img/zoom.svg') center center no-repeat;
 }
 .widget_image_view_contain
 {

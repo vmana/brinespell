@@ -49,13 +49,13 @@ void widget_image::on_close_click()
 
 void widget_image::on_view_mode_click()
 {
-	if (current_mode == "cover")
+	if (current_mode == "zoom")
 	{
 		change_view_mode("contain");
 	}
 	else
 	{
-		change_view_mode("cover");
+		change_view_mode("zoom");
 	}
 
 	if (share) on_view_mode_event.emit(current_mode);
@@ -95,10 +95,10 @@ void widget_image::close()
 
 void widget_image::change_view_mode(string mode)
 {
-	if (mode == "cover")
+	if (mode == "zoom")
 	{
-		current_mode = "cover";
-		button_view_mode->setStyleClass("widget_image_view_mode widget_image_view_cover");
+		current_mode = "zoom";
+		button_view_mode->setStyleClass("widget_image_view_mode widget_image_view_zoom");
 	}
 	else
 	{
