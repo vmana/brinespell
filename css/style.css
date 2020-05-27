@@ -16,6 +16,7 @@ body
 	height: 100vh;
 	background-color: rgba(0, 0, 0, 0.18);
 	z-index: -99;
+	cursor: url('/img/cursor.png'), auto;
 }
 .stack-background
 {
@@ -173,6 +174,10 @@ div.jp-seeking-bg
 .hidden
 {
 	opacity: 0 !important;
+}
+.visibility_hidden
+{
+	visibility: hidden;
 }
 
 /****    widget_login    ****/
@@ -337,7 +342,7 @@ div.jp-seeking-bg
 	width: 160px;
 	border-top-left-radius: 25px;
 	border-bottom-left-radius: 25px;
-	cursor: pointer;
+	cursor: url('/img/cursor-pointer.png'), auto;
 	z-index: 1;
 }
 .selector_button_right
@@ -349,7 +354,7 @@ div.jp-seeking-bg
 	width: 160px;
 	border-top-right-radius: 25px;
 	border-bottom-right-radius: 25px;
-	cursor: pointer;
+	cursor: url('/img/cursor-pointer.png'), auto;
 	z-index: 1;
 }
 
@@ -388,7 +393,7 @@ div.jp-seeking-bg
 	position: absolute;
 	bottom: 19px;
 	right: 19px;
-	cursor: pointer;
+	cursor: url('/img/cursor-pointer.png'), auto;
 }
 
 /****    widget_chat    ****/
@@ -501,7 +506,6 @@ div.jp-seeking-bg
 	height: 22px;
 	line-height: 24px;
 	padding: 4px 12px;
-	cursor: pointer;
 }
 
 .widget_search_line_suggestion:hover,

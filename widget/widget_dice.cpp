@@ -40,7 +40,7 @@ void widget_dice::draw_selector()
 {
 	// selector
 	dice_selector = bindNew<wtemplate>("div_dice_selector", "selector");
-	dice_selector->setStyleClass("div_dice_selector hidden");
+	dice_selector->setStyleClass("div_dice_selector visibility_hidden");
 	/* dice_selector->setStyleClass("div_dice_selector"); */
 
 	text_notation = dice_selector->bindNew<WText>("text_notation");
@@ -71,7 +71,7 @@ void widget_dice::on_animated_d20_click()
 {
 	if (dice_selector->hasStyleClass("animate_show"))
 	{
-		dice_selector->removeStyleClass("hidden");
+		dice_selector->removeStyleClass("visibility_hidden");
 		dice_selector->setStyleClass("div_dice_selector animate_hide");
 	}
 	else
