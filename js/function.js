@@ -351,22 +351,20 @@ function w_image(id, src)
 
 	/****    zoom & mouse drag functions    ****/
 
-	var zoom = 1;
 	var previous_zoom_e;
 	var zoom_step = 0.1;
-	var zoom_w = img.offsetWidth * zoom;
-	var zoom_h = img.offsetHeight * zoom;
+	var zoom_w = img.offsetWidth;
+	var zoom_h = img.offsetHeight;
 	var zoom_x = 0;
 	var zoom_y = 0;
 
 	content.addEventListener('wheel', on_content_wheel);
-	content.addEventListener('wheelzoom.reset', reset_zoom);
 	content.addEventListener('mousedown', on_content_mousedown);
 
 	function init_zoom_content()
 	{
-		zoom_w = orig_w * zoom;
-		zoom_h = orig_h * zoom;
+		zoom_w = orig_w;
+		zoom_h = orig_h;
 		zoom_x = 0;
 		zoom_y = 0;
 
@@ -374,19 +372,25 @@ function w_image(id, src)
 		content.style.backgroundPosition = zoom_x + 'px '+ zoom_y + 'px';
 	}
 
-	function reset_zoom()
-	{
-		if (mode != 'zoom') return;
-		zoom = 1;
-		zoom_w = orig_w * zoom;
-		zoom_h = orig_h * zoom;
-		zoom_x = 0;
-		zoom_y = 0;
-		update_zoom_content();
-	}
-
 	function update_zoom_content()
 	{
+		if (orig_h == 0 || orig_w == 0) return; // should never happen
+
+		// adjust values if img size has changed, which creates empty spaces
+		if (zoom_w < img.offsetWidth)
+		{
+			zoom_w = img.offsetWidth;
+			// update zoom_h to be in ratio
+			zoom_h = zoom_w * orig_h / orig_w;
+		}
+		else if (zoom_h < img.offsetHeight)
+		{
+			zoom_h = img.offsetHeight;
+			// update zoom_w to be in ratio
+			zoom_w = zoom_h * orig_w / orig_h;
+		}
+
+		// update x, y
 		if (zoom_x > 0)
 		{
 			zoom_x = 0;
@@ -426,22 +430,22 @@ function w_image(id, src)
 			delta_y = -e.wheelDelta;
 		}
 
-		// As far as I know, there is no good cross-browser way to get the cursor position relative to the event target.
-		// We have to calculate the target element's position relative to the document, and subtrack that from the
-		// cursor's position relative to the document.
+		// as far as I know, there is no good cross-browser way to get the cursor position relative to the event target
+		// we have to calculate the target element's position relative to the document, and subtrack that from the
+		// cursor's position relative to the document
 		var rect = img.getBoundingClientRect();
 		var offset_x = e.pageX - rect.left - window.pageXOffset;
 		var offset_y = e.pageY - rect.top - window.pageYOffset;
 
-		// Record the offset between the bg edge and cursor:
+		// record the offset between the bg edge and cursor:
 		var img_cursor_x = offset_x - zoom_x;
 		var img_cursor_y = offset_y - zoom_y;
 
-		// Use the previous offset to get the percent offset between the bg edge and cursor:
+		// use the previous offset to get the percent offset between the bg edge and cursor
 		var img_ratio_x = img_cursor_x / zoom_w;
 		var img_ratio_y = img_cursor_y / zoom_h;
 
-		// Update the bg size:
+		// update the bg size
 		if (delta_y < 0)
 		{
 			zoom_w += zoom_w * zoom_step;
@@ -452,19 +456,9 @@ function w_image(id, src)
 			zoom_h -= zoom_h * zoom_step;
 		}
 
-		// Take the percent offset and apply it to the new size:
+		// take the percent offset and apply it to the new size
 		zoom_x = offset_x - (zoom_w * img_ratio_x);
 		zoom_y = offset_y - (zoom_h * img_ratio_y);
-
-		// Prevent zooming out beyond the starting size
-		// if (zoom_w <= orig_w || zoom_h <= orig_h)
-		// {
-		// 	reset_zoom();
-		// }
-		// else
-		// {
-		// 	update_zoom_content();
-		// }
 
 		update_zoom_content();
 	}
