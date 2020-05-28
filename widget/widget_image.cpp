@@ -116,16 +116,6 @@ void widget_image::close()
 
 void widget_image::change_view_mode(string mode)
 {
-	if (mode == "zoom")
-	{
-		current_mode = "zoom";
-		button_view_mode->setStyleClass("widget_image_view_mode widget_image_view_zoom");
-
-	}
-	else
-	{
-		current_mode = "contain";
-		button_view_mode->setStyleClass("widget_image_view_mode widget_image_view_contain");
-	}
-	/* this->doJavaScript("w_image_switch_view('" + this->id() + "', '" + current_mode + "');"); */
+	current_mode = mode;
+	this->doJavaScript("wt_image_switch_view('" + this->id() + "', '" + current_mode + "');");
 }

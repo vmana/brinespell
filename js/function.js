@@ -24,6 +24,8 @@ function w_image(id, src)
 	var position = []; // init mouse position when moving / resizing
 	var resize_class = '';
 	var orig_h = 0, orig_w = 0, max_wh; // origin size, and maximum between width and height ('w' or 'h')
+	var min_w_size = 60; // min width size
+	var min_h_size = 30; // min height size
 
 	content.style.backgroundImage = "url('" + src + "') ";
 	content.style.backgroundRepeat = 'no-repeat';
@@ -151,8 +153,6 @@ function w_image(id, src)
 
 		// boundaries checks
 		var safe_margin = 8;
-		var min_w_size = 60; // min width size
-		var min_h_size = 30; // min height size
 
 		var new_position = [e.clientX, e.clientY];
 
@@ -280,7 +280,7 @@ function w_image(id, src)
 
 		position = new_position;
 
-		if (content.style.backgroundSize == 'zoom') update_zoom_content();
+		if (mode == 'zoom') update_zoom_content();
 	}
 
 	function autocrop_contain()
@@ -293,12 +293,16 @@ function w_image(id, src)
 		if (orig_ratio < current_ratio)
 		{
 			// reduce width
-			img.style.width = Math.ceil(img.offsetHeight * orig_w / orig_h) + 'px';
+			var new_width = Math.ceil(img.offsetHeight * orig_w / orig_h);
+			if (new_width < min_w_size) new_width = min_w_size;
+			img.style.width = new_width + 'px';
 		}
 		else
 		{
 			// reduce height
-			img.style.height = Math.ceil(img.offsetWidth * orig_h / orig_w) + 'px';
+			var new_height = Math.ceil(img.offsetWidth * orig_h / orig_w);
+			if (new_height < min_h_size) new_height = min_h_size;
+			img.style.height = new_height + 'px';
 		}
 
 	}
@@ -521,28 +525,24 @@ function w_image(id, src)
 		update_zoom_content();
 	}
 
-	function on_view_mode_change()
+	// variable used when wt change view mode
+	img.wt_switch_view = function(new_mode)
 	{
-		console.log('on_view_mode_change');
-		var cs = window.getComputedStyle(view_mode);
-		var new_mode = cs.backgroundImage.match(/.*\/([^.]*)\.svg/)[1];
-		if (new_mode != mode && new_mode == 'contain')
+		mode = new_mode;
+		if (mode == 'contain')
 		{
-			mode = new_mode;
+			view_mode.className = 'widget_image_view_mode widget_image_view_contain';
 			content.style.backgroundSize = 'contain';
-			content.style.backgroundPosition = '0% 0%';
+			content.style.backgroundPosition = '0px 0px';
 			autocrop_contain();
 		}
-		else if (new_mode != mode && new_mode == 'zoom')
+		else if (mode == 'zoom')
 		{
-			mode = new_mode;
+			view_mode.className = 'widget_image_view_mode widget_image_view_zoom';
 			init_zoom_content();
 		}
 	};
 
-	// set event handler for view_mode change
-	var observer_view_mode = new MutationObserver(on_view_mode_change);
-	observer_view_mode.observe(view_mode, { attributes: true, childList: false, subtree: true });
 }
 
 function init_widget_image(id, src)
@@ -550,11 +550,17 @@ function init_widget_image(id, src)
 	w_image(id, src);
 }
 
-function wt_force_zoom(id, zoom_values)
+function wt_image_force_zoom(id, zoom_values)
 {
 	// zoom_values = 'zoom_w;zoom_h;zoom_x;zoom_y'
 	var img = document.getElementById(id);
 	img.wt_force_zoom(zoom_values);
+}
+
+function wt_image_switch_view(id, mode)
+{
+	var img = document.getElementById(id);
+	img.wt_switch_view(mode);
 }
 
 /****    chat    ****/
