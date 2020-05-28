@@ -18,10 +18,12 @@ class widget_image : public wcontainer
 
 		JSignal<int, int> signal_move; // top, left
 		JSignal<int, int, int, int> signal_resize; // top, left, width, height
+		JSignal<int, int, int, int> signal_zoom; // zoom_w, zoom_h, zoom_x,zoom_y
 
 		Signal<int, int> on_move_event;
 		Signal<tuple<int, int, int, int>> on_resize_event;
 		Signal<string> on_view_mode_event;
+		Signal<tuple<int, int, int, int>> on_zoom_event;
 		Signal<> on_close_event;
 
 		widget_image();
@@ -31,8 +33,10 @@ class widget_image : public wcontainer
 		void on_view_mode_click();
 		void animate_position(int top, int left);
 		void animate_resize(int top, int left, int width, int height);
+		void animate_zoom(int zoom_w, int zoom_h, int zoom_x, int zoom_y);
 		void signal_move_callback(int top, int left);
 		void signal_resize_callback(int top, int left, int width, int height);
+		void signal_zoom_callback(int zoom_w, int zoom_h, int zoom_x, int zoom_y);
 		void close();
 		void change_view_mode(string mode);
 };

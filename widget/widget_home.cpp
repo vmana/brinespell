@@ -167,6 +167,11 @@ string widget_home::open_image(string filename)
 		auto &[top, left, width, height] = pos;
 		broadcast::others(&widget_home::resize_image, id, top, left, width, height);
 	});
+	img->on_zoom_event.connect([=](tuple<int, int, int, int> pos)
+	{
+		auto &[zoom_w, zoom_h, zoom_x, zoom_y] = pos;
+		broadcast::others(&widget_home::zoom_image, id, zoom_w, zoom_h, zoom_x, zoom_y);
+	});
 	img->on_close_event.connect([=]()
 	{
 		broadcast::others(&widget_home::close_image, id);
@@ -216,6 +221,23 @@ void widget_home::resize_image(string id, int top, int left, int width, int heig
 		{
 			auto img = (widget_image*)child;
 			img->animate_resize(top, left, width, height);
+			break;
+		}
+	}
+}
+
+void widget_home::zoom_image(string id, int zoom_w, int zoom_h, int zoom_x, int zoom_y)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+
+	// search for a child with this id
+	for (auto &child : p_soma->main_div->children())
+	{
+		if (child->id() == id)
+		{
+			auto img = (widget_image*)child;
+			img->animate_zoom(zoom_w, zoom_h, zoom_x, zoom_y);
 			break;
 		}
 	}

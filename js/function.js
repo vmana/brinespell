@@ -381,13 +381,13 @@ function w_image(id, src)
 		{
 			zoom_w = img.offsetWidth;
 			// update zoom_h to be in ratio
-			zoom_h = zoom_w * orig_h / orig_w;
+			zoom_h = Math.ceil(zoom_w * orig_h / orig_w);
 		}
 		else if (zoom_h < img.offsetHeight)
 		{
 			zoom_h = img.offsetHeight;
 			// update zoom_w to be in ratio
-			zoom_w = zoom_h * orig_w / orig_h;
+			zoom_w = Math.ceil(zoom_h * orig_w / orig_h);
 		}
 
 		// update x, y
@@ -409,6 +409,12 @@ function w_image(id, src)
 			zoom_y = img.offsetHeight - zoom_h;
 		}
 
+		// only use integers
+		zoom_w = Math.round(zoom_w);
+		zoom_h = Math.round(zoom_h);
+		zoom_x = Math.round(zoom_x);
+		zoom_y = Math.round(zoom_y);
+
 		content.style.backgroundSize = zoom_w + 'px ' + zoom_h + 'px';
 		content.style.backgroundPosition = zoom_x + 'px ' + zoom_y + 'px';
 	}
@@ -418,6 +424,7 @@ function w_image(id, src)
 		e = e || window.event;
 		e.preventDefault();
 		if (mode != 'zoom') return;
+		img.classList.remove("widget_image_animated");
 
 		var delta_y = 0;
 		if (e.deltaY)
@@ -461,6 +468,9 @@ function w_image(id, src)
 		zoom_y = offset_y - (zoom_h * img_ratio_y);
 
 		update_zoom_content();
+
+		// wt callback
+		Wt.emit(id, 'signal_zoom', zoom_w, zoom_h, zoom_x, zoom_y);
 	}
 
 	function on_content_mousedown(e)
@@ -485,7 +495,21 @@ function w_image(id, src)
 	{
 		document.onmouseup = null;
 		document.onmousemove = null;
+
+		// wt callback
+		Wt.emit(id, 'signal_zoom', zoom_w, zoom_h, zoom_x, zoom_y);
 	}
+
+	// variable used when wt force zoom value
+	img.wt_force_zoom = function(zoom_values)
+	{
+		var array_zoom = zoom_values.split(';');
+		zoom_w = array_zoom[0];
+		zoom_h = array_zoom[1];
+		zoom_x = array_zoom[2];
+		zoom_y = array_zoom[3];
+		update_zoom_content();
+	};
 
 	function on_content_mousemove(e)
 	{
@@ -499,20 +523,21 @@ function w_image(id, src)
 
 	function on_view_mode_change()
 	{
+		console.log('on_view_mode_change');
 		var cs = window.getComputedStyle(view_mode);
-		mode = cs.backgroundImage.match(/.*\/([^.]*)\.svg/)[1];
-		// console.log(mode);
-		if (mode == 'contain')
+		var new_mode = cs.backgroundImage.match(/.*\/([^.]*)\.svg/)[1];
+		if (new_mode != mode && new_mode == 'contain')
 		{
+			mode = new_mode;
 			content.style.backgroundSize = 'contain';
 			content.style.backgroundPosition = '0% 0%';
 			autocrop_contain();
 		}
-		else if (mode == 'zoom')
+		else if (new_mode != mode && new_mode == 'zoom')
 		{
+			mode = new_mode;
 			init_zoom_content();
 		}
-
 	};
 
 	// set event handler for view_mode change
@@ -523,6 +548,13 @@ function w_image(id, src)
 function init_widget_image(id, src)
 {
 	w_image(id, src);
+}
+
+function wt_force_zoom(id, zoom_values)
+{
+	// zoom_values = 'zoom_w;zoom_h;zoom_x;zoom_y'
+	var img = document.getElementById(id);
+	img.wt_force_zoom(zoom_values);
 }
 
 /****    chat    ****/

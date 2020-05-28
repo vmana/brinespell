@@ -587,6 +587,11 @@ div.jp-seeking-bg
 	transition: top 0.8s, left 0.8s, width 0.6s, height 0.6s;
 	transition-timing-function: ease;
 }
+.widget_image_animated .widget_image_content
+{
+	transition: background-size 0.8s, background-position 0.8s;
+	transition-timing-function: ease;
+}
 
 .widget_image_bar
 {
