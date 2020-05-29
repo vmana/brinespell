@@ -893,6 +893,7 @@ function on_selector_click(e, context)
 	var res = box_animated_selector.search_dice_by_mouse(e);
 	if (res == undefined) return;
 	Wt.emit($teal.animated_selector.wt_callback_id, 'signal_selector_click', res, count);
+	return false;
 }
 
 function after_roll(notation, result)

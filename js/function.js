@@ -1,6 +1,5 @@
 'use strict';
 
-
 /****    images    ****/
 
 function w_image(id, src)
