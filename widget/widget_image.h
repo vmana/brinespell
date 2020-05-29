@@ -8,16 +8,16 @@
 class widget_image : public wcontainer
 {
 	protected:
-		string current_mode = "contain";
-		bool share = true; // when false, don't emit events
+		bool shared = true; // shared with other players
 
 	public:
 
+		WText *button_shared;
 		WText *button_close;
-		WText *button_view_mode;
 
 		JSignal<int, int> signal_move; // top, left
 		JSignal<int, int, int, int> signal_resize; // top, left, width, height
+		JSignal<string> signal_view_mode;
 		JSignal<int, int, int, int> signal_zoom; // zoom_w, zoom_h, zoom_x,zoom_y
 
 		Signal<int, int> on_move_event;
@@ -27,15 +27,16 @@ class widget_image : public wcontainer
 		Signal<> on_close_event;
 
 		widget_image();
-		widget_image(string filename, bool share = true);
-		widget_image(string filename, string id, bool share = true);
+		widget_image(string filename);
+		widget_image(string filename, string id);
 		void on_close_click();
-		void on_view_mode_click();
+		void on_shared_click();
 		void animate_position(int top, int left);
 		void animate_resize(int top, int left, int width, int height);
 		void animate_zoom(int zoom_w, int zoom_h, int zoom_x, int zoom_y);
 		void signal_move_callback(int top, int left);
 		void signal_resize_callback(int top, int left, int width, int height);
+		void signal_view_mode_callback(string mode);
 		void signal_zoom_callback(int zoom_w, int zoom_h, int zoom_x, int zoom_y);
 		void close();
 		void change_view_mode(string mode);

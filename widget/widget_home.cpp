@@ -154,7 +154,7 @@ string widget_home::open_image(string filename)
 	if (!p_soma->view_home) return "";
 
 	string id = mana::randstring(16);
-	auto img = p_soma->main_div->addNew<widget_image>(filename, id, true);
+	auto img = p_soma->main_div->addNew<widget_image>(filename, id);
 
 	// signals binding
 	img->on_move_event.connect([=](int top, int left)
@@ -189,7 +189,7 @@ void widget_home::open_shared_image(string filename, string id)
 	auto p_soma = soma::application();
 	if (!p_soma->view_home) return;
 
-	p_soma->main_div->addNew<widget_image>(filename, id, false);
+	p_soma->main_div->addNew<widget_image>(filename, id);
 }
 
 void widget_home::move_image(string id, int top, int left)

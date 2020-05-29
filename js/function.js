@@ -24,7 +24,7 @@ function w_image(id, src)
 	var position = []; // init mouse position when moving / resizing
 	var resize_class = '';
 	var orig_h = 0, orig_w = 0, max_wh; // origin size, and maximum between width and height ('w' or 'h')
-	var min_w_size = 60; // min width size
+	var min_w_size = 100; // min width size
 	var min_h_size = 30; // min height size
 
 	content.style.backgroundImage = "url('" + src + "') ";
@@ -32,6 +32,19 @@ function w_image(id, src)
 	content.style.backgroundSize = 'contain';
 
 	bar.onmousedown = on_bar_mousedown;
+	border_top.onmousedown = on_border_mousedown;
+	border_left.onmousedown = on_border_mousedown;
+	border_right.onmousedown = on_border_mousedown;
+	border_bottom.onmousedown = on_border_mousedown;
+	corner_nw.onmousedown = on_border_mousedown;
+	corner_ne.onmousedown = on_border_mousedown;
+	corner_sw.onmousedown = on_border_mousedown;
+	corner_se.onmousedown = on_border_mousedown;
+	view_mode.onclick = view_mode_click;
+	content.onwheel = on_content_wheel;
+	content.onmousedown = on_content_mousedown;
+	// prevent right click context menu, since it's handled by on_content_mousedown
+	content.oncontextmenu = function(e) { e = e || window.event; e.preventDefault(); return false; }
 
 	function on_bar_mousedown(e)
 	{
@@ -97,15 +110,6 @@ function w_image(id, src)
 		img.style.top = new_top + "px";
 		img.style.left = new_left + "px";
 	}
-
-	border_top.onmousedown = on_border_mousedown;
-	border_left.onmousedown = on_border_mousedown;
-	border_right.onmousedown = on_border_mousedown;
-	border_bottom.onmousedown = on_border_mousedown;
-	corner_nw.onmousedown = on_border_mousedown;
-	corner_ne.onmousedown = on_border_mousedown;
-	corner_sw.onmousedown = on_border_mousedown;
-	corner_se.onmousedown = on_border_mousedown;
 
 	function on_border_mousedown(e)
 	{
@@ -362,13 +366,10 @@ function w_image(id, src)
 	var zoom_x = 0;
 	var zoom_y = 0;
 
-	content.addEventListener('wheel', on_content_wheel);
-	content.addEventListener('mousedown', on_content_mousedown);
-
 	function init_zoom_content()
 	{
-		zoom_w = orig_w;
-		zoom_h = orig_h;
+		zoom_w = img.offsetWidth;
+		zoom_h = img.offsetHeight;
 		zoom_x = 0;
 		zoom_y = 0;
 
@@ -378,18 +379,25 @@ function w_image(id, src)
 
 	function update_zoom_content()
 	{
+		// console.log('update ' + img.offsetWidth);
 		if (orig_h == 0 || orig_w == 0) return; // should never happen
 
+		// img.style.width sometime doesn't change offsetWidth, so I'll take the bigger one
+		var img_w = img.offsetWidth;
+		if (parseInt(img.style.width, 10) > img_w) img_w = parseInt(img.style.width, 10);
+		var img_h = img.offsetHeight;
+		if (parseInt(img.style.height, 10) > img_h) img_h = parseInt(img.style.height, 10);
+
 		// adjust values if img size has changed, which creates empty spaces
-		if (zoom_w < img.offsetWidth)
+		if (zoom_w < img_w)
 		{
-			zoom_w = img.offsetWidth;
+			zoom_w = img_w;
 			// update zoom_h to be in ratio
 			zoom_h = Math.ceil(zoom_w * orig_h / orig_w);
 		}
-		else if (zoom_h < img.offsetHeight)
+		else if (zoom_h < img_h)
 		{
-			zoom_h = img.offsetHeight;
+			zoom_h = img_h;
 			// update zoom_w to be in ratio
 			zoom_w = Math.ceil(zoom_h * orig_w / orig_h);
 		}
@@ -399,18 +407,18 @@ function w_image(id, src)
 		{
 			zoom_x = 0;
 		}
-		else if (zoom_x < img.offsetWidth - zoom_w)
+		else if (zoom_x < img_w - zoom_w)
 		{
-			zoom_x = img.offsetWidth - zoom_w;
+			zoom_x = img_w - zoom_w;
 		}
 
 		if (zoom_y > 0)
 		{
 			zoom_y = 0;
 		}
-		else if (zoom_y < img.offsetHeight - zoom_h)
+		else if (zoom_y < img_h - zoom_h)
 		{
-			zoom_y = img.offsetHeight - zoom_h;
+			zoom_y = img_h - zoom_h;
 		}
 
 		// only use integers
@@ -427,19 +435,20 @@ function w_image(id, src)
 	{
 		e = e || window.event;
 		e.preventDefault();
-		if (mode != 'zoom') return;
-		img.classList.remove("widget_image_animated");
 
+		// wheel delta, negative is up, positive is down
 		var delta_y = 0;
-		if (e.deltaY)
+		if (e.deltaY) delta_y = e.deltaY;
+		else if (e.wheelDelta) delta_y = -e.wheelDelta;
+
+		// if not in zoom mode and wheel in up (negative delta_y)
+		// change to zoom, and signal wt
+		if (mode != 'zoom' && delta_y < 0)
 		{
-			// FireFox 17+ (IE9+, Chrome 31+?)
-			delta_y = e.deltaY;
-		}
-		else if (e.wheelDelta)
-		{
-			delta_y = -e.wheelDelta;
-		}
+			img.wt_switch_view('zoom', true);
+		};
+
+		img.classList.remove("widget_image_animated");
 
 		// as far as I know, there is no good cross-browser way to get the cursor position relative to the event target
 		// we have to calculate the target element's position relative to the document, and subtrack that from the
@@ -481,6 +490,19 @@ function w_image(id, src)
 	{
 		e = e || window.event;
 		e.preventDefault();
+
+		// right click ?
+		if (e.which == 3 || e.button == 2)
+		{
+			// if right click, try to exit zoom mode and set contain mode
+			if (mode == 'zoom')
+			{
+				img.wt_switch_view('contain', true);
+				return;
+			}
+		}
+
+		// don't accept left click when not in zoom mode
 		if (mode != 'zoom') return;
 
 		previous_zoom_e = e;
@@ -526,7 +548,7 @@ function w_image(id, src)
 	}
 
 	// variable used when wt change view mode
-	img.wt_switch_view = function(new_mode)
+	img.wt_switch_view = function(new_mode, emit_wt_signal)
 	{
 		mode = new_mode;
 		if (mode == 'contain')
@@ -541,8 +563,26 @@ function w_image(id, src)
 			view_mode.className = 'widget_image_view_mode widget_image_view_zoom';
 			init_zoom_content();
 		}
+
+		if (emit_wt_signal) Wt.emit(id, 'signal_view_mode', mode);
 	};
 
+	function view_mode_click()
+	{
+		if (mode == 'zoom') img.wt_switch_view('contain', true);
+		else if (mode == 'contain') img.wt_switch_view('zoom', true);
+	}
+
+	// variable used when wt change border size
+	img.wt_border_resize = function(size_values)
+	{
+		var array_size = size_values.split(';');
+		img.style.top = array_size[0] + 'px';
+		img.style.left = array_size[1] + 'px';
+		img.style.width = array_size[2] + 'px';
+		img.style.height = array_size[3] + 'px';
+		if (mode == 'zoom') update_zoom_content();
+	}
 }
 
 function init_widget_image(id, src)
@@ -560,7 +600,14 @@ function wt_image_force_zoom(id, zoom_values)
 function wt_image_switch_view(id, mode)
 {
 	var img = document.getElementById(id);
-	img.wt_switch_view(mode);
+	img.wt_switch_view(mode, false);
+}
+
+function wt_image_border_resize(id, size_values)
+{
+	// size_values = 'top;left;width;height'
+	var img = document.getElementById(id);
+	img.wt_border_resize(size_values);
 }
 
 /****    chat    ****/

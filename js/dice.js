@@ -886,7 +886,7 @@ function on_selector_click(e, context)
 	e = e || window.event;
 	e.preventDefault();
 	var count = 1;
-	if (context || e.buttons == 2)
+	if (context || (e.which == 3 || e.button == 2))
 	{
 		count = -1;
 	}
