@@ -367,7 +367,7 @@ div.jp-seeking-bg
 	width: 140px;
 	height: 140px;
 	background: url('/img/moon-cloud.svg') center center no-repeat;
-	background-color: #040c1bd0;
+	background-color: #040c1be0;
 	opacity: 1.0;
 	background-size: contain;
 	border-radius: 50%;
@@ -764,3 +764,4 @@ div.jp-seeking-bg
 	right: -6px;
 	cursor: se-resize;
 }
+

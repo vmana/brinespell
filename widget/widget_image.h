@@ -9,6 +9,7 @@ class widget_image : public wcontainer
 {
 	protected:
 		bool shared = true; // shared with other players
+		bool visible = true;
 
 	public:
 
@@ -24,11 +25,11 @@ class widget_image : public wcontainer
 		Signal<tuple<int, int, int, int>> on_resize_event;
 		Signal<string> on_view_mode_event;
 		Signal<tuple<int, int, int, int>> on_zoom_event;
+		Signal<bool> on_shared_event;
 		Signal<> on_close_event;
 
-		widget_image();
-		widget_image(string filename);
-		widget_image(string filename, string id);
+		widget_image(string filename, bool visible = true);
+		widget_image(string filename, string id, bool visible = true);
 		void on_close_click();
 		void on_shared_click();
 		void animate_position(int top, int left);
@@ -40,6 +41,8 @@ class widget_image : public wcontainer
 		void signal_zoom_callback(int zoom_w, int zoom_h, int zoom_x, int zoom_y);
 		void close();
 		void change_view_mode(string mode);
+		void change_shared(bool shared);
+		void change_image_visibility(bool visible); // call when master image shared is changed
 };
 
 #endif // widget_image_H

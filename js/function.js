@@ -528,11 +528,10 @@ function w_image(id, src)
 	// variable used when wt force zoom value
 	img.wt_force_zoom = function(zoom_values)
 	{
-		var array_zoom = zoom_values.split(';');
-		zoom_w = array_zoom[0];
-		zoom_h = array_zoom[1];
-		zoom_x = array_zoom[2];
-		zoom_y = array_zoom[3];
+		zoom_w = zoom_values[0];
+		zoom_h = zoom_values[1];
+		zoom_x = zoom_values[2];
+		zoom_y = zoom_values[3];
 		update_zoom_content();
 	};
 
@@ -575,11 +574,10 @@ function w_image(id, src)
 	// variable used when wt change border size
 	img.wt_border_resize = function(size_values)
 	{
-		var array_size = size_values.split(';');
-		img.style.top = array_size[0] + 'px';
-		img.style.left = array_size[1] + 'px';
-		img.style.width = array_size[2] + 'px';
-		img.style.height = array_size[3] + 'px';
+		img.style.top = size_values[0] + 'px';
+		img.style.left = size_values[1] + 'px';
+		img.style.width = size_values[2] + 'px';
+		img.style.height = size_values[3] + 'px';
 		if (mode == 'zoom') update_zoom_content();
 	}
 }

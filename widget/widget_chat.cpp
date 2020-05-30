@@ -21,11 +21,6 @@ widget_chat::widget_chat() : wcontainer("chat")
 	chat_input->setStyleClass("widget_chat_input");
 	chat_input->setText("");
 
-	/* string lines = ""; */
-	/* for (int i = 0; i < 40; i++) */
-	/* 	lines += "line " + convert::int_string(i) + "<br />\n"; */
-	/* chat_lines->setText(lines); */
-
 	// change scrollbar display, and scrolls to the bottom when the content change
 	doJavaScript("init_chat_box('" + chat_container->id() + "');");
 
@@ -37,6 +32,7 @@ widget_chat::widget_chat() : wcontainer("chat")
 	// prevent hiding when mouse is over, force show when mouse is over
 	chat_container->mouseWentOver().connect([&](){ chat_container->setStyleClass("widget_chat ss-container"); });
 	chat_container->mouseWentOut().connect([&](){ if (!chat_auto_hide.isActive()) chat_container->setStyleClass("widget_chat ss-container hidden"); });
+	chat_container->clicked().connect(this, &widget_chat::on_chat_click);
 	chat_input->enterPressed().connect(this, &widget_chat::on_chat_enter_pressed);
 	chat_input->focussed().connect(this, &widget_chat::reset_hide_timer);
 	chat_input->keyPressed().connect(this, &widget_chat::reset_hide_timer);
@@ -98,6 +94,11 @@ void widget_chat::hide_chat_timeout()
 {
 	chat_container->setStyleClass("widget_chat ss-container hidden");
 	chat_auto_hide.stop();
+}
+
+void widget_chat::on_chat_click()
+{
+	hide_chat_timeout();
 }
 
 widget_chat::~widget_chat()

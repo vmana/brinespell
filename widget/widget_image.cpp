@@ -1,17 +1,12 @@
 #include "widget_image.h"
 #include "soma.h"
 
-widget_image::widget_image()
-	: widget_image("")
+widget_image::widget_image(string filename, bool visible) :
+	widget_image(filename, mana::randstring(16), visible)
 {
 }
 
-widget_image::widget_image(string filename) :
-	widget_image(filename, mana::randstring(16))
-{
-}
-
-widget_image::widget_image(string filename, string id) :
+widget_image::widget_image(string filename, string id, bool visible) :
 	wcontainer("image"),
 	signal_move(this, "signal_move"),
 	signal_resize(this, "signal_resize"),
@@ -19,6 +14,7 @@ widget_image::widget_image(string filename, string id) :
 	signal_zoom(this, "signal_zoom")
 {
 	setId(id);
+	change_image_visibility(visible);
 
 	int init_top = 200;
 	int init_left = 600;
@@ -54,15 +50,7 @@ void widget_image::on_close_click()
 
 void widget_image::on_shared_click()
 {
-	shared = !shared;
-	if (shared)
-	{
-		button_shared->setStyleClass("widget_image_shared widget_image_shared_yes");
-	}
-	else
-	{
-		button_shared->setStyleClass("widget_image_shared widget_image_shared_no");
-	}
+	change_shared(! shared);
 }
 
 void widget_image::animate_position(int top, int left)
@@ -77,14 +65,14 @@ void widget_image::animate_resize(int top, int left, int width, int height)
 	this->addStyleClass("widget_image_animated", true);
 
 	string size_values =
-		convert::int_string(top) + ";"
-		+ convert::int_string(left) + ";"
-		+ convert::int_string(width) + ";"
-		+ convert::int_string(height);
+		"[" + convert::int_string(top) + ","
+		+ convert::int_string(left) + ","
+		+ convert::int_string(width) + ","
+		+ convert::int_string(height) + "]";
 
 
 	// if in zoom mode, will trigger update_zoom_content
-	this->doJavaScript("wt_image_border_resize('" + this->id() + "', '" + size_values + "');");
+	this->doJavaScript("wt_image_border_resize('" + this->id() + "', " + size_values + ");");
 }
 
 void widget_image::animate_zoom(int zoom_w, int zoom_h, int zoom_x, int zoom_y)
@@ -92,12 +80,12 @@ void widget_image::animate_zoom(int zoom_w, int zoom_h, int zoom_x, int zoom_y)
 	this->addStyleClass("widget_image_animated", true);
 
 	string zoom_values =
-		convert::int_string(zoom_w) + ";"
-		+ convert::int_string(zoom_h) + ";"
-		+ convert::int_string(zoom_x) + ";"
-		+ convert::int_string(zoom_y);
+		"[" + convert::int_string(zoom_w) + ","
+		+ convert::int_string(zoom_h) + ","
+		+ convert::int_string(zoom_x) + ","
+		+ convert::int_string(zoom_y) + "]";
 
-	this->doJavaScript("wt_image_force_zoom('" + this->id() + "', '" + zoom_values + "');");
+	this->doJavaScript("wt_image_force_zoom('" + this->id() + "', " + zoom_values + ");");
 }
 
 void widget_image::signal_move_callback(int top, int left)
@@ -128,4 +116,31 @@ void widget_image::close()
 void widget_image::change_view_mode(string mode)
 {
 	this->doJavaScript("wt_image_switch_view('" + this->id() + "', '" + mode + "');");
+}
+
+void widget_image::change_shared(bool shared)
+{
+	this->shared = shared;
+	if (shared)
+	{
+		button_shared->setStyleClass("widget_image_shared widget_image_shared_yes");
+	}
+	else
+	{
+		button_shared->setStyleClass("widget_image_shared widget_image_shared_no");
+	}
+	on_shared_event.emit(shared);
+}
+
+void widget_image::change_image_visibility(bool visible)
+{
+	this->visible = visible;
+	if (visible)
+	{
+		removeStyleClass("visibility_hidden", true);
+	}
+	else
+	{
+		addStyleClass("visibility_hidden", true);
+	}
 }

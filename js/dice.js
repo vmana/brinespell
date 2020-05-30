@@ -793,7 +793,7 @@ function init_dice_object(dice) {
 		var vector = { x: (rnd() * 2 - 1) * box.w, y: -(rnd() * 2 - 1) * box.h };
 		var dist = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
 		var boost = (rnd() + 3) * dist;
-		if (boost < 1300) boost += 800;
+		if (boost < 1800) boost = 1800;
 		throw_dices(box, vector, boost, dist, dices_set, after_roll);
 	}
 

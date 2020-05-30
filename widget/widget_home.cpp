@@ -97,7 +97,8 @@ void widget_home::search_master_open(string filename)
 
 		// only broadcast if we are the game master
 		if (!S->p_player->game_master) return;
-		broadcast::others(&widget_home::open_shared_image, "data/" + filename, id);
+		// TODO: might spawn invisible
+		broadcast::others(&widget_home::open_shared_image, "data/" + filename, id, true);
 	}
 }
 
@@ -180,23 +181,25 @@ string widget_home::open_image(string filename)
 	{
 		broadcast::others(&widget_home::switch_mode_image, id, mode);
 	});
+	img->on_shared_event.connect([=](bool shared)
+	{
+		broadcast::others(&widget_home::change_image_visibility, id, shared);
+	});
 
 	return id;
 }
 
-void widget_home::open_shared_image(string filename, string id)
+void widget_home::open_shared_image(string filename, string id, bool visible)
 {
 	auto p_soma = soma::application();
 	if (!p_soma->view_home) return;
-
-	p_soma->main_div->addNew<widget_image>(filename, id);
+	p_soma->main_div->addNew<widget_image>(filename, id, visible);
 }
 
 void widget_home::move_image(string id, int top, int left)
 {
 	auto p_soma = soma::application();
 	if (!p_soma->view_home) return;
-
 	// search for a child with this id
 	for (auto &child : p_soma->main_div->children())
 	{
@@ -213,7 +216,6 @@ void widget_home::resize_image(string id, int top, int left, int width, int heig
 {
 	auto p_soma = soma::application();
 	if (!p_soma->view_home) return;
-
 	// search for a child with this id
 	for (auto &child : p_soma->main_div->children())
 	{
@@ -230,7 +232,6 @@ void widget_home::zoom_image(string id, int zoom_w, int zoom_h, int zoom_x, int 
 {
 	auto p_soma = soma::application();
 	if (!p_soma->view_home) return;
-
 	// search for a child with this id
 	for (auto &child : p_soma->main_div->children())
 	{
@@ -247,7 +248,6 @@ void widget_home::switch_mode_image(string id, string mode)
 {
 	auto p_soma = soma::application();
 	if (!p_soma->view_home) return;
-
 	// search for a child with this id
 	for (auto &child : p_soma->main_div->children())
 	{
@@ -260,11 +260,26 @@ void widget_home::switch_mode_image(string id, string mode)
 	}
 }
 
+void widget_home::change_image_visibility(string id, bool visible)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+	// search for a child with this id
+	for (auto &child : p_soma->main_div->children())
+	{
+		if (child->id() == id)
+		{
+			auto img = (widget_image*)child;
+			img->change_image_visibility(visible);
+			break;
+		}
+	}
+}
+
 void widget_home::close_image(string id)
 {
 	auto p_soma = soma::application();
 	if (!p_soma->view_home) return;
-
 	// search for a child with this id
 	for (auto &child : p_soma->main_div->children())
 	{

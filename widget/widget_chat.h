@@ -21,11 +21,12 @@ class widget_chat : public wcontainer
 		// add timestamp, username
 		static string prepare_message(string message);
 
+		widget_chat();
 		void add_message(string message);
 		void reset_hide_timer();
 		void on_chat_enter_pressed();
 		void hide_chat_timeout();
-		widget_chat();
+		void on_chat_click();
 		~widget_chat();
 };
 
