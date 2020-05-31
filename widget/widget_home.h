@@ -8,6 +8,7 @@
 #include "widget_chat.h"
 #include "widget_image.h"
 #include "db/campaign.h"
+#include "db/player.h"
 
 class widget_home : public wcontainer
 {
@@ -18,6 +19,7 @@ class widget_home : public wcontainer
 		widget_dice *dices;
 		widget_chat *chat;
 
+		WText *character_portait;
 		widget_image *tmp_img;
 
 		widget_home();

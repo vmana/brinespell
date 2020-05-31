@@ -25,6 +25,7 @@ class global
 		static string template_path;
 		static string data_path;
 		static string config_path;
+		static string campaign_path;
 
 };
 

@@ -251,6 +251,10 @@ div.jp-seeking-bg
 	display: flex;
 	flex-direction: column;
 }
+/* .widget_home_chat:hover */
+/* { */
+/* 	z-index: 10; */
+/* } */
 
 /****    widget_dice    ****/
 
@@ -764,4 +768,53 @@ div.jp-seeking-bg
 	right: -6px;
 	cursor: se-resize;
 }
-
+.div_portrait
+{
+	position: absolute;
+	bottom: 0px;
+	left: calc(50% + 100px);
+}
+.div_ship_wheel
+{
+	position: absolute;
+	bottom: -69px;
+	left: -148px;
+	width: 296px;
+	height: 296px;
+	background: url('/img/wheel.png') center center no-repeat;
+	opacity: 1.0;
+	background-size: contain;
+	animation: spin 220s linear infinite;
+	z-index: 0;
+}
+.div_ship_porthole
+{
+	position: absolute;
+	bottom: -19px;
+	left: -98px;
+	width: 196px;
+	height: 196px;
+	background: url('/img/porthole.png') center center no-repeat;
+	/* background-color: #040c1be0; */
+	opacity: 1.0;
+	background-size: contain;
+	z-index: 1;
+	animation: spin 140s linear infinite reverse;
+}
+.div_portait_character
+{
+	position: absolute;
+	bottom: 0px;
+	left: -77px;
+	width: 148px;
+	height: 148px;
+	background-color: #040c1b;
+	opacity: 1.0;
+	background-position-x: center;
+	background-position-y: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	z-index: 2;
+	border-radius: 50%;
+	border: solid 3px #756233;
+}

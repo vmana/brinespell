@@ -9,7 +9,7 @@ widget_home::widget_home() : wcontainer("home")
 
 	setStyleClass("widget_home");
 	search = bindNew<widget_search>("widget_search");
-	string ls_data = system::shellexec("cd /dalaran/brinespell/data && find . -name '*' -type f | sed -e 's,^\\./,,'");
+	string ls_data = system::shellexec("cd /dalaran/brinespell/data && find . -name '*' -type f | grep -v '/campaign/' | sed -e 's,^\\./,,'");
 	search->set_data(explode("\n", ls_data));
 	search->edit_search->setFocus(true);
 
@@ -69,6 +69,17 @@ widget_home::widget_home() : wcontainer("home")
 		+ " joins the session</span>"
 		+ "<br />\n";
 	broadcast::all(&widget_home::chat_message, message);
+
+	// set player character image
+	character_portait = bindNew<WText>("character_portait");
+	character_portait->setStyleClass("div_portait_character");
+	string filename = strlower(S->p_campaign->name) + "/avatar/" + strlower(S->p_player->name) + ".png";
+	debug_line(global::campaign_path + filename);
+	if (file::exists(global::campaign_path + filename))
+	{
+		debug_line("*");
+		character_portait->decorationStyle().setBackgroundImage("/data/campaign/" + filename);
+	}
 
 	/* S->main_div->addNew<widget_image>("data/img/scroll.01.png", "xxxxxx", true); */
 }
