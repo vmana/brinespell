@@ -784,7 +784,7 @@ div.jp-seeking-bg
 	background: url('/img/wheel.png') center center no-repeat;
 	opacity: 1.0;
 	background-size: contain;
-	animation: spin 220s linear infinite;
+	animation: spin 300s linear infinite;
 	z-index: 0;
 }
 .div_ship_porthole
@@ -799,7 +799,7 @@ div.jp-seeking-bg
 	opacity: 1.0;
 	background-size: contain;
 	z-index: 1;
-	animation: spin 140s linear infinite reverse;
+	animation: spin 280s linear infinite reverse;
 }
 .div_portait_character
 {
