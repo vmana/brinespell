@@ -7,17 +7,18 @@ class widget_portrait : public wcontainer
 {
 	public:
 
-		WText *avatar_image;
-		wtemplate *button_image_spawn;
-		WText *button_image_spawn_bg;
-		widget_template *button_image_spawn_helper;
 
-		// variable to determine is an image is visible to others when created
-		bool spawn_image_visible = false;
+		WText *avatar_image;
+
+		bool inspired = false;
+		Signal<bool> on_inspiration_event;
+		wtemplate *button_inspiration;
+		WText *button_inspiration_bg;
+		widget_template *button_inspiration_helper;
 
 		widget_portrait();
-		void on_spawn_visible_click();
-		void update_spaw_visible(bool visible);
+		void on_inspiration_click();
+		void update_inspiration(bool inspired);
 };
 
 #endif // widget_portrait_H

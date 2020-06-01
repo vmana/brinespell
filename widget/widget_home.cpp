@@ -98,9 +98,7 @@ void widget_home::search_master_open(string filename)
 		// only broadcast if we are the game master
 		if (!S->p_player->game_master) return;
 
-		// check spawn visible from widget_portrait to determine initial visibility
-		bool visible = portrait->spawn_image_visible;
-		broadcast::others(&widget_home::open_shared_image, "data/" + filename, id, visible);
+		broadcast::others(&widget_home::open_shared_image, "data/" + filename, id);
 	}
 }
 
@@ -156,10 +154,6 @@ string widget_home::open_image(string filename)
 	string id = mana::randstring(16);
 	auto img = S->main_div->addNew<widget_image>(filename, id);
 
-	// check spawn visible from widget_portrait to determine initial shared
-	bool shared = portrait->spawn_image_visible;
-	img->change_shared(shared);
-
 	// signals binding
 	img->on_move_event.connect([=](int top, int left)
 	{
@@ -192,11 +186,11 @@ string widget_home::open_image(string filename)
 	return id;
 }
 
-void widget_home::open_shared_image(string filename, string id, bool visible)
+void widget_home::open_shared_image(string filename, string id)
 {
 	auto p_soma = soma::application();
 	if (!p_soma->view_home) return;
-	p_soma->main_div->addNew<widget_image>(filename, id, visible);
+	p_soma->main_div->addNew<widget_image>(filename, id, false);
 }
 
 void widget_home::move_image(string id, int top, int left)

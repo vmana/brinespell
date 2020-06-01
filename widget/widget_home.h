@@ -35,7 +35,7 @@ class widget_home : public wcontainer
 		static void chat_message(string message);
 		// images
 		string open_image(string filename); // return image id
-		static void open_shared_image(string filename, string id, bool visible);
+		static void open_shared_image(string filename, string id);
 		static void move_image(string id, int top, int left);
 		static void resize_image(string id, int top, int left, int width, int height);
 		static void zoom_image(string id, int zoom_w, int zoom_h, int zoom_x, int zoom_y);

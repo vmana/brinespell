@@ -14,37 +14,34 @@ widget_portrait::widget_portrait() : wcontainer("portrait")
 		avatar_image->decorationStyle().setBackgroundImage("/data/campaign/" + filename);
 	}
 
-	// determine spawn_image_visible, for players it's false, for game master it's true
-	if (S->p_player->game_master) spawn_image_visible = true;
-	else spawn_image_visible = false;
+	button_inspiration = bindNew<wtemplate>("button_inspiration", "ring_button");
+	button_inspiration->setStyleClass("position_ring_inspiration");
+	button_inspiration_bg = button_inspiration->bindNew<WText>("ring_button_bg");
+	button_inspiration_helper = button_inspiration->bindNew<widget_template>("ring_button_helper");
+	button_inspiration_helper->set_text("<div class=\"ring_button_helper_left\">Inspiration</div>");
 
-	button_image_spawn = bindNew<wtemplate>("button_image_spawn", "ring_button");
-	button_image_spawn->setStyleClass("position_ring_image_spawn");
-	button_image_spawn_bg = button_image_spawn->bindNew<WText>("ring_button_bg");
-	button_image_spawn_helper = button_image_spawn->bindNew<widget_template>("ring_button_helper");
-	button_image_spawn_helper->set_text("<div class=\"ring_button_helper_left\">Share new images</div>");
-
-	update_spaw_visible(spawn_image_visible);
+	update_inspiration(inspired);
 
 	// signal binding
-	button_image_spawn->clicked().connect(this, &widget_portrait::on_spawn_visible_click);
+	button_inspiration->clicked().connect(this, &widget_portrait::on_inspiration_click);
 
 }
 
-void widget_portrait::on_spawn_visible_click()
+void widget_portrait::on_inspiration_click()
 {
-	update_spaw_visible(! spawn_image_visible);
+	update_inspiration(! inspired);
+	on_inspiration_event.emit(inspired);
 }
 
-void widget_portrait::update_spaw_visible(bool visible)
+void widget_portrait::update_inspiration(bool inspired)
 {
-	spawn_image_visible = visible;
-	if (visible)
+	this->inspired = inspired;
+	if (inspired)
 	{
-		button_image_spawn_bg->setStyleClass("ring_button_bg ring_image_spawn_sun");
+		button_inspiration_bg->setStyleClass("ring_button_bg ring_inspiration_sun");
 	}
 	else
 	{
-		button_image_spawn_bg->setStyleClass("ring_button_bg ring_image_spawn_moon");
+		button_inspiration_bg->setStyleClass("ring_button_bg ring_inspiration_moon");
 	}
 }

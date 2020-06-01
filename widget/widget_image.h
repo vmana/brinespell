@@ -8,7 +8,7 @@
 class widget_image : public wcontainer
 {
 	protected:
-		bool shared = true; // shared with other players
+		bool shared = false; // shared with other players
 		bool visible = true;
 
 	public:
