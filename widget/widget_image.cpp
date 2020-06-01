@@ -24,7 +24,7 @@ widget_image::widget_image(string filename, string id, bool visible) :
 	setPositionScheme(PositionScheme::Absolute);
 	button_close = bindNew<WText>("button_close");
 	button_close->setStyleClass("widget_image_close");
-	button_close->setToolTip("close");
+	button_close->setToolTip("Close");
 
 	button_shared = bindNew<WText>("button_shared");
 	button_shared->setStyleClass("widget_image_shared widget_image_shared_yes");
