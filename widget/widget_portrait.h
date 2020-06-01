@@ -10,6 +10,7 @@ class widget_portrait : public wcontainer
 		WText *avatar_image;
 		wtemplate *button_image_spawn;
 		WText *button_image_spawn_bg;
+		widget_template *button_image_spawn_helper;
 
 		// variable to determine is an image is visible to others when created
 		bool spawn_image_visible = false;

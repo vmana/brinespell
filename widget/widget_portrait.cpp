@@ -21,6 +21,8 @@ widget_portrait::widget_portrait() : wcontainer("portrait")
 	button_image_spawn = bindNew<wtemplate>("button_image_spawn", "ring_button");
 	button_image_spawn->setStyleClass("position_ring_image_spawn");
 	button_image_spawn_bg = button_image_spawn->bindNew<WText>("ring_button_bg");
+	button_image_spawn_helper = button_image_spawn->bindNew<widget_template>("ring_button_helper");
+	button_image_spawn_helper->set_text("<div class=\"ring_button_helper_left\">Share new images</div>");
 
 	update_spaw_visible(spawn_image_visible);
 
