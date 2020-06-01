@@ -249,18 +249,24 @@ function w_image(id, src)
 
 		/****    actual resize call    ****/
 
+		// force zoom mode when resizing from anything but corner
+
 		switch (resize_class)
 		{
 			case 'widget_image_border_top':
+				if (mode != 'zoom') img.wt_switch_view('zoom', true);
 				resize_top();
 				break;
 			case 'widget_image_border_bottom':
+				if (mode != 'zoom') img.wt_switch_view('zoom', true);
 				resize_bottom();
 				break;
 			case 'widget_image_border_left':
+				if (mode != 'zoom') img.wt_switch_view('zoom', true);
 				resize_left();
 				break;
 			case 'widget_image_border_right':
+				if (mode != 'zoom') img.wt_switch_view('zoom', true);
 				resize_right();
 				break;
 			case 'widget_image_corner_nw':
