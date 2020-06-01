@@ -7,8 +7,8 @@
 #include "widget_dice.h"
 #include "widget_chat.h"
 #include "widget_image.h"
+#include "widget_portrait.h"
 #include "db/campaign.h"
-#include "db/player.h"
 
 class widget_home : public wcontainer
 {
@@ -18,9 +18,7 @@ class widget_home : public wcontainer
 		widget_audio *audio;
 		widget_dice *dices;
 		widget_chat *chat;
-
-		WText *character_portait;
-		widget_image *tmp_img;
+		widget_portrait *portrait;
 
 		widget_home();
 
@@ -36,7 +34,7 @@ class widget_home : public wcontainer
 		// chat
 		static void chat_message(string message);
 		// images
-		static string open_image(string filename); // return image id
+		string open_image(string filename); // return image id
 		static void open_shared_image(string filename, string id, bool visible);
 		static void move_image(string id, int top, int left);
 		static void resize_image(string id, int top, int left, int width, int height);
@@ -44,6 +42,7 @@ class widget_home : public wcontainer
 		static void switch_mode_image(string id, string mode);
 		static void change_image_visibility(string id, bool visible);
 		static void close_image(string id);
+		static widget_image* search_image(string id);
 };
 
 #endif // widget_home_H

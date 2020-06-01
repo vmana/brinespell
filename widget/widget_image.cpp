@@ -13,13 +13,14 @@ widget_image::widget_image(string filename, string id, bool visible) :
 	signal_view_mode(this, "signal_view_mode"),
 	signal_zoom(this, "signal_zoom")
 {
+	setStyleClass("widget_image");
+
 	setId(id);
 	change_image_visibility(visible);
 
 	int init_top = 200;
 	int init_left = 600;
 
-	setStyleClass("widget_image");
 	setPositionScheme(PositionScheme::Absolute);
 	button_close = bindNew<WText>("button_close");
 	button_close->setStyleClass("widget_image_close");

@@ -46,6 +46,7 @@ HEADERS  += config.h\
 				widget/widget_dice.h\
 				widget/widget_chat.h\
 				widget/widget_image.h\
+				widget/widget_portrait.h\
 				widget/widget_home.h\
 				thread/background.h\
 
@@ -66,5 +67,6 @@ SOURCES +=	main.cpp\
 				widget/widget_dice.cpp\
 				widget/widget_chat.cpp\
 				widget/widget_image.cpp\
+				widget/widget_portrait.cpp\
 				widget/widget_home.cpp\
 				thread/background.cpp\

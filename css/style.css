@@ -247,7 +247,7 @@ div.jp-seeking-bg
 	position: absolute;
 	left: 10px;
 	bottom: 10px;
-	width: 500px;
+	width: 460px;
 	display: flex;
 	flex-direction: column;
 }
@@ -406,7 +406,7 @@ div.jp-seeking-bg
 .widget_chat
 {
 	height: 280px;
-	width: 500px;
+	width: 100%;
 	background: #0a141c;
 	font-size: 15px;
 	opacity: 0.84;
@@ -768,13 +768,16 @@ div.jp-seeking-bg
 	right: -6px;
 	cursor: se-resize;
 }
+
+/****    portrait    ****/
+
 .div_portrait
 {
 	position: absolute;
 	bottom: 0px;
-	left: calc(50% + 100px);
+	left: calc(50% + 40px);
 }
-.div_ship_wheel
+.ship_wheel
 {
 	position: absolute;
 	bottom: -70px;
@@ -782,12 +785,11 @@ div.jp-seeking-bg
 	width: 296px;
 	height: 296px;
 	background: url('/img/wheel.png') center center no-repeat;
-	opacity: 1.0;
 	background-size: contain;
 	animation: spin 300s linear infinite;
 	z-index: 0;
 }
-.div_ship_porthole
+.ship_porthole
 {
 	position: absolute;
 	bottom: -20px;
@@ -795,21 +797,18 @@ div.jp-seeking-bg
 	width: 196px;
 	height: 196px;
 	background: url('/img/porthole.png') center center no-repeat;
-	/* background-color: #040c1be0; */
-	opacity: 1.0;
 	background-size: contain;
 	z-index: 1;
 	animation: spin 280s linear infinite reverse;
 }
-.div_portait_character
+.avatar_image
 {
 	position: absolute;
 	bottom: 0px;
 	left: -77px;
 	width: 148px;
 	height: 148px;
-	background-color: #040c1b;
-	opacity: 1.0;
+	background-color: #71674e78;
 	background-position-x: center;
 	background-position-y: center;
 	background-repeat: no-repeat;
@@ -817,4 +816,49 @@ div.jp-seeking-bg
 	z-index: 2;
 	border-radius: 50%;
 	border: solid 3px #756233;
+}
+
+/****    ring buttons    ****/
+
+.ring_button
+{
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 56px;
+	height: 56px;
+	z-index: 0;
+	background: url('/img/porthole.png') center center no-repeat;
+	background-size: contain;
+	/* animation: spin 90s linear infinite; */
+	cursor: url('/img/cursor-purple.png'), auto;
+	border-radius: 50%;
+}
+.ring_button_bg
+{
+	position: absolute;
+	bottom: 4px;
+	left: 4px;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	z-index: -1;
+}
+
+.position_ring_image_spawn
+{
+	position: absolute;
+	z-index: 8;
+	bottom: 3px;
+	left: -145px;
+}
+.ring_image_spawn_moon
+{
+	background: #0a141ccf url('/img/moon-mini.svg') right center no-repeat;
+	background-size: 48px 28px;;
+}
+.ring_image_spawn_sun
+{
+	background: #0a141ccf url('/img/sun-mini.svg') right center no-repeat;
+	background-size: 48px 28px;;
 }

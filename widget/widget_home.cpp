@@ -16,6 +16,7 @@ widget_home::widget_home() : wcontainer("home")
 	audio = bindNew<widget_audio>("widget_audio");
 	dices = bindNew<widget_dice>("widget_dice");
 	chat = bindNew<widget_chat>("widget_chat");
+	portrait = bindNew<widget_portrait>("widget_portrait");
 
 	/****    signal binding    ****/
 
@@ -69,19 +70,6 @@ widget_home::widget_home() : wcontainer("home")
 		+ " joins the session</span>"
 		+ "<br />\n";
 	broadcast::all(&widget_home::chat_message, message);
-
-	// set player character image
-	character_portait = bindNew<WText>("character_portait");
-	character_portait->setStyleClass("div_portait_character");
-	string filename = strlower(S->p_campaign->name) + "/avatar/" + strlower(S->p_player->name) + ".png";
-	debug_line(global::campaign_path + filename);
-	if (file::exists(global::campaign_path + filename))
-	{
-		debug_line("*");
-		character_portait->decorationStyle().setBackgroundImage("/data/campaign/" + filename);
-	}
-
-	/* S->main_div->addNew<widget_image>("data/img/scroll.01.png", "xxxxxx", true); */
 }
 
 void widget_home::search_master_open(string filename)
@@ -103,13 +91,16 @@ void widget_home::search_master_open(string filename)
 		|| ext == "jpg"
 		|| ext == "jpeg")
 	{
+
 		// open image and, open the same image via broadcast::other with the same id
 		string id = open_image("data/" + filename);
 
 		// only broadcast if we are the game master
 		if (!S->p_player->game_master) return;
-		// TODO: might spawn invisible
-		broadcast::others(&widget_home::open_shared_image, "data/" + filename, id, true);
+
+		// check spawn visible from widget_portrait to determine initial visibility
+		bool visible = portrait->spawn_image_visible;
+		broadcast::others(&widget_home::open_shared_image, "data/" + filename, id, visible);
 	}
 }
 
@@ -162,11 +153,12 @@ void widget_home::chat_message(string message)
 
 string widget_home::open_image(string filename)
 {
-	auto p_soma = soma::application();
-	if (!p_soma->view_home) return "";
-
 	string id = mana::randstring(16);
-	auto img = p_soma->main_div->addNew<widget_image>(filename, id);
+	auto img = S->main_div->addNew<widget_image>(filename, id);
+
+	// check spawn visible from widget_portrait to determine initial shared
+	bool shared = portrait->spawn_image_visible;
+	img->change_shared(shared);
 
 	// signals binding
 	img->on_move_event.connect([=](int top, int left)
@@ -209,96 +201,51 @@ void widget_home::open_shared_image(string filename, string id, bool visible)
 
 void widget_home::move_image(string id, int top, int left)
 {
-	auto p_soma = soma::application();
-	if (!p_soma->view_home) return;
-	// search for a child with this id
-	for (auto &child : p_soma->main_div->children())
-	{
-		if (child->id() == id)
-		{
-			auto img = (widget_image*)child;
-			img->animate_position(top, left);
-			break;
-		}
-	}
+	auto img = search_image(id);
+	if (img) img->animate_position(top, left);
 }
 
 void widget_home::resize_image(string id, int top, int left, int width, int height)
 {
-	auto p_soma = soma::application();
-	if (!p_soma->view_home) return;
-	// search for a child with this id
-	for (auto &child : p_soma->main_div->children())
-	{
-		if (child->id() == id)
-		{
-			auto img = (widget_image*)child;
-			img->animate_resize(top, left, width, height);
-			break;
-		}
-	}
+	auto img = search_image(id);
+	if (img) img->animate_resize(top, left, width, height);
 }
 
 void widget_home::zoom_image(string id, int zoom_w, int zoom_h, int zoom_x, int zoom_y)
 {
-	auto p_soma = soma::application();
-	if (!p_soma->view_home) return;
-	// search for a child with this id
-	for (auto &child : p_soma->main_div->children())
-	{
-		if (child->id() == id)
-		{
-			auto img = (widget_image*)child;
-			img->animate_zoom(zoom_w, zoom_h, zoom_x, zoom_y);
-			break;
-		}
-	}
+	auto img = search_image(id);
+	if (img) img->animate_zoom(zoom_w, zoom_h, zoom_x, zoom_y);
 }
 
 void widget_home::switch_mode_image(string id, string mode)
 {
-	auto p_soma = soma::application();
-	if (!p_soma->view_home) return;
-	// search for a child with this id
-	for (auto &child : p_soma->main_div->children())
-	{
-		if (child->id() == id)
-		{
-			auto img = (widget_image*)child;
-			img->change_view_mode(mode);
-			break;
-		}
-	}
+	auto img = search_image(id);
+	if (img) img->change_view_mode(mode);
 }
 
 void widget_home::change_image_visibility(string id, bool visible)
 {
-	auto p_soma = soma::application();
-	if (!p_soma->view_home) return;
-	// search for a child with this id
-	for (auto &child : p_soma->main_div->children())
-	{
-		if (child->id() == id)
-		{
-			auto img = (widget_image*)child;
-			img->change_image_visibility(visible);
-			break;
-		}
-	}
+	auto img = search_image(id);
+	if (img) img->change_image_visibility(visible);
 }
 
 void widget_home::close_image(string id)
 {
+	auto img = search_image(id);
+	if (img) img->close();
+}
+
+widget_image* widget_home::search_image(string id)
+{
+	widget_image *ret = NULL;
 	auto p_soma = soma::application();
-	if (!p_soma->view_home) return;
+	if (!p_soma->view_home) return ret;
+
 	// search for a child with this id
 	for (auto &child : p_soma->main_div->children())
 	{
 		if (child->id() == id)
-		{
-			auto img = (widget_image*)child;
-			img->close();
-			break;
-		}
+			return (widget_image*)child;
 	}
+	return ret;
 }
