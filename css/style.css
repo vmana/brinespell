@@ -893,13 +893,12 @@ div.jp-seeking-bg
 
 .health_bar_bg
 {
-	background-color: #221010;
+	background-color: #040c1350;
 	overflow: hidden;
 }
 .current_health_bar
 {
-	/* background-color: #680803; */
-	background: #4f0b08 url('/img/heart.svg') center center no-repeat;
+	background: #14181c url('/img/heart.svg') center center no-repeat;
 	position: absolute;
 	bottom: 0;
 	width: 100%;
