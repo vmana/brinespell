@@ -880,7 +880,7 @@ div.jp-seeking-bg
 	white-space: nowrap;
 	overflow: hidden;
 	z-index: -2;
-	transition: left 0.6s, width 0.6s;
+	transition: left 0.6s, width 0.6s, background-position-x 0.8s;
 }
 
 /****    ring buttons specific   ****/
