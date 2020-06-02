@@ -830,7 +830,7 @@ div.jp-seeking-bg
 	z-index: 0;
 	background: url('/img/porthole.png') center center no-repeat;
 	background-size: contain;
-	animation: spin 100s linear infinite;
+	animation: spin 150s linear infinite;
 	cursor: url('/img/cursor-purple.png'), auto;
 	border-radius: 50%;
 }
