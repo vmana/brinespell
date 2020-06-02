@@ -81,8 +81,8 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	unit_test test;
-	if (test.test_all()) debug_line("All unit tests done");
+	/* unit_test test; */
+	/* if (test.test_all()) debug_line("All unit tests done"); */
 
 	{
 		try

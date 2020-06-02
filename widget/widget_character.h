@@ -23,6 +23,7 @@ class widget_character : public wcontainer
 		widget_character();
 		void on_inspiration_click();
 		void update_inspiration(bool inspired);
+		void on_health_bar_wheel(const WMouseEvent &e);
 		void update_hit_point();
 };
 

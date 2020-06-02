@@ -25,6 +25,7 @@ widget_character::widget_character() : wcontainer("character")
 	current_health_bar = health_bar->bindNew<WText>("current_health_bar");
 	current_health_bar->setStyleClass("current_health_bar");
 	health_bar_helper = health_bar->bindNew<widget_template>("ring_button_helper");
+	health_bar_helper->setToolTip("Scroll to change Hit Points");
 
 	// update values from database
 	inspired = S->p_player->inspiration;
@@ -34,6 +35,7 @@ widget_character::widget_character() : wcontainer("character")
 
 	// signal binding
 	button_inspiration->clicked().connect(this, &widget_character::on_inspiration_click);
+	health_bar->mouseWheel().connect(this, &widget_character::on_health_bar_wheel);
 
 }
 
@@ -56,6 +58,32 @@ void widget_character::update_inspiration(bool inspired)
 	else
 	{
 		button_inspiration_bg->setStyleClass("ring_button_bg ring_inspiration_moon");
+	}
+}
+
+void widget_character::on_health_bar_wheel(const WMouseEvent &e)
+{
+	dbo_session session;
+	int hp = S->p_player.modify()->hit_points;
+	if (e.wheelDelta() > 0)
+	{
+		// scroll up
+		if (hp < S->p_player->max_hit_points)
+		{
+			hp += 1;
+			S->p_player.modify()->hit_points = hp;
+			update_hit_point();
+		}
+	}
+	else if (e.wheelDelta() < 0)
+	{
+		// scroll down
+		if (hp > 0)
+		{
+			hp -= 1;
+			S->p_player.modify()->hit_points = hp;
+			update_hit_point();
+		}
 	}
 }
 
