@@ -18,6 +18,7 @@ class widget_character : public wcontainer
 
 		wtemplate *health_bar;
 		WText *current_health_bar;
+		widget_template *health_bar_helper;
 
 		widget_character();
 		void on_inspiration_click();

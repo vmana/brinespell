@@ -24,6 +24,7 @@ widget_character::widget_character() : wcontainer("character")
 	health_bar->setStyleClass("position_health_bar");
 	current_health_bar = health_bar->bindNew<WText>("current_health_bar");
 	current_health_bar->setStyleClass("current_health_bar");
+	health_bar_helper = health_bar->bindNew<widget_template>("ring_button_helper");
 
 	// update values from database
 	inspired = S->p_player->inspiration;
@@ -64,9 +65,11 @@ void widget_character::update_hit_point()
 
 	int percent;
 
-	if (S->p_player->max_hit_points > 0)
-		percent = (100 * S->p_player->hit_points) / S->p_player->max_hit_points;
-	else
-		percent = 0;
+	if (S->p_player->max_hit_points > 0) percent = (100 * S->p_player->hit_points) / S->p_player->max_hit_points;
+	else percent = 0;
 	current_health_bar->setHeight(string(convert::int_string(percent) + "%"));
+
+	health_bar_helper->set_text("<div class=\"ring_button_helper_right\">"
+	+ convert::int_string(S->p_player->hit_points) + " / " + convert::int_string(S->p_player->max_hit_points)
+	+ "</div>");
 }
