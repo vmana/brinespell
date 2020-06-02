@@ -27,7 +27,7 @@ widget_image::widget_image(string filename, string id, bool visible) :
 	button_close->setToolTip("Close");
 
 	button_shared = bindNew<WText>("button_shared");
-	button_shared->setStyleClass("widget_image_shared widget_image_shared_yes");
+	button_shared->setStyleClass("widget_image_shared widget_image_shared_no");
 	button_shared->setToolTip("Visible / Hidden for other players");
 
 	this->setOffsets(init_top, Side::Top);
