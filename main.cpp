@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
 	system::undefunct();
 
 	// check for preprod
+	bool rmdb = false;
 	for (int i = 1; i < argc; ++i)
 	{
 		string arg(argv[i]);
@@ -74,6 +75,10 @@ int main(int argc, char *argv[])
 		{
 			global::remote_production = true;
 		}
+		else if (arg == "--rmdb")
+		{
+			rmdb = true;
+		}
 	}
 
 	unit_test test;
@@ -89,6 +94,8 @@ int main(int argc, char *argv[])
 		{
 			soma_database D;
 			soma_database::new_session();
+			// try to remove database if rmdb is set
+			if (rmdb) D.delete_database();
 			// try to create database. It will fail if the schema isn't empty
 			if (global::try_database_creation) D.create_database();
 			// try to create some default values

@@ -16,7 +16,7 @@ widget_home::widget_home() : wcontainer("home")
 	audio = bindNew<widget_audio>("widget_audio");
 	dices = bindNew<widget_dice>("widget_dice");
 	chat = bindNew<widget_chat>("widget_chat");
-	portrait = bindNew<widget_portrait>("widget_portrait");
+	character = bindNew<widget_character>("widget_character");
 
 	/****    signal binding    ****/
 

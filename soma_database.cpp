@@ -114,12 +114,27 @@ void soma_database::create_default_user()
 				new_player->p_campaign = p_campaign;
 
 				// mana game master
-				if (character == "Game Master") new_player->game_master = true;
+				if (character == "Game Master")
+				{
+					new_player->game_master = true;
+					new_player->inspiration = true;
+					new_player->max_hit_points = 40;
+					new_player->hit_points = 30;
+				}
 
 				session->add(move(new_player));
 			}
 		}
 
+	} catch (dbo::Exception e) { debug_line(e.what()); }
+}
+
+void soma_database::delete_database()
+{
+	try
+	{
+		dbo_session session;
+		session->dropTables();
 	} catch (dbo::Exception e) { debug_line(e.what()); }
 }
 

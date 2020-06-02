@@ -769,9 +769,9 @@ div.jp-seeking-bg
 	cursor: se-resize;
 }
 
-/****    portrait    ****/
+/****    character    ****/
 
-.div_portrait
+.div_character
 {
 	position: absolute;
 	bottom: 0px;
@@ -837,10 +837,10 @@ div.jp-seeking-bg
 .ring_button_bg
 {
 	position: absolute;
-	bottom: 4px;
-	left: 4px;
-	width: 48px;
-	height: 48px;
+	bottom: 9px;
+	left: 9px;
+	width: 38px;
+	height: 38px;
 	border-radius: 50%;
 	z-index: -1;
 }
@@ -889,4 +889,26 @@ div.jp-seeking-bg
 	transition-delay: 0.6s;
 	left: -130px;
 	width: 140px;
+}
+
+.health_bar_bg
+{
+	background-color: #221010;
+	overflow: hidden;
+}
+.current_health_bar
+{
+	/* background-color: #680803; */
+	background: #4f0b08 url('/img/heart.svg') center center no-repeat;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+}
+.position_health_bar
+{
+	position: absolute;
+	z-index: 8;
+	bottom: 137px;
+	left: 63px;
 }

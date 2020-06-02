@@ -45,6 +45,8 @@ class soma : public WApplication
 		void update_stack_view(WWidget *view);
 		int max_screen_width();
 		int max_screen_height();
+		void notify(const WEvent& event);
+
 		~soma();
 };
 

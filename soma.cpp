@@ -64,16 +64,13 @@ void soma::on_login_success(dbo::ptr<user> p_user)
 	if (!p_user) return;
 	this->p_user = p_user;
 	// temporary : force init
-	try
-	{
-		dbo_session session;
-		p_campaign = session->find<campaign>().where("name = 'Curse of Strahd'");
-		p_player = session->find<player>()
-			.where("campaign_id = ? and user_id = ?")
-			.bind(p_campaign.id())
-			.bind(p_user.id());
+	dbo_session session;
 
-	} catch (dbo::Exception e) { debug_line(e.what()); }
+	p_campaign = session->find<campaign>().where("name = 'Curse of Strahd'");
+	p_player = session->find<player>()
+		.where("campaign_id = ? and user_id = ?")
+		.bind(p_campaign.id())
+		.bind(p_user.id());
 
 	setInternalPath("/home", true);
 }
@@ -118,6 +115,14 @@ int soma::max_screen_width()
 int soma::max_screen_height()
 {
 	return std::min(environment().screenWidth(), environment().screenHeight());
+}
+
+void soma::notify(const WEvent& event)
+{
+	try
+	{
+		WApplication::notify(event);
+	} catch (dbo::Exception e) {}
 }
 
 soma::~soma()

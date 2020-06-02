@@ -3,7 +3,7 @@
 
 #include "wcontainer.h"
 
-class widget_portrait : public wcontainer
+class widget_character : public wcontainer
 {
 	public:
 
@@ -16,9 +16,13 @@ class widget_portrait : public wcontainer
 		WText *button_inspiration_bg;
 		widget_template *button_inspiration_helper;
 
-		widget_portrait();
+		wtemplate *health_bar;
+		WText *current_health_bar;
+
+		widget_character();
 		void on_inspiration_click();
 		void update_inspiration(bool inspired);
+		void update_hit_point();
 };
 
 #endif // widget_portrait_H

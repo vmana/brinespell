@@ -7,7 +7,7 @@
 #include "widget_dice.h"
 #include "widget_chat.h"
 #include "widget_image.h"
-#include "widget_portrait.h"
+#include "widget_character.h"
 #include "db/campaign.h"
 
 class widget_home : public wcontainer
@@ -18,7 +18,7 @@ class widget_home : public wcontainer
 		widget_audio *audio;
 		widget_dice *dices;
 		widget_chat *chat;
-		widget_portrait *portrait;
+		widget_character *character;
 
 		widget_home();
 
