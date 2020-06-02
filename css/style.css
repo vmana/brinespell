@@ -830,7 +830,7 @@ div.jp-seeking-bg
 	z-index: 0;
 	background: url('/img/porthole.png') center center no-repeat;
 	background-size: contain;
-	/* animation: spin 90s linear infinite; */
+	animation: spin 100s linear infinite;
 	cursor: url('/img/cursor-purple.png'), auto;
 	border-radius: 50%;
 }
@@ -932,7 +932,7 @@ div.jp-seeking-bg
 }
 .position_health_bar:hover .ring_button_helper_right
 {
-	transition-delay: 0.6s;
+	transition-delay: 0.3s;
 	width: 148px;
 	background: #14181c url('/img/heart.svg') left center no-repeat;
 	background-position-x: 46px;
