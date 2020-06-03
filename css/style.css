@@ -818,6 +818,62 @@ div.jp-seeking-bg
 	border: solid 3px #756233;
 }
 
+.div_hit_points
+{
+	position: absolute;
+	bottom: 250px;
+	left: -70px;
+	width: 300px;
+	height: 200px;
+	background: #0a141c;
+	font-size: 15px;
+	opacity: 0.80;
+	border-radius: 20px;
+	padding: 20px;
+	font-size: 18px;
+	font-weight: bold;
+	display: flex;
+	flex-wrap: wrap;
+	line-height: 44px;
+	align-content: center;
+}
+.div_hit_points .label
+{
+	width: 190px;
+}
+.div_hit_points .icon
+{
+	width: 28px;
+	height: 28px;
+	margin-right: 12px;
+	padding: 7px 0px;
+}
+.div_hit_points input[type=text]
+{
+	font-size: 21px;
+	font-weight: bold;
+	font-family: "Hack";
+	border-radius: 8px;
+	width: 58px;
+	text-align: center;
+	border: solid 2px;
+	padding: 4px 0px;
+	margin: 6px 0px;
+	border: solid 2px;
+}
+.div_hit_points .close
+{
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 20px;
+	height: 20px;
+	background: url('/img/close.svg') center center no-repeat;
+	background-size: contain;
+	cursor: url('/img/cursor-purple.png'), auto;
+	z-index: 5;
+}
+
 /****    ring buttons    ****/
 
 .ring_button

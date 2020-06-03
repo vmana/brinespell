@@ -118,8 +118,8 @@ void soma_database::create_default_user()
 				{
 					new_player->game_master = true;
 					new_player->inspiration = true;
-					new_player->max_hit_points = 40;
-					new_player->hit_points = 30;
+					new_player->class_hit_points = 40;
+					new_player->damage = 13;
 				}
 
 				session->add(move(new_player));

@@ -14,18 +14,31 @@ widget_character::widget_character() : wcontainer("character")
 		avatar_image->decorationStyle().setBackgroundImage("/data/campaign/" + filename);
 	}
 
+	// inspiration
 	button_inspiration = bindNew<wtemplate>("button_inspiration", "ring_button");
 	button_inspiration->setStyleClass("position_ring_inspiration");
 	button_inspiration_bg = button_inspiration->bindNew<WText>("ring_button_bg");
 	button_inspiration_helper = button_inspiration->bindNew<widget_template>("ring_button_helper");
 	button_inspiration_helper->set_text("<div class=\"ring_button_helper_left\">Inspiration</div>");
 
+	// health bar
 	health_bar = bindNew<wtemplate>("health_bar", "health_bar");
 	health_bar->setStyleClass("position_health_bar");
 	current_health_bar = health_bar->bindNew<WText>("current_health_bar");
 	current_health_bar->setStyleClass("current_health_bar");
 	health_bar_helper = health_bar->bindNew<widget_template>("ring_button_helper");
 	health_bar_helper->setToolTip("Scroll to change Hit Points");
+
+	// details hp
+	details_hp = bindNew<wtemplate>("details_hp", "details_hp");
+	details_hp->setStyleClass("visibility_hidden");
+
+	close_details_hp = details_hp->bindNew<WText>("close");
+	close_details_hp->setStyleClass("close");
+	details_max_hit_points = details_hp->bindNew<WText>("max_hit_points");
+	details_damage = details_hp->bindNew<WLineEdit>("damage");
+	details_tmp_hit_points = details_hp->bindNew<WLineEdit>("tmp_hit_points");
+	details_hit_points = details_hp->bindNew<WText>("hit_points");
 
 	// update values from database
 	inspired = S->p_player->inspiration;
@@ -36,6 +49,8 @@ widget_character::widget_character() : wcontainer("character")
 	// signal binding
 	button_inspiration->clicked().connect(this, &widget_character::on_inspiration_click);
 	health_bar->mouseWheel().connect(this, &widget_character::on_health_bar_wheel);
+	health_bar->clicked().connect(this, &widget_character::switch_details_hp_visibility);
+	close_details_hp->clicked().connect(this, &widget_character::switch_details_hp_visibility);
 
 }
 
@@ -64,14 +79,13 @@ void widget_character::update_inspiration(bool inspired)
 void widget_character::on_health_bar_wheel(const WMouseEvent &e)
 {
 	dbo_session session;
-	int hp = S->p_player.modify()->hit_points;
+	int hp = S->p_player->total_hit_points();
 	if (e.wheelDelta() > 0)
 	{
 		// scroll up
-		if (hp < S->p_player->max_hit_points)
+		if (hp < S->p_player->max_hit_points())
 		{
-			hp += 1;
-			S->p_player.modify()->hit_points = hp;
+			S->p_player.modify()->damage -= 1;
 			update_hit_point();
 		}
 	}
@@ -80,8 +94,7 @@ void widget_character::on_health_bar_wheel(const WMouseEvent &e)
 		// scroll down
 		if (hp > 0)
 		{
-			hp -= 1;
-			S->p_player.modify()->hit_points = hp;
+			S->p_player.modify()->damage += 1;
 			update_hit_point();
 		}
 	}
@@ -90,14 +103,35 @@ void widget_character::on_health_bar_wheel(const WMouseEvent &e)
 void widget_character::update_hit_point()
 {
 	dbo_session session;
+	int percent = 0;
 
-	int percent;
+	// health bar
+	int max_hp = S->p_player->max_hit_points();
+	int total_hp = S->p_player->total_hit_points();
 
-	if (S->p_player->max_hit_points > 0) percent = (100 * S->p_player->hit_points) / S->p_player->max_hit_points;
-	else percent = 0;
+	if (max_hp > 0) percent = (100 * total_hp) / max_hp;
 	current_health_bar->setHeight(string(convert::int_string(percent) + "%"));
 
 	health_bar_helper->set_text("<div class=\"ring_button_helper_right\">"
-	+ convert::int_string(S->p_player->hit_points) + " / " + convert::int_string(S->p_player->max_hit_points)
+	+ convert::int_string(total_hp) + " / " + convert::int_string(max_hp)
 	+ "</div>");
+
+	// details hp
+	details_max_hit_points->setText(convert::int_string(max_hp));
+	details_hit_points->setText(convert::int_string(total_hp));
+	details_damage->setText(convert::int_string(S->p_player->damage));
+	details_tmp_hit_points->setText(convert::int_string(S->p_player->tmp_hit_points));
+}
+
+void widget_character::switch_details_hp_visibility()
+{
+	if (details_hp->hasStyleClass("animate_show"))
+	{
+		details_hp->removeStyleClass("visibility_hidden");
+		details_hp->setStyleClass("animate_hide");
+	}
+	else
+	{
+		details_hp->setStyleClass("animate_show");
+	}
 }

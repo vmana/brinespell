@@ -5,3 +5,47 @@ player::player()
 {
 }
 
+int player::bonus_str() const
+{
+	return floor((double)(strength - 10) / 2);
+}
+
+int player::bonus_dex() const
+{
+	return floor((double)(dexterity - 10) / 2);
+}
+
+int player::bonus_con() const
+{
+	return floor((double)(constitution - 10) / 2);
+}
+
+int player::bonus_int() const
+{
+	return floor((double)(intelligence - 10) / 2);
+}
+
+int player::bonus_cha() const
+{
+	return floor((double)(charisma - 10) / 2);
+}
+
+int player::bonus_wis() const
+{
+	return floor((double)(wisdom - 10) / 2);
+}
+
+int player::max_hit_points() const
+{
+	int ret = class_hit_points + tmp_hit_points + bonus_con();
+	if (ret < 0) ret = 0;
+	return ret;
+}
+
+int player::total_hit_points() const
+{
+	int ret = max_hit_points() - damage;
+	if (ret < 0) ret = 0;
+	return ret;
+}
+
