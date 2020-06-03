@@ -56,7 +56,8 @@ class player
 		int bonus_wis() const;
 		int max_hit_points() const;
 		int total_hit_points() const;
-		void set_damage(int dmg);
+		void wound(int dmg); // add new damage
+		void set_damage(int dmg); // set damage value
 };
 
 #endif

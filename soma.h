@@ -21,6 +21,7 @@ class user;
 class player;
 class campaign;
 
+
 class soma : public WApplication
 {
 	public:

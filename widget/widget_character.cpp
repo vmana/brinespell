@@ -48,8 +48,13 @@ widget_character::widget_character() : wcontainer("character")
 
 	// signal binding
 	button_inspiration->clicked().connect(this, &widget_character::on_inspiration_click);
+
 	health_bar->mouseWheel().connect(this, &widget_character::on_health_bar_wheel);
 	health_bar->clicked().connect(this, &widget_character::switch_details_hp_visibility);
+	details_damage->changed().connect(this, &widget_character::on_details_hp_change);
+	details_damage->mouseWheel().connect(this, &widget_character::on_details_hp_wheel);
+	details_tmp_hit_points->changed().connect(this, &widget_character::on_details_tmp_hp_change);
+	details_tmp_hit_points->mouseWheel().connect(this, &widget_character::on_details_tmp_hp_wheel);
 	close_details_hp->clicked().connect(this, &widget_character::switch_details_hp_visibility);
 
 }
@@ -79,16 +84,8 @@ void widget_character::update_inspiration(bool inspired)
 void widget_character::on_health_bar_wheel(const WMouseEvent &e)
 {
 	dbo_session session;
-	if (e.wheelDelta() > 0)
-	{
-		// scroll up
-		S->p_player.modify()->set_damage(-1);
-	}
-	else if (e.wheelDelta() < 0)
-	{
-		// scroll down
-		S->p_player.modify()->set_damage(1);
-	}
+	if (e.wheelDelta() > 0) S->p_player.modify()->wound(-1); // scroll up
+	else if (e.wheelDelta() < 0) S->p_player.modify()->wound(1); // scroll down
 	update_hit_point();
 }
 
@@ -113,6 +110,52 @@ void widget_character::update_hit_point()
 	details_hit_points->setText(convert::int_string(total_hp));
 	details_damage->setText(convert::int_string(S->p_player->damage));
 	details_tmp_hit_points->setText(convert::int_string(S->p_player->tmp_hit_points));
+}
+
+void widget_character::on_details_hp_change()
+{
+	dbo_session session;
+	int dmg = convert::string_int(details_damage->text().toUTF8());
+	if (dmg < 0)
+	{
+		// set old value
+		details_damage->setText(convert::int_string(S->p_player->damage));
+		return;
+	}
+
+	S->p_player.modify()->set_damage(dmg);
+	update_hit_point();
+}
+
+void widget_character::on_details_hp_wheel(const WMouseEvent &e)
+{
+	dbo_session session;
+	if (e.wheelDelta() > 0) S->p_player.modify()->wound(1); // scroll up
+	else if (e.wheelDelta() < 0) S->p_player.modify()->wound(-1); // scroll down
+	update_hit_point();
+}
+
+void widget_character::on_details_tmp_hp_change()
+{
+	dbo_session session;
+	int tmp_hp = convert::string_int(details_tmp_hit_points->text().toUTF8());
+	if (tmp_hp < 0)
+	{
+		// set old value
+		details_damage->setText(convert::int_string(S->p_player->tmp_hit_points));
+		return;
+	}
+
+	S->p_player.modify()->tmp_hit_points = tmp_hp;
+	update_hit_point();
+}
+
+void widget_character::on_details_tmp_hp_wheel(const WMouseEvent &e)
+{
+	dbo_session session;
+	if (e.wheelDelta() > 0) S->p_player.modify()->tmp_hit_points += 1; // scroll up
+	else if (e.wheelDelta() < 0) S->p_player.modify()->tmp_hit_points -= 1; // scroll down
+	update_hit_point();
 }
 
 void widget_character::switch_details_hp_visibility()

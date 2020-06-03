@@ -34,6 +34,10 @@ class widget_character : public wcontainer
 		void update_inspiration(bool inspired);
 		void on_health_bar_wheel(const WMouseEvent &e);
 		void update_hit_point();
+		void on_details_hp_change();
+		void on_details_hp_wheel(const WMouseEvent &e);
+		void on_details_tmp_hp_change();
+		void on_details_tmp_hp_wheel(const WMouseEvent &e);
 		void switch_details_hp_visibility();
 };
 
