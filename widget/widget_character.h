@@ -11,12 +11,20 @@ class widget_character : public wcontainer
 
 		WText *avatar_image;
 
-		bool inspired = false;
+		// inspiration
 		Signal<bool> on_inspiration_event;
 		wtemplate *button_inspiration;
 		WText *button_inspiration_bg;
 		widget_template *button_inspiration_helper;
 
+		// initiative
+		Signal<int> on_initiative_event;
+		wtemplate *button_initiative;
+		WText *button_initiative_bg;
+		WLineEdit *initiative;
+		widget_template *button_initiative_helper;
+
+		// health bar
 		wtemplate *health_bar;
 		WText *current_health_bar;
 		widget_template *health_bar_helper;
@@ -30,8 +38,17 @@ class widget_character : public wcontainer
 		WText *details_hit_points;
 
 		widget_character();
+		// inspiration
 		void on_inspiration_click();
-		void update_inspiration(bool inspired);
+		void update_inspiration();
+
+		// initiative
+		void on_initiative_click();
+		void on_initiative_change();
+		void on_initiative_wheel(const WMouseEvent &e);
+		void update_initiative();
+
+		// health
 		void on_health_bar_wheel(const WMouseEvent &e);
 		void update_hit_point();
 		void on_details_hp_change();

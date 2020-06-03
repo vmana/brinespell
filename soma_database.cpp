@@ -121,6 +121,7 @@ void soma_database::create_default_user()
 					new_player->class_hit_points = 40;
 					new_player->tmp_hit_points = 10;
 					new_player->damage = 13;
+					new_player->initiative = 18;
 				}
 
 				session->add(move(new_player));

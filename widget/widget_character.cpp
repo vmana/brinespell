@@ -15,11 +15,20 @@ widget_character::widget_character() : wcontainer("character")
 	}
 
 	// inspiration
-	button_inspiration = bindNew<wtemplate>("button_inspiration", "ring_button");
+	button_inspiration = bindNew<wtemplate>("inspiration", "ring_button");
 	button_inspiration->setStyleClass("position_ring_inspiration");
 	button_inspiration_bg = button_inspiration->bindNew<WText>("ring_button_bg");
 	button_inspiration_helper = button_inspiration->bindNew<widget_template>("ring_button_helper");
 	button_inspiration_helper->set_text("<div class=\"ring_button_helper_left\">Inspiration</div>");
+
+	// initiative
+	button_initiative = bindNew<wtemplate>("initiative", "ring_text_button");
+	button_initiative->setStyleClass("position_ring_initiative");
+	button_initiative_bg = button_initiative->bindNew<WText>("ring_button_bg");
+	button_initiative_bg->setStyleClass("ring_initiative_wind");
+	initiative = button_initiative->bindNew<WLineEdit>("ring_button_text");
+	button_initiative_helper = button_initiative->bindNew<widget_template>("ring_button_helper");
+	button_initiative_helper->set_text("<div class=\"ring_button_helper_right\">Initiative</div>");
 
 	// health bar
 	health_bar = bindNew<wtemplate>("health_bar", "health_bar");
@@ -40,14 +49,16 @@ widget_character::widget_character() : wcontainer("character")
 	details_tmp_hit_points = details_hp->bindNew<WLineEdit>("tmp_hit_points");
 	details_hit_points = details_hp->bindNew<WText>("hit_points");
 
-	// update values from database
-	inspired = S->p_player->inspiration;
-
-	update_inspiration(inspired);
+	update_inspiration();
+	update_initiative();
 	update_hit_point();
 
 	// signal binding
 	button_inspiration->clicked().connect(this, &widget_character::on_inspiration_click);
+
+	button_initiative->clicked().connect(this, &widget_character::on_initiative_click);
+	button_initiative->mouseWheel().connect(this, &widget_character::on_initiative_wheel);
+	initiative->changed().connect(this, &widget_character::on_initiative_change);
 
 	health_bar->mouseWheel().connect(this, &widget_character::on_health_bar_wheel);
 	health_bar->clicked().connect(this, &widget_character::switch_details_hp_visibility);
@@ -61,16 +72,19 @@ widget_character::widget_character() : wcontainer("character")
 
 void widget_character::on_inspiration_click()
 {
-	update_inspiration(! inspired);
-	on_inspiration_event.emit(inspired);
+	bool inspired = ! S->p_player->inspiration;
 	// update db
-	dbo_session session;
-	S->p_player.modify()->inspiration = inspired;
+	{
+		dbo_session session;
+		S->p_player.modify()->inspiration = inspired;
+	}
+	on_inspiration_event.emit(inspired);
+	update_inspiration();
 }
 
-void widget_character::update_inspiration(bool inspired)
+void widget_character::update_inspiration()
 {
-	this->inspired = inspired;
+	bool inspired = S->p_player->inspiration;
 	if (inspired)
 	{
 		button_inspiration_bg->setStyleClass("ring_button_bg ring_inspiration_sun");
@@ -79,6 +93,40 @@ void widget_character::update_inspiration(bool inspired)
 	{
 		button_inspiration_bg->setStyleClass("ring_button_bg ring_inspiration_moon");
 	}
+}
+
+void widget_character::on_initiative_click()
+{
+	initiative->setFocus(true);
+	initiative->setSelection(0, initiative->text().toUTF8().length());
+}
+
+void widget_character::on_initiative_change()
+{
+	dbo_session session;
+	int init = convert::string_int(initiative->text().toUTF8());
+	if (init < 0)
+	{
+		// set old value
+		initiative->setText(convert::int_string(S->p_player->initiative));
+		return;
+	}
+
+	S->p_player.modify()->initiative = init;
+	update_initiative();
+}
+
+void widget_character::on_initiative_wheel(const WMouseEvent &e)
+{
+	dbo_session session;
+	if (e.wheelDelta() > 0) S->p_player.modify()->initiative += 1; // scroll up
+	else if (e.wheelDelta() < 0) S->p_player.modify()->initiative -= 1; // scroll down
+	update_initiative();
+}
+
+void widget_character::update_initiative()
+{
+	initiative->setText(convert::int_string(S->p_player->initiative));
 }
 
 void widget_character::on_health_bar_wheel(const WMouseEvent &e)

@@ -24,6 +24,7 @@ class player
 		int wisdom = 10;
 		int charisma = 10;
 
+		int initiative = 0;
 		bool inspiration = false;
 
 		template<class Action>
@@ -42,6 +43,7 @@ class player
 			dbo::field(a, wisdom, "wisdom");
 			dbo::field(a, charisma, "charisma");
 
+			dbo::field(a, initiative, "initiative");
 			dbo::field(a, inspiration, "inspiration");
 			dbo::belongsTo(a, p_user, dbo::OnDeleteCascade);
 			dbo::belongsTo(a, p_campaign, "campaign", dbo::OnDeleteCascade);
