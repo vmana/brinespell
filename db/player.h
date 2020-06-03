@@ -56,6 +56,7 @@ class player
 		int bonus_wis() const;
 		int max_hit_points() const;
 		int total_hit_points() const;
+		void set_damage(int dmg);
 };
 
 #endif

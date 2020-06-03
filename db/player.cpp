@@ -49,3 +49,24 @@ int player::total_hit_points() const
 	return ret;
 }
 
+void player::set_damage(int dmg)
+{
+	if (dmg < 0)
+	{
+		damage += dmg; // will reduce damage
+		if (damage < 0) damage = 0;
+	}
+	else
+	{
+		// wound player
+		tmp_hit_points -= dmg;
+		if (tmp_hit_points < 0)
+		{
+			// damage left to real damage
+			damage += - tmp_hit_points;
+			tmp_hit_points = 0;
+		}
+		int max_hp = max_hit_points();
+		if (damage > max_hp) damage = max_hp;
+	}
+}

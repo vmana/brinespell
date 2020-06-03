@@ -79,25 +79,17 @@ void widget_character::update_inspiration(bool inspired)
 void widget_character::on_health_bar_wheel(const WMouseEvent &e)
 {
 	dbo_session session;
-	int hp = S->p_player->total_hit_points();
 	if (e.wheelDelta() > 0)
 	{
 		// scroll up
-		if (hp < S->p_player->max_hit_points())
-		{
-			S->p_player.modify()->damage -= 1;
-			update_hit_point();
-		}
+		S->p_player.modify()->set_damage(-1);
 	}
 	else if (e.wheelDelta() < 0)
 	{
 		// scroll down
-		if (hp > 0)
-		{
-			S->p_player.modify()->damage += 1;
-			update_hit_point();
-		}
+		S->p_player.modify()->set_damage(1);
 	}
+	update_hit_point();
 }
 
 void widget_character::update_hit_point()
