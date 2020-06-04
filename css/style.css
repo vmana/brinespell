@@ -857,7 +857,7 @@ div.jp-seeking-bg
 	border-radius: 50%;
 	background-color: #14181c;
 	border: solid 2px #79602f;
-	opacity: 0.88;
+	/* opacity: 0.88; */
 	z-index: 0;
 }
 .div_stats_item .ring_button_stats
