@@ -1068,12 +1068,12 @@ div.jp-seeking-bg
 	position: absolute;
 	bottom: 20px;
 	left: 13px;
-	font-size: 16px;
+	font-size: 20px;
 	font-family: "Hack";
 	border-radius: 8px;
-	width: 22px;
+	width: 26px;
 	text-align: center;
-	padding: 2px 5px;
+	padding: 2px 3px;
 	background: transparent;
 }
 .position_ring_initiative:hover .ring_button_helper_right
