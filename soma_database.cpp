@@ -122,6 +122,12 @@ void soma_database::create_default_user()
 					new_player->tmp_hit_points = 10;
 					new_player->damage = 13;
 					new_player->initiative = 18;
+					new_player->strength = 9;
+					new_player->dexterity = 12;
+					new_player->constitution = 12;
+					new_player->intelligence = 14;
+					new_player->wisdom = 16;
+					new_player->charisma = 14;
 				}
 
 				session->add(move(new_player));

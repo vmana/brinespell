@@ -50,7 +50,7 @@ widget_character::widget_character() : wcontainer("character")
 	details_hit_points = details_hp->bindNew<WText>("hit_points");
 
 	// stats
-	stats = bindNew<wtemplate>("stats", "stats");
+	stats = bindNew<widget_stats>("stats");
 
 	update_inspiration();
 	update_initiative();

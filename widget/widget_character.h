@@ -2,6 +2,7 @@
 #define widget_portrait_H
 
 #include "wcontainer.h"
+#include "widget_stats.h"
 #include <Wt/WLineEdit.h>
 
 class widget_character : public wcontainer
@@ -37,7 +38,7 @@ class widget_character : public wcontainer
 		WText *details_hit_points;
 
 		// stats
-		widget_template *stats;
+		widget_stats *stats;
 
 		widget_character();
 

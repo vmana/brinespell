@@ -774,7 +774,7 @@ div.jp-seeking-bg
 {
 	position: absolute;
 	bottom: 0px;
-	left: calc(50% + 40px);
+	left: calc(50%);
 }
 .ship_wheel
 {
