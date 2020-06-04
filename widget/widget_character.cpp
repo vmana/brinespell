@@ -49,6 +49,9 @@ widget_character::widget_character() : wcontainer("character")
 	details_tmp_hit_points = details_hp->bindNew<WLineEdit>("tmp_hit_points");
 	details_hit_points = details_hp->bindNew<WText>("hit_points");
 
+	// stats
+	stats = bindNew<wtemplate>("stats", "stats");
+
 	update_inspiration();
 	update_initiative();
 	update_hit_point();
@@ -56,7 +59,6 @@ widget_character::widget_character() : wcontainer("character")
 	// signal binding
 	button_inspiration->clicked().connect(this, &widget_character::on_inspiration_click);
 
-	button_initiative->clicked().connect(this, &widget_character::on_initiative_click);
 	button_initiative->mouseWheel().connect(this, &widget_character::on_initiative_wheel);
 	initiative->changed().connect(this, &widget_character::on_initiative_change);
 
@@ -93,12 +95,6 @@ void widget_character::update_inspiration()
 	{
 		button_inspiration_bg->setStyleClass("ring_button_bg ring_inspiration_moon");
 	}
-}
-
-void widget_character::on_initiative_click()
-{
-	initiative->setFocus(true);
-	initiative->setSelection(0, initiative->text().toUTF8().length());
 }
 
 void widget_character::on_initiative_change()

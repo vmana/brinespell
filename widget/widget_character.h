@@ -8,7 +8,6 @@ class widget_character : public wcontainer
 {
 	public:
 
-
 		WText *avatar_image;
 
 		// inspiration
@@ -37,13 +36,16 @@ class widget_character : public wcontainer
 		WLineEdit *details_tmp_hit_points;
 		WText *details_hit_points;
 
+		// stats
+		widget_template *stats;
+
 		widget_character();
+
 		// inspiration
 		void on_inspiration_click();
 		void update_inspiration();
 
 		// initiative
-		void on_initiative_click();
 		void on_initiative_change();
 		void on_initiative_wheel(const WMouseEvent &e);
 		void update_initiative();

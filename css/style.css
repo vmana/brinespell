@@ -99,11 +99,10 @@ input[type=file]
 	width: 16px;
 	height: 16px;
 	position: absolute;
-	background-position: right 0px;
 	right: 2px;
 	top: 2px;
 	cursor: default;
-	background: transparent url("../img/close.png") no-repeat right top;
+	background: transparent url("../img/close.png") no-repeat right 0px;
 }
 
 .Wt-dialog .closeicon:hover
@@ -818,6 +817,86 @@ div.jp-seeking-bg
 	border: solid 3px #756233;
 }
 
+.div_stats
+{
+	position: absolute;
+	bottom: 3px;
+	left: 160px;
+	display: flex;
+	z-index: 1;
+}
+.div_stats_item
+{
+	width: 70px;
+	position: relative;
+}
+.stats_bg
+{
+	position: absolute;
+	bottom: 9px;
+	left: 9px;
+	height: 38px;
+	width: 38px;
+	background: #0a141c;
+	/* opacity: 0.96; */
+	border-radius: 24px;
+	z-index: -2;
+}
+
+.ring_stats_bg
+{
+	position: absolute;
+	font-size: 22px;
+	font-family: 'Hack';
+	line-height: 38px;
+	text-align: center;
+	bottom: 35px;
+	left: 30px;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background-color: #14181c;
+	border: solid 2px #79602f;
+	opacity: 0.88;
+	z-index: 0;
+}
+.div_stats_item .ring_button_stats
+{
+	bottom: 0px;
+	left: 0px;
+}
+
+.stats_bg_strength
+{
+	background: #14181c url('/img/sword.svg') 5px 9px no-repeat;
+	background-size: 24px 24px;
+}
+.stats_bg_dexterity
+{
+	background: #14181c url('/img/moon-mini.svg') 6px 7px no-repeat;
+	background-size: 24px 24px;
+}
+.stats_bg_constitution
+{
+	background: #14181c url('/img/heart.svg') 8px 9px no-repeat;
+	background-size: 22px 22px;
+}
+.stats_bg_intelligence
+{
+	background: #14181c url('/img/open-book.svg') 7px 8px no-repeat;
+	background-size: 24px 24px;
+}
+.stats_bg_wisdom
+{
+	background: #14181c url('/img/eye.svg') 5px 6px no-repeat;
+	background-size: 28px 28px;
+}
+.stats_bg_charisma
+{
+	background: #14181c url('/img/stars.svg') 7px 7px no-repeat;
+	background-size: 26px 26px;
+}
+
 .div_hit_points
 {
 	position: absolute;
@@ -850,8 +929,7 @@ div.jp-seeking-bg
 }
 .div_hit_points input[type=text]
 {
-	font-size: 21px;
-	font-weight: bold;
+	font-size: 24px;
 	font-family: "Hack";
 	border-radius: 8px;
 	width: 58px;
@@ -990,8 +1068,7 @@ div.jp-seeking-bg
 	position: absolute;
 	bottom: 20px;
 	left: 13px;
-	font-size: 16px;
-	font-weight: bold;
+	font-size: 18px;
 	font-family: "Hack";
 	border-radius: 8px;
 	width: 22px;
@@ -1002,15 +1079,12 @@ div.jp-seeking-bg
 .position_ring_initiative:hover .ring_button_helper_right
 {
 	transition-delay: 0.3s;
-	width: 158px;
-	background: #14181c url('/img/wind.svg') left center no-repeat;
-	background-position-x: 46px;
-	padding-left: 22px;
+	width: 140px;
 }
 
 .health_bar_bg
 {
-	background-color: #170d0d;
+	background-color: #200b0b;
 	overflow: hidden;
 }
 .current_health_bar
@@ -1032,7 +1106,6 @@ div.jp-seeking-bg
 {
 	transition-delay: 0.3s;
 	width: 148px;
-	background: #14181c url('/img/heart.svg') left center no-repeat;
-	background-position-x: 46px;
+	background: #14181c url('/img/heart.svg') 46px center no-repeat;
 	padding-left: 22px;
 }
