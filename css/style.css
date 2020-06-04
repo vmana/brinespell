@@ -779,7 +779,7 @@ div.jp-seeking-bg
 .ship_wheel
 {
 	position: absolute;
-	bottom: -70px;
+	bottom: -50px;
 	left: -148px;
 	width: 296px;
 	height: 296px;
@@ -791,7 +791,7 @@ div.jp-seeking-bg
 .ship_porthole
 {
 	position: absolute;
-	bottom: -20px;
+	bottom: 0px;
 	left: -98px;
 	width: 196px;
 	height: 196px;
@@ -803,7 +803,7 @@ div.jp-seeking-bg
 .avatar_image
 {
 	position: absolute;
-	bottom: 0px;
+	bottom: 20px;
 	left: -77px;
 	width: 148px;
 	height: 148px;
@@ -1025,7 +1025,7 @@ div.jp-seeking-bg
 	position: absolute;
 	z-index: 8;
 	bottom: 3px;
-	left: -145px;
+	left: -121px;
 }
 .ring_inspiration_moon
 {
@@ -1049,7 +1049,7 @@ div.jp-seeking-bg
 	position: absolute;
 	z-index: 8;
 	bottom: 3px;
-	left: 89px;
+	left: 65px;
 }
 .ring_initiative_wind
 {
