@@ -10,6 +10,7 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 
 	/****    css & js    ****/
 	useStyleSheet("css/style.css");
+	useStyleSheet("css/character.css");
 
 	enableUpdates(true); // allow server update
 

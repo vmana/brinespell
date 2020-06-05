@@ -1,0 +1,342 @@
+/****    character    ****/
+
+.div_character
+{
+	position: absolute;
+	bottom: 0px;
+	left: calc(50%);
+}
+.ship_wheel
+{
+	position: absolute;
+	bottom: -50px;
+	left: -148px;
+	width: 296px;
+	height: 296px;
+	background: url('/img/wheel.png') center center no-repeat;
+	background-size: contain;
+	animation: spin 300s linear infinite;
+	z-index: 0;
+}
+.ship_porthole
+{
+	position: absolute;
+	bottom: 0px;
+	left: -98px;
+	width: 196px;
+	height: 196px;
+	background: url('/img/porthole.png') center center no-repeat;
+	background-size: contain;
+	z-index: 1;
+	animation: spin 280s linear infinite reverse;
+}
+.avatar_image
+{
+	position: absolute;
+	bottom: 20px;
+	left: -77px;
+	width: 148px;
+	height: 148px;
+	background-color: #71674e78;
+	background-position-x: center;
+	background-position-y: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+	z-index: 2;
+	border-radius: 50%;
+	border: solid 3px #756233;
+}
+
+.div_stats
+{
+	position: absolute;
+	bottom: 3px;
+	left: 160px;
+	display: flex;
+	z-index: 1;
+}
+.div_stats_item
+{
+	width: 70px;
+	position: relative;
+}
+.stats_bg
+{
+	position: absolute;
+	bottom: 9px;
+	left: 9px;
+	height: 38px;
+	width: 38px;
+	background: #0a141c;
+	/* opacity: 0.96; */
+	border-radius: 24px;
+	z-index: -2;
+}
+
+.ring_stats_bg
+{
+	position: absolute;
+	font-size: 22px;
+	font-family: 'Hack';
+	line-height: 38px;
+	text-align: center;
+	bottom: 35px;
+	left: 30px;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background-color: #14181c;
+	border: solid 2px #79602f;
+	/* opacity: 0.88; */
+	z-index: 0;
+}
+.div_stats_item .ring_button_stats
+{
+	bottom: 0px;
+	left: 0px;
+}
+
+.stats_bg_strength
+{
+	background: #14181c url('/img/sword.svg') 5px 9px no-repeat;
+	background-size: 24px 24px;
+}
+.stats_bg_dexterity
+{
+	background: #14181c url('/img/moon-mini.svg') 6px 7px no-repeat;
+	background-size: 24px 24px;
+}
+.stats_bg_constitution
+{
+	background: #14181c url('/img/heart.svg') 8px 9px no-repeat;
+	background-size: 22px 22px;
+}
+.stats_bg_intelligence
+{
+	background: #14181c url('/img/open-book.svg') 7px 8px no-repeat;
+	background-size: 24px 24px;
+}
+.stats_bg_wisdom
+{
+	background: #14181c url('/img/eye.svg') 5px 6px no-repeat;
+	background-size: 28px 28px;
+}
+.stats_bg_charisma
+{
+	background: #14181c url('/img/stars.svg') 7px 7px no-repeat;
+	background-size: 26px 26px;
+}
+
+.div_hit_points
+{
+	position: absolute;
+	bottom: 250px;
+	left: -70px;
+	width: 300px;
+	height: 176px;
+	background: #0a141c;
+	font-size: 15px;
+	opacity: 0.80;
+	border-radius: 20px;
+	padding: 20px;
+	font-size: 18px;
+	font-weight: bold;
+	display: flex;
+	flex-wrap: wrap;
+	line-height: 44px;
+	align-content: center;
+}
+.div_hit_points .label
+{
+	width: 190px;
+}
+.div_hit_points .icon
+{
+	width: 28px;
+	height: 28px;
+	margin-right: 12px;
+	padding: 7px 0px;
+}
+.div_hit_points input[type=text]
+{
+	font-size: 24px;
+	font-family: "Hack";
+	border-radius: 8px;
+	width: 58px;
+	text-align: center;
+	border: solid 2px;
+	padding: 4px 0px;
+	margin: 6px 0px;
+	border: solid 2px;
+}
+.div_hit_points .close
+{
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 20px;
+	height: 20px;
+	background: url('/img/close.svg') center center no-repeat;
+	background-size: contain;
+	cursor: url('/img/cursor-purple.png'), auto;
+	z-index: 5;
+}
+
+/****    ring buttons    ****/
+
+.ring_button
+{
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 56px;
+	height: 56px;
+	z-index: 0;
+	background: url('/img/porthole.png') center center no-repeat;
+	background-size: contain;
+	animation: spin 150s linear infinite;
+	cursor: url('/img/cursor-purple.png'), auto;
+	border-radius: 50%;
+}
+.ring_button_bg
+{
+	position: absolute;
+	bottom: 9px;
+	left: 9px;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	/* background-color: #14181c; */
+	z-index: -1;
+}
+.ring_button_helper_left
+{
+	position: absolute;
+	bottom: 13px;
+	left: 30px;
+	width: 0px;
+	height: 30px;
+	background-color: #0a141c;
+	line-height: 30px;
+	text-align: left;
+	padding-left: 15px;
+	font-size: 18px;
+	font-weight: bold;
+	border-radius: 15px;
+	white-space: nowrap;
+	overflow: hidden;
+	z-index: -2;
+	transition: left 0.6s, width 0.6s;
+}
+.ring_button_helper_right
+{
+	position: absolute;
+	bottom: 13px;
+	left: 15px;
+	width: 0px;
+	height: 30px;
+	background-color: #0a141c;
+	line-height: 30px;
+	text-align: right;
+	padding-right: 15px;
+	font-size: 18px;
+	font-weight: bold;
+	border-radius: 15px;
+	white-space: nowrap;
+	overflow: hidden;
+	z-index: -2;
+	transition: left 0.6s, width 0.6s, background-position-x 0.8s;
+}
+
+/****    ring buttons specific   ****/
+
+.position_ring_inspiration
+{
+	position: absolute;
+	z-index: 8;
+	bottom: 3px;
+	left: -121px;
+}
+.ring_inspiration_moon
+{
+	background: #14181c url('/img/moon-mini.svg') center center no-repeat;
+	background-size: 48px 28px;
+}
+.ring_inspiration_sun
+{
+	background: #14181c url('/img/sun-mini.svg') center center no-repeat;
+	background-size: 48px 28px;
+}
+
+.position_ring_inspiration:hover .ring_button_helper_left
+{
+	transition-delay: 0.6s;
+	left: -130px;
+	width: 140px;
+}
+.position_ring_initiative
+{
+	position: absolute;
+	z-index: 8;
+	bottom: 3px;
+	left: 65px;
+}
+.ring_initiative_wind
+{
+	position: absolute;
+	background: #14181c url('/img/wind.svg') bottom center no-repeat;
+	background-size: 22px 22px;
+	bottom: 4px;
+	left: 9px;
+	width: 39px;
+	height: 43px;
+	border-radius: 50%;
+	z-index: -1;
+}
+.position_ring_initiative input[type=text]
+{
+	position: absolute;
+	bottom: 20px;
+	left: 13px;
+	font-size: 20px;
+	font-family: "Hack";
+	border-radius: 8px;
+	width: 26px;
+	text-align: center;
+	padding: 2px 3px;
+	background: transparent;
+}
+.position_ring_initiative:hover .ring_button_helper_right
+{
+	transition-delay: 0.3s;
+	width: 140px;
+}
+
+.health_bar_bg
+{
+	background-color: #200b0b;
+	overflow: hidden;
+}
+.current_health_bar
+{
+	background-color: #591510;
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+}
+.position_health_bar
+{
+	position: absolute;
+	z-index: 8;
+	bottom: 137px;
+	left: 63px;
+}
+.position_health_bar:hover .ring_button_helper_right
+{
+	transition-delay: 0.3s;
+	width: 148px;
+	background: #14181c url('/img/heart.svg') 46px center no-repeat;
+	padding-left: 22px;
+}
+
