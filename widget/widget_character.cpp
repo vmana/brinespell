@@ -3,7 +3,7 @@
 #include "db/player.h"
 #include "db/campaign.h"
 
-widget_character::widget_character() : wcontainer("character")
+widget_character::widget_character() : wcontainer("character/character")
 {
 	// set player character image
 	avatar_image = bindNew<WText>("avatar_image");
@@ -15,14 +15,14 @@ widget_character::widget_character() : wcontainer("character")
 	}
 
 	// inspiration
-	button_inspiration = bindNew<wtemplate>("inspiration", "ring_button");
+	button_inspiration = bindNew<wtemplate>("inspiration", "character/ring_button");
 	button_inspiration->setStyleClass("position_ring_inspiration");
 	button_inspiration_bg = button_inspiration->bindNew<WText>("ring_button_bg");
 	button_inspiration_helper = button_inspiration->bindNew<widget_template>("ring_button_helper");
 	button_inspiration_helper->set_text("<div class=\"ring_button_helper_left\">Inspiration</div>");
 
 	// initiative
-	button_initiative = bindNew<wtemplate>("initiative", "ring_text_button");
+	button_initiative = bindNew<wtemplate>("initiative", "character/ring_text_button");
 	button_initiative->setStyleClass("position_ring_initiative");
 	button_initiative_bg = button_initiative->bindNew<WText>("ring_button_bg");
 	button_initiative_bg->setStyleClass("ring_initiative_wind");
@@ -31,7 +31,7 @@ widget_character::widget_character() : wcontainer("character")
 	button_initiative_helper->set_text("<div class=\"ring_button_helper_right\">Initiative</div>");
 
 	// health bar
-	health_bar = bindNew<wtemplate>("health_bar", "health_bar");
+	health_bar = bindNew<wtemplate>("health_bar", "character/health_bar");
 	health_bar->setStyleClass("position_health_bar");
 	current_health_bar = health_bar->bindNew<WText>("current_health_bar");
 	current_health_bar->setStyleClass("current_health_bar");
@@ -39,7 +39,7 @@ widget_character::widget_character() : wcontainer("character")
 	health_bar_helper->setToolTip("Scroll to change Hit Points");
 
 	// details hp
-	details_hp = bindNew<wtemplate>("details_hp", "details_hp");
+	details_hp = bindNew<wtemplate>("details_hp", "character/details_hp");
 	details_hp->setStyleClass("visibility_hidden");
 
 	close_details_hp = details_hp->bindNew<WText>("close");

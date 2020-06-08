@@ -3,41 +3,41 @@
 #include "db/player.h"
 #include "db/skill.h"
 
-widget_stats::widget_stats() : wcontainer("stats")
+widget_stats::widget_stats() : wcontainer("character/stats")
 {
 	setStyleClass("widget_stats");
 
-	auto button_str = bindNew<wtemplate>("button_str", "stat_button");
+	auto button_str = bindNew<wtemplate>("button_str", "character/stat_button");
 	button_str->setStyleClass("div_stats_item");
 	mod_str = button_str->bindNew<WText>("text");
 	button_str->bindString("stat", "strength");
 
-	auto button_dex = bindNew<wtemplate>("button_dex", "stat_button");
+	auto button_dex = bindNew<wtemplate>("button_dex", "character/stat_button");
 	button_dex->setStyleClass("div_stats_item");
 	mod_dex = button_dex->bindNew<WText>("text");
 	button_dex->bindString("stat", "dexterity");
 
-	auto button_con = bindNew<wtemplate>("button_con", "stat_button");
+	auto button_con = bindNew<wtemplate>("button_con", "character/stat_button");
 	button_con->setStyleClass("div_stats_item");
 	mod_con = button_con->bindNew<WText>("text");
 	button_con->bindString("stat", "constitution");
 
-	auto button_int = bindNew<wtemplate>("button_int", "stat_button");
+	auto button_int = bindNew<wtemplate>("button_int", "character/stat_button");
 	button_int->setStyleClass("div_stats_item");
 	mod_int = button_int->bindNew<WText>("text");
 	button_int->bindString("stat", "intelligence");
 
-	auto button_wis = bindNew<wtemplate>("button_wis", "stat_button");
+	auto button_wis = bindNew<wtemplate>("button_wis", "character/stat_button");
 	button_wis->setStyleClass("div_stats_item");
 	mod_wis = button_wis->bindNew<WText>("text");
 	button_wis->bindString("stat", "wisdom");
 
-	auto button_cha = bindNew<wtemplate>("button_cha", "stat_button");
+	auto button_cha = bindNew<wtemplate>("button_cha", "character/stat_button");
 	button_cha->setStyleClass("div_stats_item");
 	mod_cha = button_cha->bindNew<WText>("text");
 	button_cha->bindString("stat", "charisma");
 
-	details_stat = bindNew<wtemplate>("details_stat", "details_stat");
+	details_stat = bindNew<wtemplate>("details_stat", "character/details_stat");
 	details_stat->setStyleClass("visibility_hidden");
 
 	button_str->clicked().connect(bind(&widget_stats::prepare_details, this, "Strength"));
@@ -78,7 +78,7 @@ void widget_stats::prepare_details(string name)
 	}
 
 	current_stat = name;
-	details_stat->load("details_stat");
+	details_stat->load("character/details_stat");
 
 	close_stat = details_stat->bindNew<WText>("close");
 	close_stat->setStyleClass("close");
@@ -135,7 +135,7 @@ void widget_stats::prepare_details(string name)
 
 	for (auto p_skill : skills)
 	{
-		auto new_line = make_unique<wtemplate>("skill");
+		auto new_line = make_unique<wtemplate>("character/skill");
 		new_line->setStyleClass("flex_skill_line");
 
 		auto skill_proficiency = new_line->bindNew<WImage>("proficiency", "/img/check-off.svg");
