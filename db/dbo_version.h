@@ -5,6 +5,8 @@
 class user;
 class player;
 class campaign;
+class base_skill;
+class skill;
 
 namespace dbo = Wt::Dbo;
 
@@ -15,6 +17,8 @@ namespace Wt
 		template<> struct dbo_traits<user> : public dbo_default_traits { static const char *versionField() { return 0; } };
 		template<> struct dbo_traits<player> : public dbo_default_traits { static const char *versionField() { return 0; } };
 		template<> struct dbo_traits<campaign> : public dbo_default_traits { static const char *versionField() { return 0; } };
+		template<> struct dbo_traits<base_skill> : public dbo_default_traits { static const char *versionField() { return 0; } };
+		template<> struct dbo_traits<skill> : public dbo_default_traits { static const char *versionField() { return 0; } };
 	}
 }
 

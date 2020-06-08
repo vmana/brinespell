@@ -34,6 +34,7 @@ HEADERS  += config.h\
 				db/dbo_version.h\
 				db/user.h\
 				db/player.h\
+				db/skill.h\
 				db/campaign.h\
 				broadcast.h\
 				soma.h\
@@ -56,6 +57,7 @@ SOURCES +=	main.cpp\
 				test/unit_test.cpp\
 				db/user.cpp\
 				db/player.cpp\
+				db/skill.cpp\
 				db/campaign.cpp\
 				broadcast.cpp\
 				soma.cpp\

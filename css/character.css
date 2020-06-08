@@ -98,13 +98,13 @@
 
 .stats_bg_strength
 {
-	background: #14181c url('/img/sword.svg') 5px 9px no-repeat;
-	background-size: 24px 24px;
+	background: #14181c url('/img/sword.svg') 4px 4px no-repeat;
+	background-size: 28px 28px;
 }
 .stats_bg_dexterity
 {
-	background: #14181c url('/img/moon-mini.svg') 6px 7px no-repeat;
-	background-size: 24px 24px;
+	background: #14181c url('/img/cat.svg') 6px 7px no-repeat;
+	background-size: 28px 28px;
 }
 .stats_bg_constitution
 {
@@ -340,3 +340,116 @@
 	padding-left: 22px;
 }
 
+/****    details stat    ****/
+
+.div_details_stat
+{
+	position: absolute;
+	left: 80px;
+	bottom: 220px;
+	background: #0a141c;
+	font-size: 15px;
+	opacity: 0.80;
+	border-radius: 20px;
+	padding: 10px 20px;
+	min-height: 234px;
+	padding-bottom: 20px;
+	font-size: 18px;
+	font-weight: bold;
+}
+.div_details_stat .flex_container
+{
+	display: flex;
+	align-items: start;
+}
+
+.div_details_stat .title
+{
+	width: 100%;
+	height: 50px;
+	display: inline-block;
+	text-align: center;
+}
+.div_details_stat .title .icon
+{
+	padding: 0px 0px;
+	vertical-align: middle;
+}
+.div_details_stat .title .label
+{
+	vertical-align: middle;
+}
+
+.div_details_stat .flex_stat
+{
+	display: flex;
+	flex-wrap: wrap;
+	line-height: 44px;
+	align-content: center;
+	width: 250px;
+}
+.div_details_stat .label
+{
+	width: 140px;
+}
+.div_details_stat .number
+{
+	width: 62px;
+	text-align: center;
+	font-size: 24px;
+	font-weight: normal;
+	font-family: 'Hack';
+}
+.div_details_stat .icon
+{
+	width: 28px;
+	height: 28px;
+	margin-right: 12px;
+	padding: 7px 0px;
+}
+.div_details_stat input[type=text]
+{
+	font-size: 24px;
+	font-family: "Hack";
+	border-radius: 8px;
+	width: 58px;
+	text-align: center;
+	border: solid 2px;
+	padding: 4px 0px;
+	margin: 6px 0px;
+	border: solid 2px;
+}
+.div_details_stat .close
+{
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 20px;
+	height: 20px;
+	background: url('/img/close.svg') center center no-repeat;
+	background-size: contain;
+	cursor: url('/img/cursor-purple.png'), auto;
+	z-index: 5;
+}
+
+.div_details_stat .flex_skill
+{
+	width: 300px;
+	margin-left: 40px;
+	line-height: 44px;
+}
+.div_details_stat .flex_skill_line
+{
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+.div_details_stat .flex_skill .label
+{
+	width: 190px;
+}
+.div_details_stat .flex_skill .icon
+{
+	width: 22px;
+	cursor: url('/img/cursor-purple.png'), auto;
+}

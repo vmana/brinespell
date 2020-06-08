@@ -10,7 +10,16 @@
 
 class soma;
 
-class wcontainer : public widget_template
+class wtemplate : public widget_template
+{
+	public:
+		wtemplate();
+		wtemplate(string filename); // filename located in template/, with or without .html
+		void load(string filename); // filename located in template/, with or without .html
+		wtemplate operator+=(std::unique_ptr<wtemplate> &T);
+};
+
+class wcontainer : public wtemplate
 {
 	protected:
 		Wt::Signal<bool> signal_on_visible_change;
@@ -24,14 +33,7 @@ class wcontainer : public widget_template
 
 		wcontainer();
 		wcontainer(string filename); // filename located in template/, with or without .html
-		void load(string filename); // filename located in template/, with or without .html
 		void setHidden(bool hidden, const WAnimation& animation = WAnimation());
-};
-
-class wtemplate : public widget_template
-{
-	public:
-		wtemplate(string filename); // filename located in template/, with or without .html
 };
 
 #endif // wcontainer_H

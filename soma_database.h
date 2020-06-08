@@ -23,6 +23,7 @@ class soma_database
 		void create_database();
 		void create_default();
 		void create_default_user();
+		void create_default_skill();
 		void delete_database();
 		static void update_database();
 		~soma_database();
