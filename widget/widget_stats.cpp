@@ -38,7 +38,7 @@ widget_stats::widget_stats() : wcontainer("stats")
 	button_cha->bindString("stat", "charisma");
 
 	details_stat = bindNew<wtemplate>("details_stat", "details_stat");
-	details_stat->setStyleClass("div_details_stat visibility_hidden");
+	details_stat->setStyleClass("visibility_hidden");
 
 	button_str->clicked().connect(bind(&widget_stats::prepare_details, this, "Strength"));
 	button_dex->clicked().connect(bind(&widget_stats::prepare_details, this, "Dexterity"));
@@ -158,7 +158,7 @@ void widget_stats::prepare_details(string name)
 	close_stat->clicked().connect(this, &widget_stats::switch_details_visibility);
 	tmp_stat->changed().connect(this, &widget_stats::on_tmp_stat_changed);
 
-	details_stat->setStyleClass("div_details_stat animate_show");
+	details_stat->setStyleClass("animate_show");
 }
 
 void widget_stats::update_details()
@@ -297,10 +297,10 @@ void widget_stats::switch_details_visibility()
 	if (details_stat->hasStyleClass("animate_show"))
 	{
 		details_stat->removeStyleClass("visibility_hidden");
-		details_stat->setStyleClass("div_details_stat animate_hide");
+		details_stat->setStyleClass("animate_hide");
 	}
 	else
 	{
-		details_stat->setStyleClass("div_details_stat animate_show");
+		details_stat->setStyleClass("animate_show");
 	}
 }
