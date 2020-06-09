@@ -55,12 +55,12 @@
 	display: flex;
 	z-index: 1;
 }
-.div_stats_item
+.div_stats .item
 {
 	width: 70px;
 	position: relative;
 }
-.stats_bg
+.div_stats .bg
 {
 	position: absolute;
 	bottom: 9px;
@@ -73,7 +73,7 @@
 	z-index: -2;
 }
 
-.ring_stats_bg
+.div_stats .mod_bg
 {
 	position: absolute;
 	font-size: 22px;
@@ -90,38 +90,38 @@
 	/* opacity: 0.88; */
 	z-index: 0;
 }
-.div_stats_item .ring_button_stats
+.item .ring_button_stats
 {
 	bottom: 0px;
 	left: 0px;
 }
 
-.stats_bg_strength
+.div_stats .item .strength
 {
 	background: #14181c url('/img/sword.svg') 4px 4px no-repeat;
 	background-size: 28px 28px;
 }
-.stats_bg_dexterity
+.div_stats .item .dexterity
 {
 	background: #14181c url('/img/cat.svg') 6px 7px no-repeat;
 	background-size: 28px 28px;
 }
-.stats_bg_constitution
+.div_stats .item .constitution
 {
 	background: #14181c url('/img/heart.svg') 8px 9px no-repeat;
 	background-size: 22px 22px;
 }
-.stats_bg_intelligence
+.div_stats .item .intelligence
 {
 	background: #14181c url('/img/open-book.svg') 7px 8px no-repeat;
 	background-size: 24px 24px;
 }
-.stats_bg_wisdom
+.div_stats .item .wisdom
 {
 	background: #14181c url('/img/eye.svg') 5px 6px no-repeat;
 	background-size: 28px 28px;
 }
-.stats_bg_charisma
+.div_stats .item .charisma
 {
 	background: #14181c url('/img/stars.svg') 7px 7px no-repeat;
 	background-size: 26px 26px;
