@@ -86,9 +86,10 @@
 	height: 35px;
 	border-radius: 50%;
 	background: url('/img/storm.png') center center no-repeat;
+	cursor: url('/img/cursor-purple.png'), auto;
 	border: solid 2px #79602f;
 	background-size: 36px;
-	z-index: 0;
+	z-index: 3;
 }
 .item .ring_button_stats
 {
@@ -197,6 +198,7 @@
 	animation: spin 150s linear infinite;
 	cursor: url('/img/cursor-purple.png'), auto;
 	border-radius: 50%;
+	z-index: 2;
 }
 .ring_button_background
 {
@@ -317,6 +319,7 @@
 	text-align: center;
 	padding: 2px 3px;
 	background: transparent;
+	z-index: 3;
 }
 .position_ring_initiative:hover .ring_button_helper_right
 {
