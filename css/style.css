@@ -78,6 +78,14 @@ input[type=file]
 	font-size: 0px !important;
 }
 
+.noselect
+{
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 @font-face
 {
 	font-family: 'Hack';

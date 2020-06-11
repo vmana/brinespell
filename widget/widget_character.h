@@ -2,6 +2,7 @@
 #define widget_portrait_H
 
 #include "wcontainer.h"
+#include "widget_details_hp.h"
 #include "widget_stats.h"
 #include <Wt/WLineEdit.h>
 
@@ -14,13 +15,13 @@ class widget_character : public wcontainer
 		// inspiration
 		Signal<bool> on_inspiration_event;
 		wtemplate *button_inspiration;
-		WText *button_inspiration_bg;
+		WText *button_inspiration_icon;
 		widget_template *button_inspiration_helper;
 
 		// initiative
 		Signal<int> on_initiative_event;
 		wtemplate *button_initiative;
-		WText *button_initiative_bg;
+		WText *button_initiative_icon;
 		WLineEdit *initiative;
 		widget_template *button_initiative_helper;
 
@@ -29,13 +30,14 @@ class widget_character : public wcontainer
 		WText *current_health_bar;
 		widget_template *health_bar_helper;
 
+		// level
+		wtemplate *button_level;
+		WText *button_level_icon;
+		WText *button_level_text;
+		widget_template *button_level_helper;
+
 		// details hit points
-		widget_template *details_hp;
-		WText *close_details_hp;
-		WText *details_max_hit_points;
-		WLineEdit *details_damage;
-		WLineEdit *details_tmp_hit_points;
-		WText *details_hit_points;
+		widget_details_hp *details_hp;
 
 		// stats
 		widget_stats *stats;
@@ -53,12 +55,7 @@ class widget_character : public wcontainer
 
 		// health
 		void on_health_bar_wheel(const WMouseEvent &e);
-		void update_hit_point();
-		void on_details_hp_change();
-		void on_details_hp_wheel(const WMouseEvent &e);
-		void on_details_tmp_hp_change();
-		void on_details_tmp_hp_wheel(const WMouseEvent &e);
-		void switch_details_hp_visibility();
+		void update_health_bar(int percent, string helper);
 };
 
 #endif // widget_portrait_H
