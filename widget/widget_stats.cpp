@@ -37,7 +37,7 @@ widget_stats::widget_stats() : wcontainer("character/stats")
 	mod_cha = button_cha->bindNew<WText>("text");
 	button_cha->bindString("stat", "charisma");
 
-	details_stat = bindNew<wtemplate>("details_stat", "character/details_stat");
+	details_stat = bindNew<wtemplate>("details_stat");
 	details_stat->setStyleClass("visibility_hidden");
 
 	button_str->clicked().connect(bind(&widget_stats::prepare_details, this, "Strength"));
