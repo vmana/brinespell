@@ -489,10 +489,11 @@ div.jp-seeking-bg
 {
 	font-family: 'Hack', monospace;
 	width: 100%;
-	padding-left: 36px !important;
-	background-image: url('/img/sun-moon-mini.svg') !important;
+	padding-left: 42px !important;
+	background-image: url('/img/scroll.svg') !important;
 	background-repeat: no-repeat !important;
-	background-position: 8px 4px !important;
+	background-position: 6px 2px !important;
+	background-size: 28px !important;
 }
 
 .widget_search_suggestions

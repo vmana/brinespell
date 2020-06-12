@@ -45,12 +45,10 @@ widget_character::widget_character() : wcontainer("character/character")
 	button_level_text->setStyleClass("text noselect");
 	button_level_helper = button_level->bindNew<widget_template>("ring_button_helper");
 	button_level_helper->set_text("<div class=\"ring_button_helper_right\">Character</div>");
-	button_level_text->setText("6");
 
-	// details hp
+	// frames
 	details_hp = bindNew<widget_details_hp>("details_hp");
-
-	// stats
+	level = bindNew<widget_level>("level");
 	stats = bindNew<widget_stats>("stats");
 
 	// signal binding
@@ -59,11 +57,14 @@ widget_character::widget_character() : wcontainer("character/character")
 	initiative->changed().connect(this, &widget_character::on_initiative_change);
 	health_bar->mouseWheel().connect(this, &widget_character::on_health_bar_wheel);
 	details_hp->hit_point_event.connect(this, &widget_character::update_health_bar);
-	health_bar->clicked().connect(details_hp, &widget_details_hp::switch_details_hp_visibility);
+	health_bar->clicked().connect(details_hp, &widget_details_hp::switch_visibility);
+	button_level->clicked().connect(level, &widget_level::switch_visibility);
+	level->on_change.connect(this, &widget_character::on_character_level_change);
 
 	// update values
 	update_inspiration();
 	update_initiative();
+	update_level();
 	details_hp->update_hit_point();
 }
 
@@ -137,3 +138,16 @@ void widget_character::update_health_bar(int percent, string helper)
 	+ "</div>");
 }
 
+void widget_character::update_level()
+{
+	button_level_text->setText(convert::int_string(S->p_player->level));
+}
+
+void widget_character::on_character_level_change()
+{
+	update_level();
+	// update health bar
+	details_hp->update_hit_point(); // will trigger an event with percentage & helper info
+	// update stats modifiers
+	stats->update_stats();
+}

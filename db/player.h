@@ -10,12 +10,14 @@ class skill;
 class player
 {
 	public:
-		string name;
 		dbo::ptr<user> p_user;
 		dbo::ptr<campaign> p_campaign;
-		bool game_master = false;
 
+		string name;
 		int level = 1;
+		string character_class;
+		string race;
+		bool game_master = false;
 
 		int strength = 10;
 		int dexterity = 10;
@@ -25,6 +27,8 @@ class player
 		int charisma = 10;
 
 		int initiative = 0;
+		int armor_class = 10;
+		int speed = 9;
 		bool inspiration = false;
 
 		int class_hit_points = 8;
@@ -38,16 +42,20 @@ class player
 		int tmp_wisdom = 0;
 		int tmp_charisma = 0;
 
+		string features;
+
 		dbo::collection<dbo::ptr<skill>> skills;
 
 		template<class Action>
 		void persist(Action &a)
 		{
-			dbo::field(a, name, "name");
 			dbo::belongsTo(a, p_user, dbo::OnDeleteCascade);
 			dbo::belongsTo(a, p_campaign, "campaign", dbo::OnDeleteCascade);
-			dbo::field(a, game_master, "game_master");
+			dbo::field(a, name, "name");
 			dbo::field(a, level, "level");
+			dbo::field(a, character_class, "character_class");
+			dbo::field(a, race, "race");
+			dbo::field(a, game_master, "game_master");
 
 			dbo::field(a, strength, "strength");
 			dbo::field(a, dexterity, "dexterity");
@@ -56,8 +64,9 @@ class player
 			dbo::field(a, wisdom, "wisdom");
 			dbo::field(a, charisma, "charisma");
 
-
 			dbo::field(a, initiative, "initiative");
+			dbo::field(a, armor_class, "armor_class");
+			dbo::field(a, speed, "speed");
 			dbo::field(a, inspiration, "inspiration");
 
 			dbo::field(a, class_hit_points, "class_hit_points");
@@ -70,6 +79,8 @@ class player
 			dbo::field(a, tmp_intelligence, "tmp_intelligence");
 			dbo::field(a, tmp_wisdom, "tmp_wisdom");
 			dbo::field(a, tmp_charisma, "tmp_charisma");
+
+			dbo::field(a, features, "features");
 
 			dbo::hasMany(a, skills, dbo::ManyToOne, "player");
 		}

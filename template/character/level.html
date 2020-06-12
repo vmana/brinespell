@@ -1,0 +1,58 @@
+<div class="div_level">
+	${close}
+
+	<div class="header">
+		${character_name}
+		${level}
+	</div>
+	<div class="header">
+		${character_class}
+		${race}
+	</div>
+	<div class="flex_container">
+		<div class="flex_stat">
+
+			<img src="/img/orb.svg" class="icon">
+			<div class="label">Proficiency</div>
+			<div class="number">${proficiency}</div>
+			<img src="/img/shield.svg" class="icon">
+			<div class="label">Armor Class</div>
+			${armor_class}
+			<img src="/img/heart-plus.svg" class="icon">
+			<div class="label">Class HP</div>
+			${class_hit_points}
+			<img src="/img/boot.svg" class="icon">
+			<div class="label">Speed</div>
+			${speed}
+			<div style="width: 100%; margin-top: 20px;"></div>
+
+			<img src="/img/sword.svg" class="icon">
+			<div class="label">Strength</div>
+			${strength}
+			<img src="/img/cat.svg" class="icon">
+			<div class="label">Dexterity</div>
+			${dexterity}
+			<img src="/img/heart.svg" class="icon">
+			<div class="label">Constitution</div>
+			${constitution}
+			<img src="/img/open-book.svg" class="icon">
+			<div class="label">Intelligence</div>
+			${intelligence}
+			<img src="/img/eye.svg" class="icon">
+			<div class="label">Wisdom</div>
+			${wisdom}
+			<img src="/img/stars.svg" class="icon">
+			<div class="label">Charisma</div>
+			${charisma}
+
+		</div>
+		<div class="flex_features">
+			<div class="header">
+				<img src="/img/open-book.svg" class="icon">
+				<span class="label">Class / Racial Features</span>
+			</div>
+			${features}
+		</div>
+	</div>
+</div>
+

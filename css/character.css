@@ -47,6 +47,19 @@
 	border: solid 3px #756233;
 }
 
+.div_character .close
+{
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 20px;
+	height: 20px;
+	background: url('/img/close.svg') center center no-repeat;
+	background-size: contain;
+	cursor: url('/img/cursor-purple.png'), auto;
+	z-index: 5;
+}
+
 .div_stats
 {
 	position: absolute;
@@ -131,8 +144,8 @@
 .div_hit_points
 {
 	position: absolute;
-	bottom: 250px;
-	left: -70px;
+	bottom: 210px;
+	left: 60px;
 	width: 300px;
 	height: 176px;
 	background: #0a141c;
@@ -165,22 +178,10 @@
 	border-radius: 8px;
 	width: 58px;
 	text-align: center;
-	border: solid 2px;
 	padding: 4px 0px;
 	margin: 6px 0px;
-	border: solid 2px;
-}
-.div_hit_points .close
-{
-	position: absolute;
-	top: 8px;
-	right: 8px;
-	width: 20px;
-	height: 20px;
-	background: url('/img/close.svg') center center no-repeat;
-	background-size: contain;
-	cursor: url('/img/cursor-purple.png'), auto;
-	z-index: 5;
+	border: solid 2px #f9e9b8cf;
+	opacity: 1;
 }
 
 /****    ring buttons    ****/
@@ -319,6 +320,7 @@
 	text-align: center;
 	padding: 2px 3px;
 	background: transparent;
+	opacity: 1;
 	z-index: 3;
 }
 .position_ring_initiative:hover .ring_button_helper_right
@@ -379,13 +381,161 @@
 	width: 38px;
 }
 
+/****    level    ****/
+
+.div_level
+{
+	position: absolute;
+	left: 132px;
+	bottom: 135px;
+	background: #0a141c;
+	font-size: 15px;
+	opacity: 0.80;
+	border-radius: 20px;
+	padding: 20px;
+	font-size: 18px;
+	font-weight: bold;
+}
+.div_level .header input[type=text]
+{
+	font-size: 24px;
+	border-radius: 17px;
+	text-align: left;
+	padding: 4px 8px;
+	padding-left: 38px;
+	border: solid 2px #f9e9b8cf;
+	opacity: 1;
+}
+.div_level .header
+{
+	width: 100%;
+	height: 46px;
+	display: flex;
+}
+.div_level .header .character_name
+{
+	width: 460px;
+	background: #0a141c url('/img/quill-ink.svg') center left no-repeat;
+	background-size: 26px;
+	background-position-x: 10px;
+}
+.div_level .header .level
+{
+	width: 40px;
+	background: #0a141c url('/img/ship-wheel.svg') center left no-repeat;
+	background-size: 29px;
+	background-position-x: 3px;
+	text-align: center !important;
+	font-family: "Hack" !important;
+	padding-left: 30px !important;
+	margin-left: 10px;
+}
+.div_level .header .character_class
+{
+	width: 330px;
+	background: #0a141c url('/img/sun-moon-mini.svg') center left no-repeat;
+	background-size: 26px;
+	background-position-x: 6px;
+	background-position-y: 4px;
+}
+.div_level .header .race
+{
+	width: 164px;
+	background: #0a141c url('/img/octopus.svg') center left no-repeat;
+	background-size: 29px;
+	background-position-x: 4px;
+	margin-left: 10px;
+}
+
+.div_level .flex_container
+{
+	display: flex;
+	align-items: start;
+}
+.div_level .flex_stat
+{
+	display: flex;
+	flex-wrap: wrap;
+	line-height: 42px;
+	width: 270px;
+}
+.div_level .label
+{
+	width: 160px;
+}
+.div_level .number
+{
+	width: 62px;
+	text-align: center;
+	font-size: 24px;
+	font-weight: normal;
+	font-family: 'Hack';
+}
+.div_level .icon
+{
+	width: 28px;
+	height: 28px;
+	margin-right: 12px;
+	padding: 7px 0px;
+}
+.div_level .flex_stat input[type=text]
+{
+	font-size: 24px;
+	font-family: "Hack";
+	border-radius: 8px;
+	width: 58px;
+	text-align: center;
+	padding: 4px 0px;
+	margin: 4px 0px;
+	border: solid 2px #f9e9b8cf;
+	opacity: 1;
+}
+.div_level .flex_features
+{
+	display: flex;
+	flex-wrap: wrap;
+	width: 340px;
+	margin-left: 20px;
+}
+
+.div_level .flex_features .header
+{
+	line-height: 42px;
+	height: 42px;
+	text-align: center;
+	display: inline-block;
+}
+.div_level .flex_features .header .icon
+{
+	padding: 0px 0px;
+	vertical-align: middle;
+}
+.div_level .flex_features .header .label
+{
+	vertical-align: middle;
+}
+.div_level .flex_features textarea
+{
+	width: 100%;
+	height: 380px;
+	background: #0a141c;
+	color: #f9e9b8;
+	font-size: 20px;
+	border-radius: 8px;
+	padding: 6px;
+	border: solid 2px #f9e9b8cf;
+	outline-style: none;
+	box-shadow: none;
+	cursor: url('/img/cursor-purple.png'), auto;
+}
+
 /****    details stat    ****/
 
 .div_details_stat
 {
 	position: absolute;
-	left: 80px;
-	bottom: 220px;
+	left: 132px;
+	bottom: 135px;
 	background: #0a141c;
 	font-size: 15px;
 	opacity: 0.80;
@@ -453,22 +603,10 @@
 	border-radius: 8px;
 	width: 58px;
 	text-align: center;
-	border: solid 2px;
 	padding: 4px 0px;
 	margin: 6px 0px;
-	border: solid 2px;
-}
-.div_details_stat .close
-{
-	position: absolute;
-	top: 8px;
-	right: 8px;
-	width: 20px;
-	height: 20px;
-	background: url('/img/close.svg') center center no-repeat;
-	background-size: contain;
-	cursor: url('/img/cursor-purple.png'), auto;
-	z-index: 5;
+	border: solid 2px #f9e9b8cf;
+	opacity: 1;
 }
 
 .div_details_stat .flex_skill

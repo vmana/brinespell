@@ -133,6 +133,8 @@ void soma_database::create_default_user()
 				// mana game master
 				if (character == "Game Master")
 				{
+					p_player.modify()->race = "Human";
+					p_player.modify()->character_class = "Priest 6";
 					p_player.modify()->game_master = true;
 					p_player.modify()->inspiration = true;
 					p_player.modify()->level = 6;
