@@ -46,6 +46,22 @@ widget_character::widget_character() : wcontainer("character/character")
 	button_level_helper = button_level->bindNew<widget_template>("ring_button_helper");
 	button_level_helper->set_text("<div class=\"ring_button_helper_right\">Character</div>");
 
+	// weapon
+	button_weapon = bindNew<wtemplate>("button_weapon", "character/ring_button");
+	button_weapon->setStyleClass("position_ring_weapon");
+	button_weapon_icon = button_weapon->bindNew<WText>("ring_button_icon");
+	button_weapon_icon->setStyleClass("ring_button_icon ring_weapon_icon");
+	button_weapon_helper = button_weapon->bindNew<widget_template>("ring_button_helper");
+	button_weapon_helper->set_text("<div class=\"ring_button_helper_left\">Weapon</div>");
+
+	// armor class
+	button_armor = bindNew<wtemplate>("button_armor", "character/shield");
+	button_armor->setStyleClass("position_armor");
+	button_armor_text = button_armor->bindNew<WText>("armor_button_text");
+	button_armor_text->setStyleClass("text");
+	button_armor_helper = button_armor->bindNew<widget_template>("armor_button_helper");
+	button_armor_helper->set_text("<div class=\"ring_button_helper_left\">Armor Class</div>");
+
 	// frames
 	details_hp = bindNew<widget_details_hp>("details_hp");
 	level = bindNew<widget_level>("level");
@@ -65,6 +81,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	update_inspiration();
 	update_initiative();
 	update_level();
+	update_armor();
 	details_hp->update_hit_point();
 }
 
@@ -146,8 +163,14 @@ void widget_character::update_level()
 void widget_character::on_character_level_change()
 {
 	update_level();
+	update_armor();
 	// update health bar
 	details_hp->update_hit_point(); // will trigger an event with percentage & helper info
 	// update stats modifiers
 	stats->update_stats();
+}
+
+void widget_character::update_armor()
+{
+	button_armor_text->setText(convert::int_string(S->p_player->armor_class));
 }

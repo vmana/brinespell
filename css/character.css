@@ -265,6 +265,7 @@
 
 /****    ring buttons specific   ****/
 
+/* inspiration */
 .position_ring_inspiration
 {
 	position: absolute;
@@ -289,6 +290,8 @@
 	left: -130px;
 	width: 140px;
 }
+
+/* initiative */
 .position_ring_initiative
 {
 	position: absolute;
@@ -312,10 +315,9 @@
 {
 	position: absolute;
 	bottom: 20px;
-	left: 13px;
+	left: 12px;
 	font-size: 20px;
 	font-family: "Hack";
-	border-radius: 8px;
 	width: 26px;
 	text-align: center;
 	padding: 2px 3px;
@@ -328,6 +330,8 @@
 	transition-delay: 0.3s;
 	width: 140px;
 }
+
+/* health bar */
 
 .position_health_bar .background
 {
@@ -379,6 +383,84 @@
 	bottom: 13px;
 	left: 9px;
 	width: 38px;
+}
+
+/* weapon */
+.position_ring_weapon
+{
+	position: absolute;
+	z-index: 8;
+	bottom: 69px;
+	left: -142px;
+}
+.ring_weapon_icon
+{
+	background: url('/img/sword.svg') center center no-repeat;
+	background-size: 48px 28px;
+}
+.position_ring_weapon:hover .ring_button_helper_left
+{
+	transition-delay: 0.6s;
+	left: -130px;
+	width: 140px;
+}
+
+/* armor */
+.position_armor
+{
+	position: absolute;
+	z-index: 8;
+	bottom: 123px;
+	left: -113px;
+}
+.armor_button
+{
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 76px;
+	height: 76px;
+	z-index: 0;
+	background: url('/img/shield.png') center center no-repeat;
+	background-size: contain;
+	z-index: 2;
+}
+.armor_background
+{
+	position: absolute;
+	font-size: 22px;
+	font-family: 'Hack';
+	line-height: 38px;
+	text-align: center;
+	bottom: 6px;
+	left: 0px;
+	width: 76px;
+	height: 76px;
+	background: url('/img/storm.png') center center no-repeat;
+	background-size: 56px;
+	z-index: 1;
+}
+.position_armor .ring_button_helper_left
+{
+	bottom: 30px;
+}
+.position_armor:hover .ring_button_helper_left
+{
+	transition-delay: 0.6s;
+	left: -140px;
+	width: 150px;
+}
+.position_armor .text
+{
+	position: absolute;
+	bottom: 26px;
+	left: 22px;
+	font-size: 24px;
+	font-family: "Hack";
+	width: 34px;
+	text-align: center;
+	opacity: 1;
+	z-index: 3;
 }
 
 /****    level    ****/

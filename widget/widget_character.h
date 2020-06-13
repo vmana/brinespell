@@ -37,6 +37,16 @@ class widget_character : public wcontainer
 		WText *button_level_text;
 		widget_template *button_level_helper;
 
+		// weapon
+		wtemplate *button_weapon;
+		WText *button_weapon_icon;
+		widget_template *button_weapon_helper;
+
+		// armor class
+		wtemplate *button_armor;
+		WText *button_armor_text;
+		widget_template *button_armor_helper;
+
 		// frames
 		widget_details_hp *details_hp;
 		widget_level *level;
@@ -60,6 +70,10 @@ class widget_character : public wcontainer
 		// level
 		void update_level();
 		void on_character_level_change();
+
+		// weapon
+		// armor
+		void update_armor();
 };
 
 #endif // widget_portrait_H

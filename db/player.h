@@ -43,6 +43,7 @@ class player
 		int tmp_charisma = 0;
 
 		string features;
+		string inventory;
 
 		dbo::collection<dbo::ptr<skill>> skills;
 
@@ -81,6 +82,7 @@ class player
 			dbo::field(a, tmp_charisma, "tmp_charisma");
 
 			dbo::field(a, features, "features");
+			dbo::field(a, inventory, "inventory");
 
 			dbo::hasMany(a, skills, dbo::ManyToOne, "player");
 		}
