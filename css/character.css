@@ -438,6 +438,7 @@
 	width: 76px;
 	height: 76px;
 	background: url('/img/storm.png') center center no-repeat;
+	animation: spin 60s linear infinite;
 	background-size: 56px;
 	z-index: 1;
 }
