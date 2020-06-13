@@ -76,6 +76,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	button_level->clicked().connect(level, &widget_level::switch_visibility);
 	level->on_change.connect(this, &widget_character::on_character_level_change);
 	armor->changed().connect(this, &widget_character::on_armor_change);
+	armor->mouseWheel().connect(this, &widget_character::on_armor_wheel);
 
 	// update values
 	update_inspiration();
@@ -179,6 +180,15 @@ void widget_character::on_armor_change()
 {
 	dbo_session session;
 	S->p_player.modify()->armor_class = abs(convert::string_int(armor->text().toUTF8()));
+	level->update_values();
+	update_armor();
+}
+
+void widget_character::on_armor_wheel(const WMouseEvent &e)
+{
+	dbo_session session;
+	if (e.wheelDelta() > 0) S->p_player.modify()->armor_class += 1; // scroll up
+	else if (e.wheelDelta() < 0 && S->p_player->armor_class > 0) S->p_player.modify()->armor_class -= 1; // scroll down
 	level->update_values();
 	update_armor();
 }

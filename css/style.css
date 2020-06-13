@@ -42,7 +42,7 @@ input[type=password]
 	color: #f9e9b8;
 	height: 22px;
 	padding: 4px 12px;
-	border-radius: 20px;
+	border-radius: 22px;
 	outline-style: none;
 	box-shadow: none;
 	border-color: transparent;
@@ -234,9 +234,9 @@ div.jp-seeking-bg
 .widget_home_search
 {
 	position: absolute;
-	width: 470px;
-	top: 160px;
-	left: calc(50% - 270px);
+	top: 44px;
+	left: 8px;
+	transition: width 0.4s;
 }
 
 .widget_home_audio
@@ -485,6 +485,23 @@ div.jp-seeking-bg
 
 /****    widget_search    ****/
 
+.widget_home_search input[type=text]
+{
+	padding: 10px 0px;
+	transition: width 0.3s, padding 0.2s;
+	width: 0px;
+}
+.widget_home_search:hover input[type=text]
+{
+	padding: 4px 12px;
+	width: 470px;
+}
+.widget_home_search input[type=text]:focus
+{
+	padding: 4px 12px;
+	width: 470px;
+}
+
 .widget_search_edit
 {
 	font-family: 'Hack', monospace;
@@ -492,8 +509,9 @@ div.jp-seeking-bg
 	padding-left: 42px !important;
 	background-image: url('/img/scroll.svg') !important;
 	background-repeat: no-repeat !important;
-	background-position: 6px 2px !important;
+	background-position: left center !important;
 	background-size: 28px !important;
+	background-position-x: 5px !important;
 }
 
 .widget_search_suggestions

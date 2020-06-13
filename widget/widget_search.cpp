@@ -2,6 +2,7 @@
 
 widget_search::widget_search() : wcontainer("search")
 {
+	setToolTip("Global HotKey : Enter");
 	edit_search = bindNew<WLineEdit>("edit_search");
 	edit_search->setStyleClass("widget_search_edit");
 	suggestions = bindNew<widget_template>("suggestions");
@@ -114,7 +115,6 @@ void widget_search::on_select_choice(string value)
 	selected = -1;
 	suggestions->setTemplateText("");
 	edit_search->setText("");
-	edit_search->setFocus(true);
 }
 
 void widget_search::update_selected()

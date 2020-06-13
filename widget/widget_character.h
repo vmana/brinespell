@@ -74,6 +74,7 @@ class widget_character : public wcontainer
 		// weapon
 		// armor
 		void update_armor();
+		void on_armor_wheel(const WMouseEvent &e);
 		void on_armor_change();
 };
 

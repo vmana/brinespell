@@ -57,7 +57,7 @@ widget_home::widget_home() : wcontainer("home")
 	{
 		broadcast::all(&widget_home::chat_message, message);
 	});
-	S->globalEnterPressed().connect([&](){ chat->chat_input->setFocus(true); });
+	S->globalEnterPressed().connect([&](){ search->edit_search->setFocus(true); });
 
 	// player join chat info
 	string current_time = wt::current_time().toString("HH:mm").toUTF8();
