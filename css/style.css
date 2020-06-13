@@ -236,6 +236,7 @@ div.jp-seeking-bg
 	position: absolute;
 	top: 44px;
 	left: 8px;
+	height: 42px;
 	transition: width 0.4s;
 }
 
