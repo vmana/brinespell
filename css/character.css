@@ -286,7 +286,7 @@
 
 .position_ring_inspiration:hover .ring_button_helper_left
 {
-	transition-delay: 0.6s;
+	transition-delay: 0.3s;
 	left: -130px;
 	width: 140px;
 }
@@ -400,7 +400,7 @@
 }
 .position_ring_weapon:hover .ring_button_helper_left
 {
-	transition-delay: 0.6s;
+	transition-delay: 0.3s;
 	left: -130px;
 	width: 140px;
 }
@@ -447,7 +447,7 @@
 }
 .position_armor:hover .ring_button_helper_left
 {
-	transition-delay: 0.6s;
+	transition-delay: 0.3s;
 	left: -140px;
 	width: 150px;
 }
