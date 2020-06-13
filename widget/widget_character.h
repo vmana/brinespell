@@ -44,7 +44,7 @@ class widget_character : public wcontainer
 
 		// armor class
 		wtemplate *button_armor;
-		WText *button_armor_text;
+		WLineEdit *armor;
 		widget_template *button_armor_helper;
 
 		// frames
@@ -74,6 +74,7 @@ class widget_character : public wcontainer
 		// weapon
 		// armor
 		void update_armor();
+		void on_armor_change();
 };
 
 #endif // widget_portrait_H

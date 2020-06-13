@@ -57,8 +57,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	// armor class
 	button_armor = bindNew<wtemplate>("button_armor", "character/shield");
 	button_armor->setStyleClass("position_armor");
-	button_armor_text = button_armor->bindNew<WText>("armor_button_text");
-	button_armor_text->setStyleClass("text");
+	armor = button_armor->bindNew<WLineEdit>("armor_button_text");
 	button_armor_helper = button_armor->bindNew<widget_template>("armor_button_helper");
 	button_armor_helper->set_text("<div class=\"ring_button_helper_left\">Armor Class</div>");
 
@@ -76,6 +75,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	health_bar->clicked().connect(details_hp, &widget_details_hp::switch_visibility);
 	button_level->clicked().connect(level, &widget_level::switch_visibility);
 	level->on_change.connect(this, &widget_character::on_character_level_change);
+	armor->changed().connect(this, &widget_character::on_armor_change);
 
 	// update values
 	update_inspiration();
@@ -172,5 +172,13 @@ void widget_character::on_character_level_change()
 
 void widget_character::update_armor()
 {
-	button_armor_text->setText(convert::int_string(S->p_player->armor_class));
+	armor->setText(convert::int_string(S->p_player->armor_class));
+}
+
+void widget_character::on_armor_change()
+{
+	dbo_session session;
+	S->p_player.modify()->armor_class = abs(convert::string_int(armor->text().toUTF8()));
+	level->update_values();
+	update_armor();
 }

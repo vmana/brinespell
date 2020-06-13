@@ -410,8 +410,8 @@
 {
 	position: absolute;
 	z-index: 8;
-	bottom: 123px;
-	left: -113px;
+	bottom: 126px;
+	left: -115px;
 }
 .armor_button
 {
@@ -423,6 +423,7 @@
 	z-index: 0;
 	background: url('/img/shield.png') center center no-repeat;
 	background-size: contain;
+	cursor: url('/img/cursor-purple.png'), auto;
 	z-index: 2;
 }
 .armor_background
@@ -450,9 +451,13 @@
 	left: -140px;
 	width: 150px;
 }
-.position_armor .text
+.position_armor input[type=text]
 {
 	position: absolute;
+	padding: 0px;
+	border-radius: 0px;
+	background: transparent;
+	height: initial;
 	bottom: 26px;
 	left: 22px;
 	font-size: 24px;
