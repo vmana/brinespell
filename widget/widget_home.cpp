@@ -26,8 +26,6 @@ widget_home::widget_home() : wcontainer("home")
 		search_master_open(filename);
 	});
 
-	/* search_open("img/crypt.jpg"); */
-
 	// audio
 	audio->on_switch_pause_event.connect([&](bool paused)
 	{
@@ -57,7 +55,7 @@ widget_home::widget_home() : wcontainer("home")
 	{
 		broadcast::all(&widget_home::chat_message, message);
 	});
-	S->globalEnterPressed().connect([&](){ search->edit_search->setFocus(true); });
+	S->globalKeyPressed().connect(this, &widget_home::global_key_pressed);
 
 	// player join chat info
 	string current_time = wt::current_time().toString("HH:mm").toUTF8();
@@ -70,6 +68,18 @@ widget_home::widget_home() : wcontainer("home")
 		+ " joins the session</span>"
 		+ "<br />\n";
 	broadcast::all(&widget_home::chat_message, message);
+}
+
+void widget_home::global_key_pressed(WKeyEvent e)
+{
+	if (e.key() == Key::Enter)
+	{
+		search->edit_search->setFocus(true);
+	}
+	else if (e.key() == Key::Space)
+	{
+		audio->on_play_pause_click();
+	}
 }
 
 void widget_home::search_master_open(string filename)

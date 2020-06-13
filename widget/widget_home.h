@@ -22,6 +22,7 @@ class widget_home : public wcontainer
 
 		widget_home();
 
+		void global_key_pressed(WKeyEvent e);
 		void search_master_open(string filename);
 
 		/****    static call from broadcast    ****/
