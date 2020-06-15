@@ -51,6 +51,7 @@ HEADERS  += config.h\
 				widget/widget_details_hp.h\
 				widget/widget_stats.h\
 				widget/widget_level.h\
+				widget/widget_weapon.h\
 				widget/widget_home.h\
 				thread/background.h\
 
@@ -76,5 +77,6 @@ SOURCES +=	main.cpp\
 				widget/widget_details_hp.cpp\
 				widget/widget_stats.cpp\
 				widget/widget_level.cpp\
+				widget/widget_weapon.cpp\
 				widget/widget_home.cpp\
 				thread/background.cpp\

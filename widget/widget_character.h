@@ -5,6 +5,7 @@
 #include "widget_details_hp.h"
 #include "widget_level.h"
 #include "widget_stats.h"
+#include "widget_weapon.h"
 #include <Wt/WLineEdit.h>
 
 class widget_character : public wcontainer
@@ -51,6 +52,7 @@ class widget_character : public wcontainer
 		widget_details_hp *details_hp;
 		widget_level *level;
 		widget_stats *stats;
+		widget_weapon *weapon;
 
 		widget_character();
 
@@ -72,6 +74,7 @@ class widget_character : public wcontainer
 		void on_character_level_change();
 
 		// weapon
+
 		// armor
 		void update_armor();
 		void on_armor_wheel(const WMouseEvent &e);

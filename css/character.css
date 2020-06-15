@@ -438,7 +438,7 @@
 	width: 76px;
 	height: 76px;
 	background: url('/img/storm.png') center center no-repeat;
-	animation: spin 60s linear infinite;
+	animation: spin 40s linear infinite;
 	background-size: 56px;
 	z-index: 1;
 }
@@ -718,4 +718,114 @@
 {
 	width: 22px;
 	cursor: url('/img/cursor-purple.png'), auto;
+}
+
+/****    weapon    ****/
+
+.div_weapon
+{
+	position: absolute;
+	left: -360px;
+	bottom: 230px;
+	background: #0a141c;
+	font-size: 15px;
+	opacity: 0.80;
+	border-radius: 20px;
+	padding: 10px 20px;
+	padding-bottom: 20px;
+	font-size: 18px;
+	font-weight: bold;
+	width: 720px;
+}
+.div_weapon .close
+{
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	width: 20px;
+	height: 20px;
+	background: url('/img/close.svg') center center no-repeat;
+	background-size: contain;
+	cursor: url('/img/cursor-purple.png'), auto;
+	z-index: 5;
+}
+.div_weapon .title
+{
+	width: 100%;
+	height: 50px;
+	display: inline-block;
+	text-align: center;
+}
+.div_weapon .title .icon
+{
+	padding: 0px 0px;
+	vertical-align: middle;
+}
+.div_weapon .title .label
+{
+	vertical-align: middle;
+}
+
+.div_weapon .flex_container
+{
+	display: flex;
+	align-items: start;
+	flex-wrap: wrap;
+	line-height: 42px;
+}
+.div_weapon input[type=text]
+{
+	font-size: 24px;
+	font-family: "Hack";
+	border-radius: 8px;
+	width: 58px;
+	text-align: center;
+	padding: 4px 0px;
+	margin: 4px 0px;
+	border: solid 2px #f9e9b8cf;
+	opacity: 1;
+}
+.div_weapon .check
+{
+	width: 22px;
+	height: 28px;
+	margin-right: 12px;
+	padding: 7px 0px;
+	cursor: url('/img/cursor-purple.png'), auto;
+}
+.div_weapon .icon
+{
+	width: 28px;
+	height: 28px;
+	margin-right: 12px;
+	padding: 7px 0px;
+}
+.div_weapon .name
+{
+	width: 180px;
+	text-align: center;
+}
+.div_weapon .name input[type=text]
+{
+	width: 180px;
+	font-size: 20px;
+	font-family: sans-serif;
+}
+.div_weapon .bonus
+{
+	width: 150px;
+	margin-left: 20px;
+}
+.div_weapon .edit_bonus input[type=text]
+{
+	width: 50px;
+}
+.div_weapon .damage
+{
+	margin-left: 10px;
+	width: 100px;
+}
+.div_weapon .edit_damage input[type=text]
+{
+	width: 120px;
 }

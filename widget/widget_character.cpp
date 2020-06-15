@@ -5,6 +5,7 @@
 
 widget_character::widget_character() : wcontainer("character/character")
 {
+	setStyleClass("div_character");
 	// set player character image
 	avatar_image = bindNew<WText>("avatar_image");
 	avatar_image->setStyleClass("avatar_image");
@@ -65,6 +66,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	details_hp = bindNew<widget_details_hp>("details_hp");
 	level = bindNew<widget_level>("level");
 	stats = bindNew<widget_stats>("stats");
+	weapon = bindNew<widget_weapon>("weapon");
 
 	// signal binding
 	button_inspiration->clicked().connect(this, &widget_character::on_inspiration_click);
@@ -75,6 +77,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	health_bar->clicked().connect(details_hp, &widget_details_hp::switch_visibility);
 	button_level->clicked().connect(level, &widget_level::switch_visibility);
 	level->on_change.connect(this, &widget_character::on_character_level_change);
+	button_weapon->clicked().connect(weapon, &widget_weapon::switch_visibility);
 	armor->changed().connect(this, &widget_character::on_armor_change);
 	armor->mouseWheel().connect(this, &widget_character::on_armor_wheel);
 
