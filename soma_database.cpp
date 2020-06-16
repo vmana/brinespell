@@ -50,6 +50,7 @@ void soma_database::new_session(bool use_wt_session)
 		p_session.setConnection(move(mysql));
 		p_session.mapClass<user>("user");
 		p_session.mapClass<player>("player");
+		p_session.mapClass<inventory>("inventory");
 		p_session.mapClass<skill>("skill");
 		p_session.mapClass<base_skill>("base_skill");
 		p_session.mapClass<campaign>("campaign");
@@ -117,6 +118,11 @@ void soma_database::create_default_user()
 				new_player->p_user = p_user;
 				new_player->p_campaign = p_campaign;
 				auto p_player = session->add(move(new_player));
+
+				// add inventory
+				auto new_inventory = make_unique<inventory>();
+				new_inventory->p_player = p_player;
+				session->add(move(new_inventory));
 
 				// add skills
 				dbo::collection<dbo::ptr<base_skill>> skills =

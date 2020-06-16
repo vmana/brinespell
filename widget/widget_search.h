@@ -19,6 +19,9 @@ class widget_search : public wcontainer
 		WLineEdit *edit_search;
 		widget_template *suggestions;
 
+		Signal<string> on_select_event;
+		Signal<> remove_focus_event;
+
 		widget_search();
 		void set_data(const vector<string> &data);
 		void on_input_changed();
@@ -26,7 +29,6 @@ class widget_search : public wcontainer
 		void on_enter_pressed();
 		void on_select_choice(string value);
 		void update_selected();
-		Signal<string> on_select_event;
 };
 
 #endif // widget_search_H

@@ -78,6 +78,8 @@ widget_character::widget_character() : wcontainer("character/character")
 	button_level->clicked().connect(level, &widget_level::switch_visibility);
 	level->on_change.connect(this, &widget_character::on_character_level_change);
 	button_weapon->clicked().connect(weapon, &widget_weapon::switch_visibility);
+	button_weapon->mouseWheel().connect(this, &widget_character::on_weapon_wheel);
+	weapon->on_change.connect(this, &widget_character::on_weapon_change);
 	armor->changed().connect(this, &widget_character::on_armor_change);
 	armor->mouseWheel().connect(this, &widget_character::on_armor_wheel);
 
@@ -85,6 +87,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	update_inspiration();
 	update_initiative();
 	update_level();
+	update_weapon();
 	update_armor();
 	details_hp->update_hit_point();
 }
@@ -172,6 +175,30 @@ void widget_character::on_character_level_change()
 	details_hp->update_hit_point(); // will trigger an event with percentage & helper info
 	// update stats modifiers
 	stats->update_stats();
+}
+
+void widget_character::update_weapon()
+{
+	weapon->update_values(); // will trigger an event with helper values
+}
+
+void widget_character::on_weapon_change(int current_weapon, string helper)
+{
+	button_weapon_icon->setStyleClass("ring_button_icon ring_weapon_icon_" + convert::int_string(current_weapon));
+	button_weapon_helper->set_text("<div class=\"ring_button_helper_left\">"+ helper + "</div>");
+}
+
+void widget_character::on_weapon_wheel(const WMouseEvent &e)
+{
+	dbo_session session;
+	int current_weapon = S->p_player->p_inventory->current_weapon;
+	if (e.wheelDelta() > 0) current_weapon -= 1; // scroll up
+	else if (e.wheelDelta() < 0) current_weapon += 1; // scroll down
+
+	// prevent out of range
+	if (current_weapon < 0) current_weapon = 2;
+	else if (current_weapon > 2) current_weapon = 0;
+	weapon->on_current_weapon_click(current_weapon);
 }
 
 void widget_character::update_armor()

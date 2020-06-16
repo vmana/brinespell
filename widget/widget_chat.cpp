@@ -20,6 +20,7 @@ widget_chat::widget_chat() : wcontainer("chat")
 	chat_input = bindNew<WLineEdit>("chat_input");
 	chat_input->setStyleClass("widget_chat_input");
 	chat_input->setText("");
+	chat_input->setToolTip("Global HotKey : Shift + Enter");
 
 	// change scrollbar display, and scrolls to the bottom when the content change
 	doJavaScript("init_chat_box('" + chat_container->id() + "');");
@@ -33,9 +34,8 @@ widget_chat::widget_chat() : wcontainer("chat")
 	chat_container->mouseWentOver().connect([&](){ chat_container->setStyleClass("widget_chat ss-container"); });
 	chat_container->mouseWentOut().connect([&](){ if (!chat_auto_hide.isActive()) chat_container->setStyleClass("widget_chat ss-container hidden"); });
 	chat_container->clicked().connect(this, &widget_chat::on_chat_click);
-	chat_input->enterPressed().connect(this, &widget_chat::on_chat_enter_pressed);
+	chat_input->keyWentDown().connect(this, &widget_chat::on_key_pressed);
 	chat_input->focussed().connect(this, &widget_chat::reset_hide_timer);
-	chat_input->keyPressed().connect(this, &widget_chat::reset_hide_timer);
 	chat_input->clicked().connect(this, &widget_chat::reset_hide_timer);
 }
 
@@ -74,6 +74,26 @@ void widget_chat::reset_hide_timer()
 	chat_auto_hide.start();
 }
 
+void widget_chat::on_key_pressed(const WKeyEvent &event)
+{
+	if (event.key() == Key::Enter)
+	{
+		reset_hide_timer();
+		on_chat_enter_pressed();
+	}
+	else if (event.key() == Key::Escape)
+	{
+		// remove focus if escape is pressed on an empty input
+		if (chat_input->text() == "") remove_focus_event.emit();
+		chat_input->setText(""); // clear
+	}
+	else
+	{
+		// every other keys
+		reset_hide_timer();
+	}
+}
+
 void widget_chat::on_chat_enter_pressed()
 {
 	// remove xss/script elements
@@ -82,7 +102,11 @@ void widget_chat::on_chat_enter_pressed()
 	if (!parser.setText(chat_input->text())) return;
 
 	string message = parser.text().toUTF8();
-	if (message == "") return;
+	if (message == "")
+	{
+		remove_focus_event.emit(); // remove focus when enter pressed with empty text
+		return;
+	}
 
 	message = prepare_message(message);
 

@@ -113,32 +113,32 @@
 .div_stats .item .strength
 {
 	background: url('/img/sword.svg') 4px 4px no-repeat;
-	background-size: 28px 28px;
+	background-size: 28px;
 }
 .div_stats .item .dexterity
 {
 	background: url('/img/cat.svg') 6px 7px no-repeat;
-	background-size: 28px 28px;
+	background-size: 28px;
 }
 .div_stats .item .constitution
 {
 	background: url('/img/heart.svg') 8px 9px no-repeat;
-	background-size: 22px 22px;
+	background-size: 22px;
 }
 .div_stats .item .intelligence
 {
 	background: url('/img/open-book.svg') 7px 8px no-repeat;
-	background-size: 24px 24px;
+	background-size: 24px;
 }
 .div_stats .item .wisdom
 {
 	background: url('/img/eye.svg') 5px 6px no-repeat;
-	background-size: 28px 28px;
+	background-size: 28px;
 }
 .div_stats .item .charisma
 {
 	background: url('/img/stars.svg') 7px 7px no-repeat;
-	background-size: 26px 26px;
+	background-size: 26px;
 }
 
 .div_hit_points
@@ -276,12 +276,12 @@
 .ring_inspiration_moon
 {
 	background: url('/img/moon-mini.svg') center center no-repeat;
-	background-size: 48px 28px;
+	background-size: 28px;
 }
 .ring_inspiration_sun
 {
 	background: url('/img/sun-mini.svg') center center no-repeat;
-	background-size: 48px 28px;
+	background-size: 28px;
 }
 
 .position_ring_inspiration:hover .ring_button_helper_left
@@ -303,7 +303,7 @@
 {
 	position: absolute;
 	background: url('/img/wind.svg') bottom center no-repeat;
-	background-size: 22px 22px;
+	background-size: 22px;
 	bottom: 4px;
 	left: 9px;
 	width: 39px;
@@ -395,14 +395,28 @@
 }
 .ring_weapon_icon
 {
+	background: transparent;
+}
+.ring_weapon_icon_0
+{
+	background: url('/img/open-book.svg') 6px 7px no-repeat;
+	background-size: 26px;
+}
+.ring_weapon_icon_1
+{
 	background: url('/img/sword.svg') center center no-repeat;
-	background-size: 48px 28px;
+	background-size: 28px;
+}
+.ring_weapon_icon_2
+{
+	background: url('/img/crossbow.svg') center center no-repeat;
+	background-size: 28px;
 }
 .position_ring_weapon:hover .ring_button_helper_left
 {
 	transition-delay: 0.3s;
-	left: -130px;
-	width: 140px;
+	left: -190px;
+	width: 200px;
 }
 
 /* armor */

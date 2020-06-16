@@ -33,6 +33,7 @@ HEADERS  += config.h\
 				test/unit_test.h\
 				db/dbo_version.h\
 				db/user.h\
+				db/inventory.h\
 				db/player.h\
 				db/skill.h\
 				db/campaign.h\
@@ -59,6 +60,7 @@ SOURCES +=	main.cpp\
 				config.cpp\
 				test/unit_test.cpp\
 				db/user.cpp\
+				db/inventory.cpp\
 				db/player.cpp\
 				db/skill.cpp\
 				db/campaign.cpp\

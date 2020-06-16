@@ -74,6 +74,9 @@ class widget_character : public wcontainer
 		void on_character_level_change();
 
 		// weapon
+		void update_weapon();
+		void on_weapon_change(int current_weapon, string helper);
+		void on_weapon_wheel(const WMouseEvent &e);
 
 		// armor
 		void update_armor();

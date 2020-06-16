@@ -16,6 +16,7 @@ void widget_audio::render_widget()
 	// button play / pause
 	button_play_pause = bindNew<WText>("button_play_pause");
 	button_play_pause->setStyleClass("widget_audio_button widget_audio_button_play");
+	button_play_pause->setToolTip("Pause / Play, Global HotKey : Space");
 
 	// progress bar
 	progress_bar = bindNew<WProgressBar>("progress_bar");

@@ -93,10 +93,11 @@ void widget_search::on_key_pressed(const WKeyEvent &event)
 	}
 	else if (event.key() == Key::Escape)
 	{
+		// remove focus if escape is pressed on an empty input
+		if (edit_search->text() == "") remove_focus_event.emit();
 		selected = -1;
 		suggestions->setTemplateText("");
 		edit_search->setText("");
-		edit_search->setFocus(true);
 	}
 }
 
@@ -105,6 +106,12 @@ void widget_search::on_enter_pressed()
 	if (selected >= 0 && selected < results.size())
 	{
 		on_select_choice(results[selected].value);
+		remove_focus_event.emit();
+	}
+	else if (edit_search->text() == "")
+	{
+		// remove focus if enter is pressed on an empty input
+		remove_focus_event.emit();
 	}
 }
 

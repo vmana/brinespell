@@ -6,6 +6,7 @@ widget_home::widget_home() : wcontainer("home")
 {
 	// load js custom lib if not loaded
 	S->application()->require("js/function.js");
+	this->setCanReceiveFocus(true); // allow focus, so we can remove focus from search if needed
 
 	setStyleClass("widget_home");
 	search = bindNew<widget_search>("widget_search");
@@ -25,6 +26,7 @@ widget_home::widget_home() : wcontainer("home")
 	{
 		search_master_open(filename);
 	});
+	search->remove_focus_event.connect([&](){ this->setFocus(true); });
 
 	// audio
 	audio->on_switch_pause_event.connect([&](bool paused)
@@ -55,6 +57,9 @@ widget_home::widget_home() : wcontainer("home")
 	{
 		broadcast::all(&widget_home::chat_message, message);
 	});
+	chat->remove_focus_event.connect([&](){ this->setFocus(true); });
+
+	// misc
 	S->globalKeyPressed().connect(this, &widget_home::global_key_pressed);
 
 	// player join chat info
@@ -72,6 +77,10 @@ widget_home::widget_home() : wcontainer("home")
 
 void widget_home::global_key_pressed(WKeyEvent e)
 {
+	if (e.key() == Key::Enter && e.modifiers() == KeyboardModifier::Shift)
+	{
+		chat->chat_input->setFocus(true);
+	}
 	if (e.key() == Key::Enter)
 	{
 		search->edit_search->setFocus(true);

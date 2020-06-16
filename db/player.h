@@ -3,6 +3,7 @@
 
 #include "config.h"
 #include "user.h"
+#include "inventory.h"
 
 class campaign;
 class skill;
@@ -12,6 +13,7 @@ class player
 	public:
 		dbo::ptr<user> p_user;
 		dbo::ptr<campaign> p_campaign;
+		dbo::weak_ptr<inventory> p_inventory;
 
 		string name;
 		int level = 1;
@@ -43,7 +45,6 @@ class player
 		int tmp_charisma = 0;
 
 		string features;
-		string inventory;
 
 		dbo::collection<dbo::ptr<skill>> skills;
 
@@ -52,6 +53,9 @@ class player
 		{
 			dbo::belongsTo(a, p_user, dbo::OnDeleteCascade);
 			dbo::belongsTo(a, p_campaign, "campaign", dbo::OnDeleteCascade);
+			dbo::hasOne(a, p_inventory);
+			dbo::hasMany(a, skills, dbo::ManyToOne, "player");
+
 			dbo::field(a, name, "name");
 			dbo::field(a, level, "level");
 			dbo::field(a, character_class, "character_class");
@@ -82,9 +86,7 @@ class player
 			dbo::field(a, tmp_charisma, "tmp_charisma");
 
 			dbo::field(a, features, "features");
-			dbo::field(a, inventory, "inventory");
 
-			dbo::hasMany(a, skills, dbo::ManyToOne, "player");
 		}
 
 		player();
