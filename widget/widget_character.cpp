@@ -14,6 +14,15 @@ widget_character::widget_character() : wcontainer("character/character")
 	{
 		avatar_image->decorationStyle().setBackgroundImage("/data/campaign/" + filename);
 	}
+	else
+	{
+		// try to load via id
+		filename = strlower(S->p_campaign->name) + "/avatar/" + convert::int_string(S->p_player.id()) + ".png";
+		if (file::exists(global::campaign_path + filename))
+		{
+			avatar_image->decorationStyle().setBackgroundImage("/data/campaign/" + filename);
+		}
+	}
 
 	// inspiration
 	button_inspiration = bindNew<wtemplate>("button_inspiration", "character/ring_button");
