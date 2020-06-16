@@ -228,7 +228,7 @@ div.jp-seeking-bg
 
 .widget_home
 {
-	/* position: relative; */
+	outline: none;
 }
 
 .widget_home_search
