@@ -83,7 +83,7 @@
 	background: #0a141c;
 	/* opacity: 0.96; */
 	border-radius: 24px;
-	z-index: -2;
+	z-index: -1;
 }
 
 .div_stats .mod_bg
@@ -199,7 +199,7 @@
 	animation: spin 150s linear infinite;
 	cursor: url('/img/cursor-purple.png'), auto;
 	border-radius: 50%;
-	z-index: -1;
+	z-index: 2;
 }
 .ring_button_background
 {
@@ -211,7 +211,7 @@
 	height: 38px;
 	border-radius: 50%;
 	/* animation: spin 30s linear infinite; */
-	z-index: -3;
+	z-index: -2;
 }
 
 .ring_button_icon
@@ -222,7 +222,6 @@
 	width: 38px;
 	height: 38px;
 	border-radius: 50%;
-	z-index: -2;
 	/* background-color: #14181c; */
 }
 .ring_button_helper_left
@@ -241,7 +240,7 @@
 	border-radius: 15px;
 	white-space: nowrap;
 	overflow: hidden;
-	z-index: -4;
+	z-index: -3;
 	transition: left 0.6s, width 0.6s;
 }
 .ring_button_helper_right
@@ -260,7 +259,7 @@
 	border-radius: 15px;
 	white-space: nowrap;
 	overflow: hidden;
-	z-index: -4;
+	z-index: -3;
 	transition: left 0.6s, width 0.6s, background-position-x 0.8s;
 }
 
@@ -310,7 +309,7 @@
 	width: 39px;
 	height: 43px;
 	border-radius: 50%;
-	z-index: -2;
+	z-index: -1;
 }
 .position_ring_initiative input[type=text]
 {
@@ -338,7 +337,6 @@
 {
 	background-color: #170909;
 	overflow: hidden;
-	z-index: -2;
 }
 .current_health_bar
 {
@@ -385,7 +383,6 @@
 	bottom: 13px;
 	left: 9px;
 	width: 38px;
-	z-index: -2;
 }
 
 /* weapon */
@@ -850,17 +847,13 @@
 
 /****    div_left_buttons    ****/
 
-.div_left_buttons
-{
-	z-index: 0;
-}
-
 /* inventory */
 .position_ring_inventory
 {
 	position: absolute;
 	bottom: 3px;
 	left: -206px;
+	z-index: -1;
 }
 .position_ring_inventory .icon
 {
@@ -936,6 +929,7 @@
 	position: absolute;
 	bottom: 3px;
 	left: -276px;
+	z-index: -1;
 }
 .position_ring_spellbook .icon
 {
@@ -956,6 +950,7 @@
 	position: absolute;
 	bottom: 3px;
 	left: -346px;
+	z-index: -1;
 }
 .position_ring_notes .icon
 {
