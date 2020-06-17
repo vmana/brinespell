@@ -16,7 +16,7 @@
 	background: url('/img/wheel.png') center center no-repeat;
 	background-size: contain;
 	animation: spin 300s linear infinite;
-	z-index: 0;
+	z-index: -3;
 }
 .ship_porthole
 {
