@@ -37,7 +37,7 @@ class inventory
 			dbo::field(a, items, "items");
 		}
 
-		inventory();
+		inventory() {}
 };
 
 #endif

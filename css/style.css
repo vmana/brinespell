@@ -28,8 +28,17 @@ body
 
 textarea
 {
-	background: #FFF;
-	border: solid 1px #555;
+	font-family: sans-serif;
+	font-size: 18px;
+	background: #0a141c;
+	color: #f9e9b8;
+	padding: 6px;
+	outline-style: none;
+	border-radius: 8px;
+	box-shadow: none;
+	resize: none;
+	border: solid 2px #f9e9b8cf;
+	overflow: hidden;
 }
 
 input[type=text],

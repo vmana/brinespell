@@ -95,6 +95,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	stats = bindNew<widget_stats>("stats");
 	weapon = bindNew<widget_weapon>("weapon");
 	inventory = bindNew<widget_inventory>("inventory");
+	notes = bindNew<widget_notes>("notes");
 
 	// signal binding
 	button_inspiration->clicked().connect(this, &widget_character::on_inspiration_click);
@@ -111,6 +112,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	armor->changed().connect(this, &widget_character::on_armor_change);
 	armor->mouseWheel().connect(this, &widget_character::on_armor_wheel);
 	button_inventory->clicked().connect(inventory, &widget_inventory::switch_visibility);
+	button_notes->clicked().connect(notes, &widget_notes::switch_visibility);
 
 	// update values
 	update_inspiration();

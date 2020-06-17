@@ -7,6 +7,7 @@
 #include "widget_stats.h"
 #include "widget_weapon.h"
 #include "widget_inventory.h"
+#include "widget_notes.h"
 #include <Wt/WLineEdit.h>
 
 class widget_character : public wcontainer
@@ -67,6 +68,7 @@ class widget_character : public wcontainer
 		widget_stats *stats;
 		widget_weapon *weapon;
 		widget_inventory *inventory;
+		widget_notes *notes;
 
 		widget_character();
 

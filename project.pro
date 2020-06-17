@@ -34,6 +34,7 @@ HEADERS  += config.h\
 				db/dbo_version.h\
 				db/user.h\
 				db/inventory.h\
+				db/notes.h\
 				db/player.h\
 				db/skill.h\
 				db/campaign.h\
@@ -54,6 +55,7 @@ HEADERS  += config.h\
 				widget/widget_level.h\
 				widget/widget_weapon.h\
 				widget/widget_inventory.h\
+				widget/widget_notes.h\
 				widget/widget_home.h\
 				thread/background.h\
 
@@ -61,7 +63,6 @@ SOURCES +=	main.cpp\
 				config.cpp\
 				test/unit_test.cpp\
 				db/user.cpp\
-				db/inventory.cpp\
 				db/player.cpp\
 				db/skill.cpp\
 				db/campaign.cpp\
@@ -82,5 +83,6 @@ SOURCES +=	main.cpp\
 				widget/widget_level.cpp\
 				widget/widget_weapon.cpp\
 				widget/widget_inventory.cpp\
+				widget/widget_notes.cpp\
 				widget/widget_home.cpp\
 				thread/background.cpp\

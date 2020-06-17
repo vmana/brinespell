@@ -4,6 +4,7 @@
 #include "config.h"
 #include "user.h"
 #include "inventory.h"
+#include "notes.h"
 
 class campaign;
 class skill;
@@ -14,6 +15,7 @@ class player
 		dbo::ptr<user> p_user;
 		dbo::ptr<campaign> p_campaign;
 		dbo::weak_ptr<inventory> p_inventory;
+		dbo::weak_ptr<notes> p_notes;
 
 		string name;
 		int level = 1;
@@ -54,6 +56,7 @@ class player
 			dbo::belongsTo(a, p_user, dbo::OnDeleteCascade);
 			dbo::belongsTo(a, p_campaign, "campaign", dbo::OnDeleteCascade);
 			dbo::hasOne(a, p_inventory);
+			dbo::hasOne(a, p_notes);
 			dbo::hasMany(a, skills, dbo::ManyToOne, "player");
 
 			dbo::field(a, name, "name");
