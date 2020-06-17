@@ -71,11 +71,30 @@ widget_character::widget_character() : wcontainer("character/character")
 	button_armor_helper = button_armor->bindNew<widget_template>("armor_button_helper");
 	button_armor_helper->set_text("<div class=\"ring_button_helper_left\">Armor Class</div>");
 
+	// inventory
+	button_inventory = bindNew<wtemplate>("button_inventory", "character/ring_simple");
+	button_inventory->setStyleClass("position_ring_inventory");
+	button_inventory_icon = button_inventory->bindNew<WText>("ring_button_icon");
+	button_inventory_icon->setStyleClass("icon");
+
+	// spellbook
+	button_spellbook = bindNew<wtemplate>("button_spellbook", "character/ring_simple");
+	button_spellbook->setStyleClass("position_ring_spellbook");
+	button_spellbook_icon = button_spellbook->bindNew<WText>("ring_button_icon");
+	button_spellbook_icon->setStyleClass("icon");
+
+	// notes
+	button_notes = bindNew<wtemplate>("button_notes", "character/ring_simple");
+	button_notes->setStyleClass("position_ring_notes");
+	button_notes_icon = button_notes->bindNew<WText>("ring_button_icon");
+	button_notes_icon->setStyleClass("icon");
+
 	// frames
 	details_hp = bindNew<widget_details_hp>("details_hp");
 	level = bindNew<widget_level>("level");
 	stats = bindNew<widget_stats>("stats");
 	weapon = bindNew<widget_weapon>("weapon");
+	inventory = bindNew<widget_inventory>("inventory");
 
 	// signal binding
 	button_inspiration->clicked().connect(this, &widget_character::on_inspiration_click);
@@ -91,6 +110,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	weapon->on_change.connect(this, &widget_character::on_weapon_change);
 	armor->changed().connect(this, &widget_character::on_armor_change);
 	armor->mouseWheel().connect(this, &widget_character::on_armor_wheel);
+	button_inventory->clicked().connect(inventory, &widget_inventory::switch_visibility);
 
 	// update values
 	update_inspiration();

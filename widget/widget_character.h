@@ -6,6 +6,7 @@
 #include "widget_level.h"
 #include "widget_stats.h"
 #include "widget_weapon.h"
+#include "widget_inventory.h"
 #include <Wt/WLineEdit.h>
 
 class widget_character : public wcontainer
@@ -48,11 +49,24 @@ class widget_character : public wcontainer
 		WLineEdit *armor;
 		widget_template *button_armor_helper;
 
+		// inventory
+		wtemplate *button_inventory;
+		WText *button_inventory_icon;
+
+		// spellbook
+		wtemplate *button_spellbook;
+		WText *button_spellbook_icon;
+
+		// notes
+		wtemplate *button_notes;
+		WText *button_notes_icon;
+
 		// frames
 		widget_details_hp *details_hp;
 		widget_level *level;
 		widget_stats *stats;
 		widget_weapon *weapon;
+		widget_inventory *inventory;
 
 		widget_character();
 
@@ -82,6 +96,8 @@ class widget_character : public wcontainer
 		void update_armor();
 		void on_armor_wheel(const WMouseEvent &e);
 		void on_armor_change();
+
+		// inventory
 };
 
 #endif // widget_portrait_H

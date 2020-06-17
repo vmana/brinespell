@@ -255,7 +255,7 @@ div.jp-seeking-bg
 	position: absolute;
 	left: 10px;
 	bottom: 10px;
-	width: 460px;
+	width: 420px;
 	display: flex;
 	flex-direction: column;
 }

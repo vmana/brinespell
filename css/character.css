@@ -64,7 +64,7 @@
 {
 	position: absolute;
 	bottom: 3px;
-	left: 160px;
+	left: 150px;
 	display: flex;
 	z-index: 1;
 }
@@ -83,7 +83,7 @@
 	background: #0a141c;
 	/* opacity: 0.96; */
 	border-radius: 24px;
-	z-index: -1;
+	z-index: -2;
 }
 
 .div_stats .mod_bg
@@ -199,7 +199,7 @@
 	animation: spin 150s linear infinite;
 	cursor: url('/img/cursor-purple.png'), auto;
 	border-radius: 50%;
-	z-index: 2;
+	z-index: -1;
 }
 .ring_button_background
 {
@@ -269,7 +269,7 @@
 .position_ring_inspiration
 {
 	position: absolute;
-	z-index: 8;
+	z-index: 3;
 	bottom: 3px;
 	left: -121px;
 }
@@ -295,7 +295,7 @@
 .position_ring_initiative
 {
 	position: absolute;
-	z-index: 8;
+	z-index: 3;
 	bottom: 3px;
 	left: 65px;
 }
@@ -309,7 +309,7 @@
 	width: 39px;
 	height: 43px;
 	border-radius: 50%;
-	z-index: -1;
+	z-index: -2;
 }
 .position_ring_initiative input[type=text]
 {
@@ -337,6 +337,7 @@
 {
 	background-color: #170909;
 	overflow: hidden;
+	z-index: -2;
 }
 .current_health_bar
 {
@@ -349,7 +350,7 @@
 .position_health_bar
 {
 	position: absolute;
-	z-index: 8;
+	z-index: 3;
 	bottom: 137px;
 	left: 63px;
 }
@@ -364,7 +365,7 @@
 .position_ring_level
 {
 	position: absolute;
-	z-index: 8;
+	z-index: 3;
 	bottom: 69px;
 	left: 86px;
 }
@@ -389,7 +390,7 @@
 .position_ring_weapon
 {
 	position: absolute;
-	z-index: 8;
+	z-index: 3;
 	bottom: 69px;
 	left: -142px;
 }
@@ -423,7 +424,7 @@
 .position_armor
 {
 	position: absolute;
-	z-index: 8;
+	z-index: 3;
 	bottom: 126px;
 	left: -115px;
 }
@@ -623,13 +624,14 @@
 	height: 380px;
 	background: #0a141c;
 	color: #f9e9b8;
-	font-size: 20px;
+	font-size: 18px;
 	border-radius: 8px;
 	padding: 6px;
 	border: solid 2px #f9e9b8cf;
 	outline-style: none;
 	box-shadow: none;
 	cursor: url('/img/cursor-purple.png'), auto;
+	resize: none;
 }
 
 /****    details stat    ****/
@@ -842,4 +844,126 @@
 .div_weapon .edit_damage input[type=text]
 {
 	width: 120px;
+}
+
+/****    div_left_buttons    ****/
+
+.div_left_buttons
+{
+	z-index: 0;
+}
+
+/* inventory */
+.position_ring_inventory
+{
+	position: absolute;
+	bottom: 3px;
+	left: -206px;
+}
+.position_ring_inventory .icon
+{
+	position: absolute;
+	background: url('/img/chest.svg') center center no-repeat;
+	background-size: 30px;
+	bottom: 8px;
+	left: 10px;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	z-index: -2;
+}
+
+.div_inventory
+{
+	position: absolute;
+	left: -476px;
+	bottom: 134px;
+	width: 320px;
+	background: #0a141c;
+	font-size: 15px;
+	opacity: 0.80;
+	border-radius: 20px;
+	padding: 10px 20px;
+	min-height: 234px;
+	padding-bottom: 20px;
+	font-size: 18px;
+	font-weight: bold;
+	height: 420px;
+}
+
+.div_inventory .title
+{
+	width: 100%;
+	height: 40px;
+	display: inline-block;
+	text-align: center;
+}
+.div_inventory .title .icon
+{
+	padding: 0px 0px;
+	vertical-align: middle;
+	width: 28px;
+	height: 28px;
+	margin-right: 12px;
+}
+.div_inventory .title .label
+{
+	vertical-align: middle;
+}
+.div_inventory textarea
+{
+	width: calc(100% - 16px);
+	border: solid 2px #f9e9b8cf;
+	border-radius: 8px;
+	background: #0a141c;
+	color: #f9e9b8;
+	font-size: 18px;
+	padding: 6px;
+	/* border: none; */
+	outline-style: none;
+	box-shadow: none;
+	cursor: url('/img/cursor-purple.png'), auto;
+	resize: none;
+	height: 363px;
+	overflow: hidden;
+}
+
+/* spellbook */
+.position_ring_spellbook
+{
+	position: absolute;
+	bottom: 3px;
+	left: -276px;
+}
+.position_ring_spellbook .icon
+{
+	position: absolute;
+	background: url('/img/spell-book.svg') center center no-repeat;
+	background-size: 38px;
+	bottom: 9px;
+	left: 9px;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	z-index: -2;
+}
+
+/* notes */
+.position_ring_notes
+{
+	position: absolute;
+	bottom: 3px;
+	left: -346px;
+}
+.position_ring_notes .icon
+{
+	position: absolute;
+	background: url('/img/scroll.svg') center center no-repeat;
+	background-size: 28px;
+	bottom: 8px;
+	left: 8px;
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	z-index: -2;
 }

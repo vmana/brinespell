@@ -613,22 +613,22 @@ function wt_image_border_resize(id, size_values)
 	img.wt_border_resize(size_values);
 }
 
-/****    chat    ****/
+/****    custom scroll bar    ****/
 
-function init_chat_box(wt_chat_id)
+function init_scroll_bar(wt_id)
 {
-	var chat = document.getElementById(wt_chat_id);
+	var target = document.getElementById(wt_id);
 	// change scrollbar display
-	SimpleScrollbar.initEl(chat);
+	SimpleScrollbar.initEl(target);
 
 	const callback = function()
 	{
-		var scroll_id = chat.getElementsByClassName('ss-content');
+		var scroll_id = target.getElementsByClassName('ss-content');
 		// console.log(scroll_id[0].scrollTop + ':' + scroll_id[0].scrollHeight);
 		scroll_id[0].scrollTop = scroll_id[0].scrollHeight;
 	};
 	var observer = new MutationObserver(callback);
-	observer.observe(chat, { attributes: false, childList: true, subtree: true });
+	observer.observe(target, { attributes: false, childList: true, subtree: true });
 }
 
 /****    custom buttons    ****/
