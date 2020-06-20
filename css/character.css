@@ -75,8 +75,8 @@
 .div_stats
 {
 	position: absolute;
-	bottom: 3px;
-	left: 150px;
+	bottom: 13px;
+	left: 165px;
 	display: flex;
 	z-index: 1;
 }
@@ -816,14 +816,24 @@
 
 /****    div_left_buttons    ****/
 
-/* inventory */
-.position_ring_inventory
+.div_left_buttons
 {
 	position: absolute;
-	bottom: 3px;
-	left: -206px;
+	bottom: 13px;
+	left: calc(-165px - 3 * 70px);
+	display: flex;
 	z-index: -1;
 }
+.div_left_buttons .item
+{
+	width: 56px;
+	position: relative;
+	margin-left: 14px;
+	position: relative;
+}
+
+/* inventory */
+
 .position_ring_inventory .icon
 {
 	position: absolute;
@@ -872,13 +882,6 @@
 }
 
 /* spellbook */
-.position_ring_spellbook
-{
-	position: absolute;
-	bottom: 3px;
-	left: -276px;
-	z-index: -1;
-}
 .position_ring_spellbook .icon
 {
 	position: absolute;
@@ -893,13 +896,6 @@
 }
 
 /* notes */
-.position_ring_notes
-{
-	position: absolute;
-	bottom: 3px;
-	left: -346px;
-	z-index: -1;
-}
 .position_ring_notes .icon
 {
 	position: absolute;

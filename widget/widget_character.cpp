@@ -73,19 +73,19 @@ widget_character::widget_character() : wcontainer("character/character")
 
 	// inventory
 	button_inventory = bindNew<wtemplate>("button_inventory", "character/ring_simple");
-	button_inventory->setStyleClass("position_ring_inventory");
+	button_inventory->setStyleClass("item position_ring_inventory");
 	button_inventory_icon = button_inventory->bindNew<WText>("ring_button_icon");
 	button_inventory_icon->setStyleClass("icon");
 
 	// spellbook
 	button_spellbook = bindNew<wtemplate>("button_spellbook", "character/ring_simple");
-	button_spellbook->setStyleClass("position_ring_spellbook");
+	button_spellbook->setStyleClass("item position_ring_spellbook");
 	button_spellbook_icon = button_spellbook->bindNew<WText>("ring_button_icon");
 	button_spellbook_icon->setStyleClass("icon");
 
 	// notes
 	button_notes = bindNew<wtemplate>("button_notes", "character/ring_simple");
-	button_notes->setStyleClass("position_ring_notes");
+	button_notes->setStyleClass("item position_ring_notes");
 	button_notes_icon = button_notes->bindNew<WText>("ring_button_icon");
 	button_notes_icon->setStyleClass("icon");
 
