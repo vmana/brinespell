@@ -7,7 +7,10 @@
 
 #include <string>
 using namespace std;
-#include "mana.h"
+#include "common.h"
+#include "cypher.h"
+#include "fuzzy.h"
+#include "wt/wt.h"
 using namespace mana;
 
 #include "db/dbo_version.h"

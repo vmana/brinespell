@@ -6,8 +6,9 @@ CONFIG -= warn_off warn_on
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS += -Wno-deprecated -Wno-write-strings -Wno-unused-result -Wno-format-security
 #QMAKE_CXXFLAGS += -static -static-libgcc -static-libstdc++
+#QMAKE_CXXFLAGS += -O3
 QMAKE_CXXFLAGS += -O0
-QMAKE_CXXFLAGS += -g -ggdb -pg -O0
+#QMAKE_CXXFLAGS += -g -ggdb -pg -O0
 #QMAKE_CXXFLAGS += -pg -O0
 #QMAKE_CFLAGS += -static -static-libgcc
 DEFINES += QT_NO_KEYWORDS
@@ -16,7 +17,7 @@ linux-g++* {
 	DEFINES += MANA_WT
 	LIBS += -L/dalaran/mana/out/ -lmana
 	PRE_TARGETDEPS += /dalaran/mana/out/libmana.a
-	LIBS += -lcurl -lssh
+	#LIBS += -lcurl -lssh
 	LIBS += -lwthttp -lwt -lwtdbo -lwtdbomysql
 }
 
