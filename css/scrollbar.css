@@ -28,7 +28,7 @@
 .ss-scroll
 {
 	position: relative;
-	background: #abd9f940;
+	background: #384a57;
 	width: 9px;
 	border-radius: 4px;
 	top: 0;
@@ -59,3 +59,46 @@
 	user-select: none;
 }
 
+/****    textarea scrollbar    ****/
+
+.ss2-wrapper
+{
+	position: relative;
+	z-index: 1;
+}
+
+.ss2-scroll
+{
+	position: absolute;
+	top: 0;
+	right: 10px;
+	background: #384a57;
+	border-radius: 4px;
+	width: 9px;
+	z-index: 2;
+	opacity: 0;
+	transition: opacity 0.25s linear, top 0.12s linear;
+}
+
+.ss2-hidden
+{
+	display: none;
+}
+
+.ss2-wrapper:hover .ss2-scroll,
+.ss2-wrapper:focus .ss2-scroll,
+.ss2-wrapper:active .ss2-scroll
+{
+	opacity: 1;
+}
+
+.ss2-grabbed
+{
+	-o-user-select: none;
+	-ms-user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	opacity: 1;
+	transition: opacity 0.25s linear;
+}

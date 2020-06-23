@@ -42,6 +42,8 @@ widget_level::widget_level() : wcontainer("character/level")
 	// update values
 	update_values();
 
+	doJavaScript("w_textarea('" + features->id() + "');");
+
 	// signal binding
 	close->clicked().connect(this, &widget_level::switch_visibility);
 

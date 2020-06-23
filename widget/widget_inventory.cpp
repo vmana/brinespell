@@ -14,6 +14,8 @@ widget_inventory::widget_inventory() : wcontainer("character/inventory")
 	// update values
 	update_values();
 
+	doJavaScript("w_textarea('" + items->id() + "');");
+
 	// signal binding
 	close->clicked().connect(this, &widget_inventory::switch_visibility);
 	items->changed().connect(this, &widget_inventory::save_values);

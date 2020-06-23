@@ -14,6 +14,8 @@ widget_notes::widget_notes() : wcontainer("character/notes")
 	// update values
 	update_values();
 
+	doJavaScript("w_textarea('" + my_notes->id() + "');");
+
 	// signal binding
 	close->clicked().connect(this, &widget_notes::switch_visibility);
 	my_notes->changed().connect(this, &widget_notes::save_values);
