@@ -6,6 +6,7 @@ widget_home::widget_home() : wcontainer("home")
 {
 	// load js custom lib if not loaded
 	S->application()->require("js/function.js");
+	S->application()->require("js/scrollbar.js");
 	this->setCanReceiveFocus(true); // allow focus, so we can remove focus from search if needed
 
 	setStyleClass("widget_home");
