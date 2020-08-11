@@ -79,6 +79,10 @@ int main(int argc, char *argv[])
 		{
 			rmdb = true;
 		}
+		else if (arg == "--no-animations")
+		{
+			global::css_animations = false;
+		}
 	}
 
 	/* unit_test test; */

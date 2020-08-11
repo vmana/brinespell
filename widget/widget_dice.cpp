@@ -11,6 +11,10 @@ widget_dice::widget_dice() :
 	S->application()->require("js/three.min.js");
 	S->application()->require("js/dice.js");
 
+	// js + css animations
+	bindString("css_animations", (global::css_animations) ? "" : "no-animation");
+	if (!global::css_animations) doJavaScript("window.global_animation = false;");
+
 	// dices area
 	dices_area = bindNew<widget_template>("div_dices_area");
 	dices_area->set_text("<div id=\"div_dices_area\" class=\"div_dices_area\"></div>");

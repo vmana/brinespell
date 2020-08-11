@@ -4,10 +4,15 @@
 
 widget_home::widget_home() : wcontainer("home")
 {
-	// load js custom lib if not loaded
+	// load css + js lib if not loaded
 	S->application()->require("js/function.js");
+	S->application()->require("js/image.js");
 	S->application()->require("js/scrollbar.js");
+	S->application()->useStyleSheet("css/scrollbar.css");
 	this->setCanReceiveFocus(true); // allow focus, so we can remove focus from search if needed
+
+	// css animations
+	bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 
 	setStyleClass("widget_home");
 	search = bindNew<widget_search>("widget_search");

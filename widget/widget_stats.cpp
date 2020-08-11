@@ -9,31 +9,37 @@ widget_stats::widget_stats() : wcontainer("character/stats")
 
 	auto button_str = bindNew<wtemplate>("button_str", "character/stat_button");
 	button_str->setStyleClass("item");
+	button_str->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	mod_str = button_str->bindNew<WText>("text");
 	button_str->bindString("stat", "strength");
 
 	auto button_dex = bindNew<wtemplate>("button_dex", "character/stat_button");
 	button_dex->setStyleClass("item");
+	button_dex->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	mod_dex = button_dex->bindNew<WText>("text");
 	button_dex->bindString("stat", "dexterity");
 
 	auto button_con = bindNew<wtemplate>("button_con", "character/stat_button");
 	button_con->setStyleClass("item");
+	button_con->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	mod_con = button_con->bindNew<WText>("text");
 	button_con->bindString("stat", "constitution");
 
 	auto button_int = bindNew<wtemplate>("button_int", "character/stat_button");
 	button_int->setStyleClass("item");
+	button_int->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	mod_int = button_int->bindNew<WText>("text");
 	button_int->bindString("stat", "intelligence");
 
 	auto button_wis = bindNew<wtemplate>("button_wis", "character/stat_button");
 	button_wis->setStyleClass("item");
+	button_wis->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	mod_wis = button_wis->bindNew<WText>("text");
 	button_wis->bindString("stat", "wisdom");
 
 	auto button_cha = bindNew<wtemplate>("button_cha", "character/stat_button");
 	button_cha->setStyleClass("item");
+	button_cha->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	mod_cha = button_cha->bindNew<WText>("text");
 	button_cha->bindString("stat", "charisma");
 

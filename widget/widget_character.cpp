@@ -6,6 +6,10 @@
 widget_character::widget_character() : wcontainer("character/character")
 {
 	setStyleClass("div_character");
+
+	// css animations
+	bindString("css_animations", (global::css_animations) ? "" : "no-animation");
+
 	// set player character image
 	avatar_image = bindNew<WText>("avatar_image");
 	avatar_image->setStyleClass("avatar_image");
@@ -27,6 +31,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	// inspiration
 	button_inspiration = bindNew<wtemplate>("button_inspiration", "character/ring_button");
 	button_inspiration->setStyleClass("position_ring_inspiration");
+	button_inspiration->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	button_inspiration_icon = button_inspiration->bindNew<WText>("ring_button_icon");
 	button_inspiration_helper = button_inspiration->bindNew<widget_template>("ring_button_helper");
 	button_inspiration_helper->set_text("<div class=\"ring_button_helper_left\">Inspiration</div>");
@@ -34,6 +39,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	// initiative
 	button_initiative = bindNew<wtemplate>("button_initiative", "character/ring_text_button");
 	button_initiative->setStyleClass("position_ring_initiative");
+	button_initiative->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	button_initiative_icon = button_initiative->bindNew<WText>("ring_button_icon");
 	button_initiative_icon->setStyleClass("icon");
 	initiative = button_initiative->bindNew<WLineEdit>("ring_button_text");
@@ -43,6 +49,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	// health bar
 	health_bar = bindNew<wtemplate>("health_bar", "character/health_bar");
 	health_bar->setStyleClass("position_health_bar");
+	health_bar->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	current_health_bar = health_bar->bindNew<WText>("current_health_bar");
 	current_health_bar->setStyleClass("current_health_bar");
 	health_bar_helper = health_bar->bindNew<widget_template>("ring_button_helper");
@@ -51,6 +58,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	// level
 	button_level = bindNew<wtemplate>("button_level", "character/ring_button");
 	button_level->setStyleClass("position_ring_level");
+	button_level->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	button_level_text = button_level->bindNew<WText>("ring_button_icon");
 	button_level_text->setStyleClass("text noselect");
 	button_level_helper = button_level->bindNew<widget_template>("ring_button_helper");
@@ -59,6 +67,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	// weapon
 	button_weapon = bindNew<wtemplate>("button_weapon", "character/ring_button");
 	button_weapon->setStyleClass("position_ring_weapon");
+	button_weapon->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	button_weapon_icon = button_weapon->bindNew<WText>("ring_button_icon");
 	button_weapon_icon->setStyleClass("ring_button_icon ring_weapon_icon");
 	button_weapon_helper = button_weapon->bindNew<widget_template>("ring_button_helper");
@@ -67,6 +76,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	// armor class
 	button_armor = bindNew<wtemplate>("button_armor", "character/shield");
 	button_armor->setStyleClass("position_armor");
+	button_armor->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	armor = button_armor->bindNew<WLineEdit>("armor_button_text");
 	button_armor_helper = button_armor->bindNew<widget_template>("armor_button_helper");
 	button_armor_helper->set_text("<div class=\"ring_button_helper_left\">Armor Class</div>");
@@ -74,18 +84,21 @@ widget_character::widget_character() : wcontainer("character/character")
 	// inventory
 	button_inventory = bindNew<wtemplate>("button_inventory", "character/ring_simple");
 	button_inventory->setStyleClass("item position_ring_inventory");
+	button_inventory->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	button_inventory_icon = button_inventory->bindNew<WText>("ring_button_icon");
 	button_inventory_icon->setStyleClass("icon");
 
 	// spellbook
 	button_spellbook = bindNew<wtemplate>("button_spellbook", "character/ring_simple");
 	button_spellbook->setStyleClass("item position_ring_spellbook");
+	button_spellbook->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	button_spellbook_icon = button_spellbook->bindNew<WText>("ring_button_icon");
 	button_spellbook_icon->setStyleClass("icon");
 
 	// notes
 	button_notes = bindNew<wtemplate>("button_notes", "character/ring_simple");
 	button_notes->setStyleClass("item position_ring_notes");
+	button_notes->bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 	button_notes_icon = button_notes->bindNew<WText>("ring_button_icon");
 	button_notes_icon->setStyleClass("icon");
 

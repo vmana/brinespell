@@ -354,7 +354,7 @@ function init_dice_object(dice) {
 		// console.log(this.dice_color);
 
 		this.use_adapvite_timestep = false;
-		this.animate_selector = true;
+		this.animate_selector = window.global_animation;
 
 		this.dices = [];
 		this.scene = new THREE.Scene();
@@ -694,7 +694,6 @@ function init_dice_object(dice) {
 	this.dice_box.prototype.draw_selector = function() {
 		this.clear();
 		var step = 140;
-		// this.animate_selector = false;
 
 		that.scale = 70;
 		var known_types = ['4', '6', '8', '10', '12', '20', '100'];
@@ -722,7 +721,8 @@ function init_dice_object(dice) {
 
 		this.running = true;
 		this.last_time = 0;
-		this.__selector_animate(this.running);
+		if (this.animate_selector) this.__selector_animate(this.running);
+		else this.renderer.render(this.scene, this.camera);
 	}
 
 	function parse_notation(notation) {
@@ -803,6 +803,7 @@ function init_dice_object(dice) {
 
 window.teal = {};
 window.$teal = window.teal;
+window.global_animation = true;
 
 teal.copyto = function(obj, res) {
 	if (obj == null || typeof obj !== 'object') return obj;

@@ -5,13 +5,9 @@
 
 widget_chat::widget_chat() : wcontainer("chat")
 {
-	// load css + js lib if not loaded
-	S->application()->require("js/scrollbar.min.js");
-	S->application()->useStyleSheet("css/scrollbar.css");
-
 	chat_container = bindNew<widget_template>("chat");
-	/* chat_container->setStyleClass("widget_chat hidden"); */
-	chat_container->setStyleClass("widget_chat");
+	chat_container->setStyleClass("widget_chat hidden");
+	/* chat_container->setStyleClass("widget_chat"); */
 	chat_container->set_text("${lines}");
 
 	chat_lines = chat_container->bindNew<WText>("lines");
@@ -23,26 +19,16 @@ widget_chat::widget_chat() : wcontainer("chat")
 	chat_input->setText("");
 	chat_input->setToolTip("Global HotKey : Shift + Enter");
 
-	// change scrollbar display, and scrolls to the bottom when the content change
-	/* doJavaScript("init_scroll_bar('" + chat_container->id() + "');"); */
-
-	doJavaScript("w_scrollarea('" + chat_lines->id() + "');");
+	doJavaScript("w_scrollarea('" + chat_lines->id() + "', {autoscroll: true});");
 
 	chat_auto_hide.setInterval(chrono::milliseconds(18000));
 	chat_auto_hide.timeout().connect(this, &widget_chat::hide_chat_timeout);
 	chat_auto_hide.start();
 
-	for (int i = 0; i < 40; i++)
-	{
-		string res = widget_chat::prepare_message("aaaaaaa " + convert::int_string(i));
-		chat_lines->setText(chat_lines->text() + WString::fromUTF8(res));
-	}
-
-
 	// signal binding
 	// prevent hiding when mouse is over, force show when mouse is over
-	/* chat_container->mouseWentOver().connect([&](){ chat_container->setStyleClass("widget_chat sb-container"); }); */
-	/* chat_container->mouseWentOut().connect([&](){ if (!chat_auto_hide.isActive()) chat_container->setStyleClass("widget_chat sb-container hidden"); }); */
+	chat_container->mouseWentOver().connect([&](){ chat_container->setStyleClass("widget_chat sb-container"); });
+	chat_container->mouseWentOut().connect([&](){ if (!chat_auto_hide.isActive()) chat_container->setStyleClass("widget_chat sb-container hidden"); });
 	chat_container->clicked().connect(this, &widget_chat::on_chat_click);
 	chat_input->keyWentDown().connect(this, &widget_chat::on_key_pressed);
 	chat_input->focussed().connect(this, &widget_chat::reset_hide_timer);
@@ -126,7 +112,7 @@ void widget_chat::on_chat_enter_pressed()
 
 void widget_chat::hide_chat_timeout()
 {
-	/* chat_container->setStyleClass("widget_chat sb-container hidden"); */
+	chat_container->setStyleClass("widget_chat sb-container hidden");
 	chat_auto_hide.stop();
 }
 

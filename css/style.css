@@ -163,6 +163,11 @@ div.jp-seeking-bg
 
 /****    animations    ****/
 
+.no-animation
+{
+	animation: none !important;
+}
+
 @keyframes animate_show_animation
 {
 	0%   { opacity: 0; }
@@ -434,8 +439,7 @@ div.jp-seeking-bg
 
 .widget_chat_lines
 {
-	height: 300px;
-	/* width: calc(100% - 6px); */
+	height: 280px;
 	width: 100%;
 	display: inline-block
 }

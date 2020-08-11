@@ -11,3 +11,4 @@ string global::template_path = "/dalaran/brinespell/brinespell/template/";
 string global::data_path = "/dalaran/brinespell/data/";
 string global::config_path = global::data_path + "config/";
 string global::campaign_path = global::data_path + "campaign/";
+bool global::css_animations = true;

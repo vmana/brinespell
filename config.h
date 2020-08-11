@@ -29,6 +29,7 @@ class global
 		static string data_path;
 		static string config_path;
 		static string campaign_path;
+		static bool css_animations;
 
 };
 
