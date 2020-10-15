@@ -14,7 +14,8 @@ body
 .main-background
 {
 	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.18);
+	/* background-color: rgba(0, 0, 0, 0.18); */
+	background-color: rgba(75, 117, 136, 0.17);
 	z-index: -99;
 	cursor: url('/img/cursor.png'), auto;
 }
