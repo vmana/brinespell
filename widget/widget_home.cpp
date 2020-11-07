@@ -99,6 +99,15 @@ void widget_home::global_key_pressed(WKeyEvent e)
 
 void widget_home::search_master_open(string filename)
 {
+	// special cases
+	if (filename == "brinespell/reload")
+	{
+		string ls_data = system::shellexec("cd /dalaran/brinespell/data && find . -name '*' -type f | grep -v '/campaign/' | sed -e 's,^\\./,,'");
+		search->set_data(explode("\n", ls_data));
+		search->edit_search->setFocus(true);
+		return;
+	}
+
 	string ext = file::extension(filename);
 	if (
 		ext == "mp4"
@@ -121,7 +130,8 @@ void widget_home::search_master_open(string filename)
 		string id = open_image("data/" + filename);
 
 		// only broadcast if we are the game master
-		if (!S->p_player->game_master) return;
+		// TODO: tmp, allow everyone to share image
+		/* if (!S->p_player->game_master) return; */
 
 		broadcast::others(&widget_home::open_shared_image, "data/" + filename, id);
 	}

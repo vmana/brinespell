@@ -45,7 +45,6 @@ void widget_audio::render_widget()
 	volume_bar->mouseWheel().connect(this, &widget_audio::on_volume_mouse_wheel);
 	mediaplayer->volumeChanged().connect([&](const double &v){ current_volume = v; }); // keep track of volume when re-rendering
 
-	mediaplayer->addSource(MediaEncoding::M4A, audio_filename);
 	string ext = file::extension(audio_filename);
 	if (ext == "mp4") mediaplayer->addSource(MediaEncoding::M4A, audio_filename);
 	else if (ext == "mp3") mediaplayer->addSource(MediaEncoding::MP3, audio_filename);

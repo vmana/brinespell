@@ -116,7 +116,7 @@ function w_image(id, src)
 		e.preventDefault();
 		// isolate resize_class
 		var main_class = '';
-		for (i = 0; i < e.target.classList.length; i++)
+		for (var i = 0; i < e.target.classList.length; i++)
 		{
 			var name = e.target.classList[i];
 			if (name == 'widget_image_border' || name == 'widget_image_corner') continue;
