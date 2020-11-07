@@ -29,6 +29,11 @@ widget_login::widget_login() : wcontainer("login")
 		edit_login->setText("mana");
 		edit_pass->setText("789brinepass");
 	}
+	else
+	{
+		edit_login->setText("demo");
+		edit_pass->setText("demo");
+	}
 
 	edit_login->setFocus(true);
 }

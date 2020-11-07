@@ -90,7 +90,7 @@ void soma_database::create_default_user()
 		dbo::ptr<user> p_user;
 
 		// create default campaign
-		string campaign_name = "Curse of Strahd";
+		string campaign_name = "Descent into Avernus";
 		dbo::ptr<campaign> p_campaign = session->find<campaign>().where("name = ?").bind(campaign_name);
 		if (!p_campaign)
 		{
@@ -100,7 +100,11 @@ void soma_database::create_default_user()
 		}
 
 		// default players
-		vector<tuple<string, string>> player_names = {{"mana","Game Master"}, {"bob","Bob the Warrior"}, {"john","John the Wizard"}};
+		vector<tuple<string, string>> player_names =
+		{
+			{"mana","Game Master"},
+			{"demo","Game Master"}
+		};
 		for (auto &pn : player_names)
 		{
 			auto &[login,character] = pn;
