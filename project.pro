@@ -50,13 +50,15 @@ HEADERS  += config.h\
 				widget/widget_dice.h\
 				widget/widget_chat.h\
 				widget/widget_image.h\
-				widget/widget_character.h\
-				widget/widget_details_hp.h\
-				widget/widget_stats.h\
-				widget/widget_level.h\
-				widget/widget_weapon.h\
-				widget/widget_inventory.h\
-				widget/widget_notes.h\
+				widget/character/widget_character.h\
+				widget/character/widget_details_hp.h\
+				widget/character/widget_stats.h\
+				widget/character/widget_level.h\
+				widget/character/widget_weapon.h\
+				widget/character/widget_inventory.h\
+				widget/character/widget_notes.h\
+				widget/party/widget_party.h\
+				widget/party/widget_ally.h\
 				widget/widget_home.h\
 				thread/background.h\
 
@@ -78,12 +80,14 @@ SOURCES +=	main.cpp\
 				widget/widget_dice.cpp\
 				widget/widget_chat.cpp\
 				widget/widget_image.cpp\
-				widget/widget_character.cpp\
-				widget/widget_details_hp.cpp\
-				widget/widget_stats.cpp\
-				widget/widget_level.cpp\
-				widget/widget_weapon.cpp\
-				widget/widget_inventory.cpp\
-				widget/widget_notes.cpp\
+				widget/character/widget_character.cpp\
+				widget/character/widget_details_hp.cpp\
+				widget/character/widget_stats.cpp\
+				widget/character/widget_level.cpp\
+				widget/character/widget_weapon.cpp\
+				widget/character/widget_inventory.cpp\
+				widget/character/widget_notes.cpp\
+				widget/party/widget_party.cpp\
+				widget/party/widget_ally.cpp\
 				widget/widget_home.cpp\
 				thread/background.cpp\

@@ -45,12 +45,12 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 	setInternalPath("/");
 	setInternalPath("/login", true);
 
-	/* try */
-	/* { */
-	/* 	dbo_session session; */
-	/* 	p_user = session->find<user>().where("login = 'mana'"); */
-	/* } catch (dbo::Exception e) { debug_line(e.what()); } */
-	/* on_login_success(p_user); */
+	try
+	{
+		dbo_session session;
+		p_user = session->find<user>().where("login = 'mana'");
+	} catch (dbo::Exception e) { debug_line(e.what()); }
+	on_login_success(p_user);
 }
 
 /* void soma::callback(string value) { debug_line(value); } */

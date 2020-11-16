@@ -57,6 +57,7 @@
 	font-weight: bold;
 	padding: 10px 20px;
 	padding-bottom: 20px;
+	z-index: 5;
 }
 
 .div_character .close
@@ -69,7 +70,7 @@
 	background: url('/img/close.svg') center center no-repeat;
 	background-size: contain;
 	cursor: url('/img/cursor-purple.png'), auto;
-	z-index: 5;
+	z-index: 6;
 }
 
 .div_stats

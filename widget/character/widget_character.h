@@ -1,7 +1,7 @@
-#ifndef widget_portrait_H
-#define widget_portrait_H
+#ifndef widget_character_H
+#define widget_character_H
 
-#include "wcontainer.h"
+#include "widget/wcontainer.h"
 #include "widget_details_hp.h"
 #include "widget_level.h"
 #include "widget_stats.h"
@@ -62,7 +62,7 @@ class widget_character : public wcontainer
 		wtemplate *button_notes;
 		WText *button_notes_icon;
 
-		// frames
+		// panels
 		widget_details_hp *details_hp;
 		widget_level *level;
 		widget_stats *stats;
@@ -102,5 +102,5 @@ class widget_character : public wcontainer
 		// inventory
 };
 
-#endif // widget_portrait_H
+#endif // widget_character_H
 

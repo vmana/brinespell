@@ -102,7 +102,7 @@ widget_character::widget_character() : wcontainer("character/character")
 	button_notes_icon = button_notes->bindNew<WText>("ring_button_icon");
 	button_notes_icon->setStyleClass("icon");
 
-	// frames
+	// panels
 	details_hp = bindNew<widget_details_hp>("details_hp");
 	level = bindNew<widget_level>("level");
 	stats = bindNew<widget_stats>("stats");

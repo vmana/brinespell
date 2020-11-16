@@ -1,7 +1,7 @@
 #ifndef widget_weapon_H
 #define widget_weapon_H
 
-#include "wcontainer.h"
+#include "widget/wcontainer.h"
 #include <Wt/WLineEdit.h>
 #include <Wt/WImage.h>
 

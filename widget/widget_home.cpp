@@ -24,6 +24,8 @@ widget_home::widget_home() : wcontainer("home")
 	dices = bindNew<widget_dice>("widget_dice");
 	chat = bindNew<widget_chat>("widget_chat");
 	character = bindNew<widget_character>("widget_character");
+	party = bindNew<widget_party>("widget_party");
+	dynamic_images = bindNew<WContainerWidget>("dynamic_images");
 
 	/****    signal binding    ****/
 
@@ -187,7 +189,7 @@ void widget_home::chat_message(string message)
 string widget_home::open_image(string filename)
 {
 	string id = mana::randstring(16);
-	auto img = S->main_div->addNew<widget_image>(filename, id);
+	auto img = dynamic_images->addNew<widget_image>(filename, id);
 
 	// signals binding
 	img->on_move_event.connect([=](int top, int left)
@@ -225,7 +227,7 @@ void widget_home::open_shared_image(string filename, string id)
 {
 	auto p_soma = soma::application();
 	if (!p_soma->view_home) return;
-	p_soma->main_div->addNew<widget_image>(filename, id, false);
+	p_soma->view_home->dynamic_images->addNew<widget_image>(filename, id, false);
 }
 
 void widget_home::move_image(string id, int top, int left)
@@ -271,7 +273,7 @@ widget_image* widget_home::search_image(string id)
 	if (!p_soma->view_home) return ret;
 
 	// search for a child with this id
-	for (auto &child : p_soma->main_div->children())
+	for (auto &child : p_soma->view_home->dynamic_images->children())
 	{
 		if (child->id() == id)
 			return (widget_image*)child;

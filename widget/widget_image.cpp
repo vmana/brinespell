@@ -112,7 +112,7 @@ void widget_image::signal_zoom_callback(int zoom_w, int zoom_h, int zoom_x, int 
 
 void widget_image::close()
 {
-	S->main_div->removeWidget(this);
+	this->parent()->removeWidget(this);
 }
 
 void widget_image::change_view_mode(string mode)

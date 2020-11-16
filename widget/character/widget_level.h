@@ -1,7 +1,7 @@
 #ifndef widget_level_H
 #define widget_level_H
 
-#include "wcontainer.h"
+#include "widget/wcontainer.h"
 #include <Wt/WLineEdit.h>
 #include <Wt/WTextArea.h>
 

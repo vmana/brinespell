@@ -7,7 +7,8 @@
 #include "widget_dice.h"
 #include "widget_chat.h"
 #include "widget_image.h"
-#include "widget_character.h"
+#include "character/widget_character.h"
+#include "party/widget_party.h"
 #include "db/campaign.h"
 
 class widget_home : public wcontainer
@@ -19,6 +20,8 @@ class widget_home : public wcontainer
 		widget_dice *dices;
 		widget_chat *chat;
 		widget_character *character;
+		widget_party *party;
+		WContainerWidget *dynamic_images;
 
 		widget_home();
 

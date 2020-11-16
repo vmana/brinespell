@@ -1,7 +1,7 @@
 #ifndef widget_details_hp_H
 #define widget_details_hp_H
 
-#include "wcontainer.h"
+#include "widget/wcontainer.h"
 #include <Wt/WLineEdit.h>
 
 class widget_details_hp : public wcontainer

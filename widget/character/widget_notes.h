@@ -1,7 +1,7 @@
 #ifndef widget_notes_H
 #define widget_notes_H
 
-#include "wcontainer.h"
+#include "widget/wcontainer.h"
 #include <Wt/WTextArea.h>
 
 class widget_notes : public wcontainer

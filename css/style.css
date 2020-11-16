@@ -176,7 +176,7 @@ div.jp-seeking-bg
 .animate_show
 {
 	animation-name: animate_show_animation;
-	animation-duration: 0.6s;
+	animation-duration: 0.4s;
 	animation-iteration-count: 1;
 	opacity: 1;
 }
@@ -189,7 +189,7 @@ div.jp-seeking-bg
 .animate_hide
 {
 	animation-name: animate_hide_animation;
-	animation-duration: 0.6s;
+	animation-duration: 0.4s;
 	animation-iteration-count: 1;
 	visibility: hidden;
 }
@@ -249,7 +249,7 @@ div.jp-seeking-bg
 .widget_home_search
 {
 	position: absolute;
-	top: 44px;
+	top: 34px;
 	left: 8px;
 	height: 42px;
 	transition: width 0.4s;
@@ -274,10 +274,13 @@ div.jp-seeking-bg
 	display: flex;
 	flex-direction: column;
 }
-/* .widget_home_chat:hover */
-/* { */
-/* 	z-index: 10; */
-/* } */
+
+.widget_home_party
+{
+	position: absolute;
+	left: 10px;
+	top: 86px;
+}
 
 /****    widget_dice    ****/
 
@@ -544,6 +547,7 @@ div.jp-seeking-bg
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	overflow: hidden;
+	z-index: 10;
 }
 
 .widget_search_line_suggestion
@@ -626,12 +630,12 @@ div.jp-seeking-bg
 	/* height: 300px; */
 	display: block;
 	position: absolute;
-	z-index: 2;
+	z-index: 3;
 }
 
 .widget_image:hover
 {
-	z-index: 3;
+	z-index: 4;
 }
 
 .widget_image_animated

@@ -1,7 +1,7 @@
 #ifndef widget_inventory_H
 #define widget_inventory_H
 
-#include "wcontainer.h"
+#include "widget/wcontainer.h"
 #include <Wt/WTextArea.h>
 
 class widget_inventory : public wcontainer
