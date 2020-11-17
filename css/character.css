@@ -290,6 +290,7 @@
 	background-size: 28px;
 }
 
+.position_ring_inspiration:hover .ring_button_helper_left
 {
 	transition-delay: 0.3s;
 	left: -130px;
