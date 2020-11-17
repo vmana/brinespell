@@ -124,7 +124,7 @@ void soma::notify(const WEvent& event)
 	try
 	{
 		WApplication::notify(event);
-	} catch (dbo::Exception e) {}
+	} catch (dbo::Exception e) { debug_line(e.what()); }
 }
 
 soma::~soma()

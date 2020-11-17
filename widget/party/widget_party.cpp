@@ -25,17 +25,23 @@ void widget_party::init_widget()
 	allies.clear();
 
 	string template_text;
-	vector<dbo::ptr<player>> players;
 
-	for (auto p_player : S->p_campaign->players)
+	dbo::collection<dbo::ptr<player>> res =
+		session->find<player>()
+		.where("campaign_id = ?")
+		.bind(S->p_campaign.id())
+		.orderBy("party_order, id");
+
+	auto players = vectorize(res);
+
+	for (auto p_player : players)
 	{
 		template_text += "${ally_" + convert::int_string(p_player.id()) + "}";
-		players.push_back(p_player);
 	}
 	set_text(template_text);
 
 	// create widget_ally for each player
-	for (auto &p_player : players)
+	for (auto p_player : players)
 	{
 		auto new_ally = bindNew<widget_ally>("ally_" + convert::int_string(p_player.id()), p_player);
 		// compute it's position

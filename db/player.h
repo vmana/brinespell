@@ -21,6 +21,7 @@ class player
 		int level = 1;
 		string character_class;
 		string race;
+		int party_order = 1;
 		bool game_master = false;
 
 		int strength = 10;
@@ -63,6 +64,7 @@ class player
 			dbo::field(a, level, "level");
 			dbo::field(a, character_class, "character_class");
 			dbo::field(a, race, "race");
+			dbo::field(a, party_order, "party_order");
 			dbo::field(a, game_master, "game_master");
 
 			dbo::field(a, strength, "strength");
