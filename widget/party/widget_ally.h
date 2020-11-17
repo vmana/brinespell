@@ -2,11 +2,13 @@
 #define widget_ally_H
 
 #include "widget/wcontainer.h"
-#include <Wt/WLineEdit.h>
+#include "db/player.h"
 
 class widget_ally : public wcontainer
 {
 	public:
+
+		dbo::ptr<player> p_player;
 
 		WText *avatar_image;
 
@@ -15,7 +17,7 @@ class widget_ally : public wcontainer
 		WText *current_health_bar;
 		widget_template *health_bar_helper;
 
-		widget_ally();
+		widget_ally(dbo::ptr<player> p_player);
 
 		// health
 		void update_health_bar(int percent, string helper);

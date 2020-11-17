@@ -9,8 +9,64 @@ widget_party::widget_party() : wcontainer("party/party")
 
 	setStyleClass("widget_party");
 
+	init_widget();
+
 	// signal binding
 
 	// update values
 	/* details_hp->update_hit_point(); */
+}
+
+void widget_party::init_widget()
+{
+	dbo_session session;
+
+	// reset
+	allies.clear();
+
+	string template_text;
+	vector<dbo::ptr<player>> players;
+
+	for (auto p_player : S->p_campaign->players)
+	{
+		template_text += "${ally_" + convert::int_string(p_player.id()) + "}";
+		players.push_back(p_player);
+	}
+	set_text(template_text);
+
+	// create widget_ally for each player
+	for (auto &p_player : players)
+	{
+		auto new_ally = bindNew<widget_ally>("ally_" + convert::int_string(p_player.id()), p_player);
+		// compute it's position
+		// if allies.size is even, it will be shifted on the right, if odd, no horizontal shift
+		// widget_ally height is 128px, width is 108px
+		if (allies.size() % 2 == 1)
+		{
+			new_ally->setMargin(96, Side::Left);
+		}
+
+		new_ally->setMargin(allies.size() * 70, Side::Top);
+
+		allies.push_back(new_ally);
+	}
+}
+
+void widget_party::update_hit_point(int player_id, int percent, string helper)
+{
+	dbo_session session;
+	auto ally = search_ally(player_id);
+	if (!ally) return;
+
+	ally->update_health_bar(percent, helper);
+}
+
+widget_ally* widget_party::search_ally(int player_id)
+{
+	dbo_session session;
+	for (auto &ally : allies)
+	{
+		if (ally->p_player.id() == player_id) return ally;
+	}
+	return NULL;
 }

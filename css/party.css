@@ -1,115 +1,86 @@
 .widget_party
 {
-	background: #0a141c;
-	opacity: 0.88;
+	background: #0a141c00;
 	width: 200px;
 	height: 500px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
 }
 
-.ally .ship_wheel
+.widget_ally
 {
-	position: absolute;
-	bottom: -50px;
-	left: -148px;
-	width: 296px;
-	height: 296px;
-	background: url('/img/wheel.png') center center no-repeat;
-	background-size: contain;
-	animation: spin 300s linear infinite;
-	z-index: -3;
+	position: relative;
 }
-.ally .ship_porthole
+.widget_ally_disconnected
+{
+	filter: grayscale(85%);
+}
+
+.widget_ally .ship_porthole
 {
 	position: absolute;
-	bottom: 0px;
-	left: -98px;
-	width: 196px;
-	height: 196px;
+	bottom: -110px;
+	left: -7px;
+	width: 117px;
+	height: 117px;
 	background: url('/img/porthole.png') center center no-repeat;
 	background-size: contain;
-	z-index: 1;
-	animation: spin 280s linear infinite reverse;
+	z-index: -5;
+	animation: none;
 }
-.ally .avatar_image
+
+.widget_ally .avatar_image
 {
 	position: absolute;
-	bottom: 20px;
-	left: -77px;
-	width: 148px;
-	height: 148px;
+	top: 0px;
+	left: 0px;
+	width: 100px;
+	height: 100px;
 	background-color: #71674e78;
 	background-position-x: center;
 	background-position-y: center;
 	background-repeat: no-repeat;
 	background-size: contain;
-	z-index: 2;
+	z-index: -4;
 	border-radius: 50%;
-	border: solid 3px #756233;
+	border: solid 2px #513e11;
 }
 
 /****    ring buttons    ****/
 
-.ally .ring_button
+.widget_ally .ring_button
 {
 	position: absolute;
 	bottom: 0px;
 	left: 0px;
-	width: 56px;
-	height: 56px;
-	z-index: 0;
+	width: 46px;
+	height: 46px;
+	bottom: -5px;
+	left: 0px;
 	background: url('/img/porthole.png') center center no-repeat;
 	background-size: contain;
-	animation: spin 150s linear infinite;
+	animation: none;
 	cursor: url('/img/cursor-purple.png'), auto;
 	border-radius: 50%;
 	z-index: 2;
 }
-.ally .ring_button_background
-{
-	background: url('/img/storm.png') center center no-repeat;
-	position: absolute;
-	bottom: 9px;
-	left: 9px;
-	width: 38px;
-	height: 38px;
-	border-radius: 50%;
-	z-index: -2;
-}
 
-.ally .ring_button_icon
+.widget_ally .ring_button_icon
 {
 	position: absolute;
-	bottom: 9px;
-	left: 9px;
-	width: 38px;
-	height: 38px;
+	bottom: 2px;
+	left: 7px;
+	width: 32px;
+	height: 32px;
 	border-radius: 50%;
 	/* background-color: #14181c; */
 }
-.ally .ring_button_helper_left
+.widget_ally .ring_button_helper_right
 {
 	position: absolute;
-	bottom: 13px;
-	left: 30px;
-	width: 0px;
-	height: 30px;
-	background-color: #0a141c;
-	line-height: 30px;
-	text-align: left;
-	padding-left: 15px;
-	font-size: 18px;
-	font-weight: bold;
-	border-radius: 15px;
-	white-space: nowrap;
-	overflow: hidden;
-	z-index: -3;
-	transition: left 0.6s, width 0.6s;
-}
-.ally .ring_button_helper_right
-{
-	position: absolute;
-	bottom: 13px;
-	left: 15px;
+	bottom: 5px;
+	left: 8px;
 	width: 0px;
 	height: 30px;
 	background-color: #0a141c;
@@ -127,12 +98,12 @@
 
 /* health bar */
 
-.ally .position_health_bar .background
+.widget_ally .position_health_bar .background
 {
 	background-color: #170909;
 	overflow: hidden;
 }
-.ally .current_health_bar
+.widget_ally .current_health_bar
 {
 	background: #591510 url('/img/blood.png') bottom center no-repeat;
 	position: absolute;
@@ -140,14 +111,14 @@
 	width: 100%;
 	height: 100%;
 }
-.ally .position_health_bar
+.widget_ally .position_health_bar
 {
 	position: absolute;
 	z-index: 3;
-	bottom: 137px;
-	left: 63px;
+	top: 124px;
+	left: 32px;
 }
-.ally .position_health_bar:hover .ring_button_helper_right
+.widget_ally .position_health_bar:hover .widget_ally .ring_button_helper_right
 {
 	transition-delay: 0.3s;
 	width: 148px;

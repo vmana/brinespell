@@ -47,6 +47,7 @@ class widget_home : public wcontainer
 		static void change_image_visibility(string id, bool visible);
 		static void close_image(string id);
 		static widget_image* search_image(string id);
+		static void update_ally_hp(int player_id, int percent, string helper);
 };
 
 #endif // widget_home_H

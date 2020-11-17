@@ -290,7 +290,6 @@
 	background-size: 28px;
 }
 
-.position_ring_inspiration:hover .ring_button_helper_left
 {
 	transition-delay: 0.3s;
 	left: -130px;
@@ -440,7 +439,6 @@
 	left: 0px;
 	width: 76px;
 	height: 76px;
-	z-index: 0;
 	background: url('/img/shield.png') center center no-repeat;
 	background-size: contain;
 	cursor: url('/img/cursor-purple.png'), auto;

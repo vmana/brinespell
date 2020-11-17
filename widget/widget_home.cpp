@@ -70,6 +70,12 @@ widget_home::widget_home() : wcontainer("home")
 	// misc
 	S->globalKeyPressed().connect(this, &widget_home::global_key_pressed);
 
+	// character
+	character->details_hp->hit_point_event.connect([&](int percent, string helper)
+	{
+		broadcast::all(&widget_home::update_ally_hp, (int)S->p_player.id(), percent, helper);
+	});
+
 	// player join chat info
 	string current_time = wt::current_time().toString("HH:mm").toUTF8();
 	string message =
@@ -279,4 +285,13 @@ widget_image* widget_home::search_image(string id)
 			return (widget_image*)child;
 	}
 	return ret;
+}
+
+void widget_home::update_ally_hp(int player_id, int percent, string helper)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+	if (!p_soma->view_home->party) return;
+
+	p_soma->view_home->party->update_hit_point(player_id, percent, helper);
 }
