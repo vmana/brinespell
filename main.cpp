@@ -14,8 +14,8 @@ unique_ptr<WApplication> create_application(const Wt::WEnvironment& env)
 // based uppon Wt:WRun
 int server_run(int argc, char *argv[], ApplicationCreator createApplication)
 {
-	background c_background;
-	thread thread_background(&background::main, &c_background);
+	/* background c_background; */
+	/* thread thread_background(&background::main, &c_background); */
 	try
 	{
 		WServer server(argv[0]);
@@ -28,21 +28,21 @@ int server_run(int argc, char *argv[], ApplicationCreator createApplication)
 			int sig = WServer::waitForShutdown();
 			std::cerr << "Shutdown (signal = " << sig << ")" << std::endl;
 			server.stop();
-			c_background.started = false;
-			pthread_cancel(thread_background.native_handle());
-			thread_background.join();
+			/* c_background.started = false; */
+			/* pthread_cancel(thread_background.native_handle()); */
+			/* thread_background.join(); */
 		}
 	}
 	catch (WServer::Exception& e)
 	{
 		std::cerr << e.what() << "\n";
-		c_background.started = false; thread_background.join();
+		/* c_background.started = false; thread_background.join(); */
 		return 1;
 	}
 	catch (std::exception& e)
 	{
 		std::cerr << "exception: " << e.what() << "\n";
-		c_background.started = false; thread_background.join();
+		/* c_background.started = false; thread_background.join(); */
 		return 1;
 	}
 	cout << "****    end server_run    ****" << endl;

@@ -3,7 +3,6 @@
 
 #include <Wt/WApplication.h>
 
-#include "mana.h"
 #include "soma_database.h"
 #include "wt/generic/widget_template.h"
 #include "broadcast.h"

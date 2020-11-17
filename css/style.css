@@ -68,11 +68,6 @@ input[type=text]::-webkit-input-placeholder
 	opacity: 0.7;
 }
 
-input[type=file]
-{
-	/* color: #222; */
-}
-
 .Wt-loading
 {
 	border: 6px solid #0b0a0963;

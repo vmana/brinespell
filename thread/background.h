@@ -1,7 +1,7 @@
 #ifndef background_H
 #define background_H
 
-#include "mana.h"
+#include "config.h"
 
 using namespace mana;
 
