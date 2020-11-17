@@ -42,7 +42,6 @@ HEADERS  += config.h\
 				broadcast.h\
 				soma.h\
 				soma_database.h\
-				widget/wcontainer_nolayout.h\
 				widget/wcontainer.h\
 				widget/widget_login.h\
 				widget/widget_search.h\
@@ -72,7 +71,6 @@ SOURCES +=	main.cpp\
 				broadcast.cpp\
 				soma.cpp\
 				soma_database.cpp\
-				widget/wcontainer_nolayout.cpp\
 				widget/wcontainer.cpp\
 				widget/widget_login.cpp\
 				widget/widget_search.cpp\
