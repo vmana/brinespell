@@ -71,6 +71,10 @@ class widget_character : public wcontainer
 		widget_notes *notes;
 
 		widget_character();
+		void update_character();
+
+		// image
+		void update_image();
 
 		// inspiration
 		void on_inspiration_click();

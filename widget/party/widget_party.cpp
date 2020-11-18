@@ -54,6 +54,12 @@ void widget_party::init_widget()
 
 		new_ally->setMargin(allies.size() * 70, Side::Top);
 
+		// signals binding
+		if (S->p_shadow->game_master)
+		{
+			new_ally->avatar_image->clicked().connect(bind(&widget_party::impersonate_player, this, p_player));
+		}
+
 		allies.push_back(new_ally);
 	}
 }
@@ -75,4 +81,10 @@ widget_ally* widget_party::search_ally(int player_id)
 		if (ally->p_player.id() == player_id) return ally;
 	}
 	return NULL;
+}
+
+void widget_party::impersonate_player(dbo::ptr<player> p_player)
+{
+	S->p_player = p_player;
+	impersonate_event.emit();
 }

@@ -46,12 +46,12 @@ widget_stats::widget_stats() : wcontainer("character/stats")
 	details_stat = bindNew<wtemplate>("details_stat");
 	details_stat->setStyleClass("visibility_hidden");
 
-	button_str->clicked().connect(bind(&widget_stats::prepare_details, this, "Strength"));
-	button_dex->clicked().connect(bind(&widget_stats::prepare_details, this, "Dexterity"));
-	button_con->clicked().connect(bind(&widget_stats::prepare_details, this, "Constitution"));
-	button_int->clicked().connect(bind(&widget_stats::prepare_details, this, "Intelligence"));
-	button_wis->clicked().connect(bind(&widget_stats::prepare_details, this, "Wisdom"));
-	button_cha->clicked().connect(bind(&widget_stats::prepare_details, this, "Charisma"));
+	button_str->clicked().connect(bind(&widget_stats::on_detail_click, this, "Strength"));
+	button_dex->clicked().connect(bind(&widget_stats::on_detail_click, this, "Dexterity"));
+	button_con->clicked().connect(bind(&widget_stats::on_detail_click, this, "Constitution"));
+	button_int->clicked().connect(bind(&widget_stats::on_detail_click, this, "Intelligence"));
+	button_wis->clicked().connect(bind(&widget_stats::on_detail_click, this, "Wisdom"));
+	button_cha->clicked().connect(bind(&widget_stats::on_detail_click, this, "Charisma"));
 
 	update_stats();
 }
@@ -74,7 +74,12 @@ void widget_stats::update_stats()
 	mod_cha->setText(notation(S->p_player->bonus_cha()));
 }
 
-void widget_stats::prepare_details(string name)
+void widget_stats::reload_details()
+{
+	prepare_details(current_stat);
+}
+
+void widget_stats::on_detail_click(string name)
 {
 	if (name == current_stat)
 	{
@@ -83,6 +88,12 @@ void widget_stats::prepare_details(string name)
 		return;
 	}
 
+	prepare_details(name);
+	details_stat->setStyleClass("animate_show");
+}
+
+void widget_stats::prepare_details(string name)
+{
 	current_stat = name;
 	details_stat->load("character/details_stat");
 
@@ -163,8 +174,6 @@ void widget_stats::prepare_details(string name)
 	// signal binding
 	close_stat->clicked().connect(this, &widget_stats::switch_details_visibility);
 	tmp_stat->changed().connect(this, &widget_stats::on_tmp_stat_changed);
-
-	details_stat->setStyleClass("animate_show");
 }
 
 void widget_stats::update_details()

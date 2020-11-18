@@ -57,3 +57,4 @@ void widget_ally::update_health_bar(int percent, string helper)
 	+ "</div>");
 }
 
+

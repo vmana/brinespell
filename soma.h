@@ -36,6 +36,8 @@ class soma : public WApplication
 		dbo::ptr<user> p_user = dbo::ptr<user>();
 		dbo::ptr<player> p_player = dbo::ptr<player>();
 		dbo::ptr<campaign> p_campaign = dbo::ptr<campaign>();
+		// shadow of p_player when joining a campaign
+		dbo::ptr<player> p_shadow = dbo::ptr<player>();
 
 		soma(const WEnvironment& env);
 		static soma* application();

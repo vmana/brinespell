@@ -40,7 +40,7 @@ widget_home::widget_home() : wcontainer("home")
 	audio->on_switch_pause_event.connect([&](bool paused)
 	{
 		// only broadcast if we are the game master
-		if (!S->p_player->game_master) return;
+		if (!S->p_shadow->game_master) return;
 		broadcast::others(&widget_home::switch_pause_audio_track, paused);
 	});
 
@@ -74,6 +74,12 @@ widget_home::widget_home() : wcontainer("home")
 	character->details_hp->hit_point_event.connect([&](int percent, string helper)
 	{
 		broadcast::all(&widget_home::update_ally_hp, (int)S->p_player.id(), percent, helper);
+	});
+
+	// party
+	party->impersonate_event.connect([&]()
+	{
+		character->update_character();
 	});
 
 	// player join chat info
@@ -125,7 +131,7 @@ void widget_home::search_master_open(string filename)
 		|| ext == "ogg")
 	{
 		// only broadcast if we are the game master
-		if (!S->p_player->game_master) return;
+		if (!S->p_shadow->game_master) return;
 		broadcast::all(&widget_home::change_audio_track, "data/" + filename);
 	}
 	else if (
@@ -139,11 +145,13 @@ void widget_home::search_master_open(string filename)
 
 		// only broadcast if we are the game master
 		// TODO: tmp, allow everyone to share image
-		/* if (!S->p_player->game_master) return; */
+		/* if (!S->p_shadow->game_master) return; */
 
 		broadcast::others(&widget_home::open_shared_image, "data/" + filename, id);
 	}
 }
+
+/****    static call from broadcast    ****/
 
 void widget_home::change_audio_track(string filename)
 {

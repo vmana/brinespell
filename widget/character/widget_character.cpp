@@ -13,20 +13,6 @@ widget_character::widget_character() : wcontainer("character/character")
 	// set player character image
 	avatar_image = bindNew<WText>("avatar_image");
 	avatar_image->setStyleClass("avatar_image");
-	string filename = strlower(S->p_campaign->name) + "/avatar/" + strlower(S->p_player->name) + ".png";
-	if (file::exists(global::campaign_path + filename))
-	{
-		avatar_image->decorationStyle().setBackgroundImage("/data/campaign/" + filename);
-	}
-	else
-	{
-		// try to load via id
-		filename = strlower(S->p_campaign->name) + "/avatar/" + convert::int_string(S->p_player.id()) + ".png";
-		if (file::exists(global::campaign_path + filename))
-		{
-			avatar_image->decorationStyle().setBackgroundImage("/data/campaign/" + filename);
-		}
-	}
 
 	// inspiration
 	button_inspiration = bindNew<wtemplate>("button_inspiration", "character/ring_button");
@@ -128,12 +114,41 @@ widget_character::widget_character() : wcontainer("character/character")
 	button_notes->clicked().connect(notes, &widget_notes::switch_visibility);
 
 	// update values
+	update_character();
+}
+
+void widget_character::update_character()
+{
+	update_image();
 	update_inspiration();
 	update_initiative();
 	update_level();
 	update_weapon();
 	update_armor();
 	details_hp->update_hit_point();
+	stats->update_stats();
+	stats->reload_details();
+	level->update_values();
+	inventory->update_values();
+	notes->update_values();
+}
+
+void widget_character::update_image()
+{
+	string filename = strlower(S->p_campaign->name) + "/avatar/" + strlower(S->p_player->name) + ".png";
+	if (file::exists(global::campaign_path + filename))
+	{
+		avatar_image->decorationStyle().setBackgroundImage("/data/campaign/" + filename);
+	}
+	else
+	{
+		// try to load via id
+		filename = strlower(S->p_campaign->name) + "/avatar/" + convert::int_string(S->p_player.id()) + ".png";
+		if (file::exists(global::campaign_path + filename))
+		{
+			avatar_image->decorationStyle().setBackgroundImage("/data/campaign/" + filename);
+		}
+	}
 }
 
 void widget_character::on_inspiration_click()

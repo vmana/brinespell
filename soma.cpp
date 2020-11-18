@@ -74,6 +74,12 @@ void soma::on_login_success(dbo::ptr<user> p_user)
 	p_player = p_user->players.front();
 	p_campaign = p_player->p_campaign;
 
+	// shadow of p_player when joining a campaign
+	// used by the game master to impersonate another player with p_player, while retaining its powers
+	// for a regular player, p_shadow == p_player and it will never change
+	// for the game master, p_player might change, but not it's p_shadow
+	p_shadow = p_player;
+
 	setInternalPath("/home", true);
 }
 
@@ -85,7 +91,7 @@ void soma::on_disconnect()
 
 void soma::internal_path_handler(const string &path)
 {
-	cout << "internal path changed : " << path << endl;
+	log("info") << "internal path changed : " << path;
 
 	// full access
 	if (path == "/login")

@@ -36,6 +36,8 @@ class widget_stats : public wcontainer
 
 		string notation(int value); // return notation value, ie -2, +3 ...
 		void update_stats();
+		void reload_details();
+		void on_detail_click(string name);
 		void prepare_details(string name);
 		void update_details();
 		void on_tmp_stat_changed();

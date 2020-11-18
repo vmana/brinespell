@@ -11,6 +11,7 @@ class widget_ally : public wcontainer
 		dbo::ptr<player> p_player;
 
 		WText *avatar_image;
+		Signal<> impersonate_event;
 
 		// health bar
 		wtemplate *health_bar;
@@ -19,7 +20,6 @@ class widget_ally : public wcontainer
 
 		widget_ally(dbo::ptr<player> p_player);
 
-		// health
 		void update_health_bar(int percent, string helper);
 };
 
