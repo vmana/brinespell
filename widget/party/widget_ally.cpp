@@ -11,20 +11,7 @@ widget_ally::widget_ally(dbo::ptr<player> p_player) : wcontainer("party/ally")
 	// set player character image
 	avatar_image = bindNew<WText>("avatar_image");
 	avatar_image->setStyleClass("avatar_image");
-	string filename = strlower(S->p_campaign->name) + "/avatar/" + strlower(p_player->name) + ".png";
-	if (file::exists(global::campaign_path + filename))
-	{
-		avatar_image->decorationStyle().setBackgroundImage("/data/campaign/" + filename);
-	}
-	else
-	{
-		// try to load via id
-		filename = strlower(S->p_campaign->name) + "/avatar/" + convert::int_string(p_player.id()) + ".png";
-		if (file::exists(global::campaign_path + filename))
-		{
-			avatar_image->decorationStyle().setBackgroundImage("/data/campaign/" + filename);
-		}
-	}
+	avatar_image->decorationStyle().setBackgroundImage(p_player->avatar_image());
 
 	// health bar
 	health_bar = bindNew<wtemplate>("health_bar", "character/health_bar");

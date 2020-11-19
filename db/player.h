@@ -23,6 +23,8 @@ class player
 		string race;
 		int party_order = 1;
 		bool game_master = false;
+		string avatar;
+		string token;
 
 		int strength = 10;
 		int dexterity = 10;
@@ -66,6 +68,8 @@ class player
 			dbo::field(a, race, "race");
 			dbo::field(a, party_order, "party_order");
 			dbo::field(a, game_master, "game_master");
+			dbo::field(a, avatar, "avatar");
+			dbo::field(a, token, "token");
 
 			dbo::field(a, strength, "strength");
 			dbo::field(a, dexterity, "dexterity");
@@ -106,6 +110,8 @@ class player
 		int total_hit_points() const;
 		void wound(int dmg); // add new damage
 		void set_damage(int dmg); // set damage value
+		string avatar_image() const; // return path for this image
+		string token_image() const;
 };
 
 #endif

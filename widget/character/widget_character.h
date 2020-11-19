@@ -15,6 +15,7 @@ class widget_character : public wcontainer
 	public:
 
 		WText *avatar_image;
+		WText *token_player_drag;
 
 		// inspiration
 		Signal<bool> on_inspiration_event;

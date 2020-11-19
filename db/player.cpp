@@ -1,5 +1,6 @@
 #include "player.h"
 #include "soma_database.h"
+#include "campaign.h"
 
 player::player()
 {
@@ -96,4 +97,23 @@ void player::set_damage(int dmg)
 	damage += delta;
 	if (damage < 0) damage = 0;
 	else if (damage > max_hp) damage = max_hp;
+}
+
+string player::avatar_image() const
+{
+	string filename = "/data/campaign/" + strlower(p_campaign->name) + "/avatar/";
+	if (avatar != "") filename += avatar + ".png";
+	else filename += strlower(name) + ".png";
+	return filename;
+}
+
+string player::token_image() const
+{
+	string filename = "campaign/" + strlower(p_campaign->name) + "/avatar/";
+	if (token != "") filename += token + ".png";
+	else filename += "token_" + strlower(name) + ".png";
+	// check if it exists, if not the show its avatar
+	if (!file::exists(global::data_path + filename)) return avatar_image();
+
+	return "/data/" + filename;
 }

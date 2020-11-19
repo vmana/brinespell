@@ -1,6 +1,7 @@
 #include "soma.h"
 #include "db/user.h"
 #include "db/campaign.h"
+#include "widget/wcontainer.h"
 #include "widget/widget_login.h"
 #include "widget/widget_home.h"
 
@@ -24,20 +25,8 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 	WString::setDefaultEncoding(CharEncoding::UTF8);
 
 	// main div - height: 100vh
-	main_div = root()->addNew<WContainerWidget>();
-	main_div->setStyleClass("main-background");
-
-	// main stack
-	stack = main_div->addNew<WStackedWidget>();
-	stack->setStyleClass("stack-background");
-
-	// save icon
-	/* save_icon = addNew<widget_save_icon>(); */
-
-	// Widgets declaration
-
-	// login widget
-	/* view_login = stack->addNew<widget_login>(this); */
+	main_div = root()->addNew<wcontainer>("main");
+	main_div->setStyleClass("overlay-background");
 
 	internalPathChanged().connect(this, &soma::internal_path_handler);
 
@@ -92,28 +81,18 @@ void soma::on_disconnect()
 void soma::internal_path_handler(const string &path)
 {
 	log("info") << "internal path changed : " << path;
+	// reset template
+	main_div->load("main");
 
 	// full access
 	if (path == "/login")
 	{
-		// create if doesn't exist
-		if (view_login) stack->removeWidget(view_login);
-		view_login = stack->addNew<widget_login>();
-		update_stack_view(view_login);
+		view_login = main_div->bindNew<widget_login>("page");
 	}
 	if (path == "/home")
 	{
-		// create if doesn't exist
-		if (view_home) stack->removeWidget(view_home);
-		view_home = stack->addNew<widget_home>();
-		update_stack_view(view_home);
+		view_home = main_div->bindNew<widget_home>("page");
 	}
-}
-
-void soma::update_stack_view(WWidget *view)
-{
-	stack->setCurrentWidget(view);
-	/* view_menu->update_menu(); */
 }
 
 int soma::max_screen_width()

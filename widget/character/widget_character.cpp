@@ -13,6 +13,13 @@ widget_character::widget_character() : wcontainer("character/character")
 	// set player character image
 	avatar_image = bindNew<WText>("avatar_image");
 	avatar_image->setStyleClass("avatar_image");
+	avatar_image->setToolTip("Drag to create a token");
+
+	token_player_drag = bindNew<WText>("token_player_drag");
+	token_player_drag->setStyleClass("token_player_drag");
+
+	// allow drag & drop from avatar
+	avatar_image->setDraggable("player_token", token_player_drag, true);
 
 	// inspiration
 	button_inspiration = bindNew<wtemplate>("button_inspiration", "character/ring_button");
@@ -135,20 +142,8 @@ void widget_character::update_character()
 
 void widget_character::update_image()
 {
-	string filename = strlower(S->p_campaign->name) + "/avatar/" + strlower(S->p_player->name) + ".png";
-	if (file::exists(global::campaign_path + filename))
-	{
-		avatar_image->decorationStyle().setBackgroundImage("/data/campaign/" + filename);
-	}
-	else
-	{
-		// try to load via id
-		filename = strlower(S->p_campaign->name) + "/avatar/" + convert::int_string(S->p_player.id()) + ".png";
-		if (file::exists(global::campaign_path + filename))
-		{
-			avatar_image->decorationStyle().setBackgroundImage("/data/campaign/" + filename);
-		}
-	}
+	avatar_image->decorationStyle().setBackgroundImage(S->p_player->avatar_image());
+	token_player_drag->decorationStyle().setBackgroundImage(S->p_player->token_image());
 }
 
 void widget_character::on_inspiration_click()

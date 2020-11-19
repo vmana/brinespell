@@ -5,16 +5,10 @@
 
 widget_party::widget_party() : wcontainer("party/party")
 {
+	// load css
 	S->application()->useStyleSheet("css/party.css");
-
 	setStyleClass("widget_party");
-
 	init_widget();
-
-	// signal binding
-
-	// update values
-	/* details_hp->update_hit_point(); */
 }
 
 void widget_party::init_widget()

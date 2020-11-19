@@ -27,6 +27,10 @@ widget_home::widget_home() : wcontainer("home")
 	party = bindNew<widget_party>("widget_party");
 	dynamic_images = bindNew<WContainerWidget>("dynamic_images");
 
+	/****    drag & drop    ****/
+
+	acceptDrops("player_token");
+
 	/****    signal binding    ****/
 
 	// search
@@ -149,6 +153,13 @@ void widget_home::search_master_open(string filename)
 
 		broadcast::others(&widget_home::open_shared_image, "data/" + filename, id);
 	}
+}
+
+void widget_home::dropEvent(WDropEvent e)
+{
+	debug_line(e.mimeType());
+	/* auto a = dynamic_cast<WContainerWidget*>(e.source()); */
+	/* if (a == NULL) debug_line("bad cast"); */
 }
 
 /****    static call from broadcast    ****/

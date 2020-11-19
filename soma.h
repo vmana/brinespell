@@ -2,10 +2,10 @@
 #define soma_H
 
 #include <Wt/WApplication.h>
+#include <Wt/WContainerWidget.h>
 #include <Wt/WEnvironment.h>
 #include <Wt/WJavaScript.h>
 #include <Wt/WText.h>
-#include <Wt/WStackedWidget.h>
 
 #include "config.h"
 #include "soma_database.h"
@@ -15,6 +15,7 @@ using namespace Wt;
 
 using namespace mana;
 
+class wcontainer;
 class widget_login;
 class widget_home;
 class user;
@@ -28,8 +29,7 @@ class soma : public WApplication
 		shared_ptr<soma_database> D;
 
 		// view
-		WContainerWidget *main_div;
-		WStackedWidget *stack;
+		wcontainer *main_div;
 		widget_login *view_login = NULL;
 		widget_home *view_home = NULL;
 
@@ -45,7 +45,6 @@ class soma : public WApplication
 		void on_login_success(dbo::ptr<user> p_user);
 		void on_disconnect();
 		void internal_path_handler(const string &path);
-		void update_stack_view(WWidget *view);
 		int max_screen_width();
 		int max_screen_height();
 		void notify(const WEvent& event);
