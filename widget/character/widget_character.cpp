@@ -15,11 +15,12 @@ widget_character::widget_character() : wcontainer("character/character")
 	avatar_image->setStyleClass("avatar_image");
 	avatar_image->setToolTip("Drag to create a token");
 
-	token_player_drag = bindNew<WText>("token_player_drag");
-	token_player_drag->setStyleClass("token_player_drag");
+	drag_token = bindNew<widget_drag_token>("drag_token");
+	// set current player, will be used on drop to determine if we already have a token
+	drag_token->p_player = S->p_player;
 
 	// allow drag & drop from avatar
-	avatar_image->setDraggable("player_token", token_player_drag, true);
+	avatar_image->setDraggable("player_token", drag_token, true, drag_token);
 
 	// inspiration
 	button_inspiration = bindNew<wtemplate>("button_inspiration", "character/ring_button");
@@ -143,7 +144,9 @@ void widget_character::update_character()
 void widget_character::update_image()
 {
 	avatar_image->decorationStyle().setBackgroundImage(S->p_player->avatar_image());
-	token_player_drag->decorationStyle().setBackgroundImage(S->p_player->token_image());
+	string token_image = S->p_player->token_image();
+	drag_token->filename = token_image;
+	drag_token->decorationStyle().setBackgroundImage(token_image);
 }
 
 void widget_character::on_inspiration_click()

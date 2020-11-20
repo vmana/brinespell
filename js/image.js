@@ -613,3 +613,88 @@ function wt_image_border_resize(id, size_values)
 	img.wt_border_resize(size_values);
 }
 
+/****    token    ****/
+
+function w_token(id, src)
+{
+	// console.log('init ' + id);
+	var token = document.getElementById(id);
+	var position = []; // init mouse position when moving / resizing
+
+	token.style.backgroundImage = "url('" + src + "') ";
+	token.style.backgroundRepeat = 'no-repeat';
+	token.style.backgroundSize = 'contain';
+
+	token.onmousedown = on_token_mousedown;
+	// prevent right click context menu, since it's handled by on_content_mousedown
+	token.oncontextmenu = function(e) { e = e || window.event; e.preventDefault(); return false; }
+
+	function on_token_mousedown(e)
+	{
+		e = e || window.event;
+		e.preventDefault();
+		if (e.buttons == 1) // left click
+		{
+			// get the mouse cursor position at startup
+			position = [e.clientX, e.clientY];
+			// token.style.opacity = 0.7;
+			document.onmouseup = on_token_mouseup;
+			// call a function whenever the cursor moves
+			document.onmousemove = on_token_mousemove;
+			// remove any animations
+			token.classList.remove("widget_token_animated");
+		}
+	}
+
+	function on_token_mouseup(e)
+	{
+		// stop moving when mouse button is released
+		document.onmouseup = null;
+		document.onmousemove = null;
+		Wt.emit(id, 'signal_move', token.offsetTop, token.offsetLeft);
+	}
+
+	function on_token_mousemove(e)
+	{
+		e = e || window.event;
+		e.preventDefault();
+		// calculate the new cursor position:
+		var delta_x = e.clientX - position[0];
+		var delta_y = e.clientY - position[1];
+
+		var new_position = [e.clientX, e.clientY];
+		var new_top = token.offsetTop + delta_y;
+		var new_left = token.offsetLeft + delta_x;
+
+		if (token.offsetTop + delta_y < 0)
+		{
+			new_top = 0;
+			new_position[1] = position[1];
+		}
+		if (token.offsetTop + token.offsetHeight + delta_y > window.innerHeight)
+		{
+			new_top = window.innerHeight - token.offsetHeight;
+			new_position[1] = position[1]; // old position
+		}
+		if (token.offsetLeft + delta_x < 0)
+		{
+			new_left = 0;
+			new_position[0] = position[0]; // old position
+		}
+		if (token.offsetLeft + token.offsetWidth + delta_x > window.innerWidth)
+		{
+			new_left = window.innerWidth - token.offsetWidth;
+			new_position[0] = position[0];
+		}
+
+		position = new_position;
+
+		token.style.top = new_top + "px";
+		token.style.left = new_left + "px";
+	}
+}
+
+function init_widget_token(id, src)
+{
+	w_token(id, src);
+}

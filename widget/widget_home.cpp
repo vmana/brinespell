@@ -8,6 +8,7 @@ widget_home::widget_home() : wcontainer("home")
 	S->application()->require("js/function.js");
 	S->application()->require("js/image.js");
 	S->application()->require("js/scrollbar.js");
+	S->application()->useStyleSheet("css/image.css");
 	S->application()->useStyleSheet("css/scrollbar.css");
 	this->setCanReceiveFocus(true); // allow focus, so we can remove focus from search if needed
 
@@ -26,6 +27,7 @@ widget_home::widget_home() : wcontainer("home")
 	character = bindNew<widget_character>("widget_character");
 	party = bindNew<widget_party>("widget_party");
 	dynamic_images = bindNew<WContainerWidget>("dynamic_images");
+	dynamic_tokens = bindNew<WContainerWidget>("dynamic_tokens");
 
 	/****    drag & drop    ****/
 
@@ -157,12 +159,28 @@ void widget_home::search_master_open(string filename)
 
 void widget_home::dropEvent(WDropEvent e)
 {
-	debug_line(e.mimeType());
-	/* auto a = dynamic_cast<WContainerWidget*>(e.source()); */
-	/* if (a == NULL) debug_line("bad cast"); */
+	/* debug_line(e.mimeType()); */
+	if (e.mimeType() == "player_token")
+	{
+		auto token = dynamic_cast<widget_drag_token*>(e.source());
+		if (! token) return; // bad cast
+
+		// don't handle touch event for now
+		if (e.originalEventType() != WDropEvent::OriginalEventType::Mouse) return;
+
+		string id = open_token(token->filename,
+				e.mouseEvent()->window().x,
+				e.mouseEvent()->window().y);
+
+		// only broadcast if we are the game master
+		// TODO: tmp, allow everyone to share image
+		/* if (!S->p_shadow->game_master) return; */
+
+		/* broadcast::others(&widget_home::open_shared_image, "data/" + filename, id); */
+	}
 }
 
-/****    static call from broadcast    ****/
+/****    audio    ****/
 
 void widget_home::change_audio_track(string filename)
 {
@@ -193,6 +211,8 @@ void widget_home::switch_pause_audio_track(bool paused)
 	}
 }
 
+/****    dice    ****/
+
 void widget_home::throw_dice(string notation, string rand_init)
 {
 	auto p_soma = soma::application();
@@ -202,6 +222,8 @@ void widget_home::throw_dice(string notation, string rand_init)
 	dices->throw_dice_nocallback(notation, rand_init);
 }
 
+/****    chat    ****/
+
 void widget_home::chat_message(string message)
 {
 	auto p_soma = soma::application();
@@ -210,6 +232,8 @@ void widget_home::chat_message(string message)
 	auto &chat = p_soma->view_home->chat;
 	chat->add_message(message);
 }
+
+/****    image    ****/
 
 string widget_home::open_image(string filename)
 {
@@ -305,6 +329,72 @@ widget_image* widget_home::search_image(string id)
 	}
 	return ret;
 }
+
+/****    token    ****/
+
+string widget_home::open_token(string filename, int x, int y)
+{
+	string id = mana::randstring(16);
+	auto token = dynamic_tokens->addNew<widget_token>(filename, id, x, y);
+
+	// signals binding
+	token->on_move_event.connect([=](int top, int left)
+	{
+		broadcast::others(&widget_home::move_token, id, top, left);
+	});
+	token->on_close_event.connect([=]()
+	{
+		broadcast::others(&widget_home::close_token, id);
+	});
+	token->on_shared_event.connect([=](bool shared)
+	{
+		broadcast::others(&widget_home::change_token_visibility, id, shared);
+	});
+
+	return id;
+}
+
+void widget_home::open_shared_token(string filename, string id)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+	p_soma->view_home->dynamic_tokens->addNew<widget_token>(filename, id, false);
+}
+
+void widget_home::move_token(string id, int top, int left)
+{
+	auto token = search_token(id);
+	if (token) token->animate_position(top, left);
+}
+
+void widget_home::change_token_visibility(string id, bool visible)
+{
+	auto token = search_token(id);
+	if (token) token->change_token_visibility(visible);
+}
+
+void widget_home::close_token(string id)
+{
+	auto token = search_token(id);
+	if (token) token->close();
+}
+
+widget_token* widget_home::search_token(string id)
+{
+	widget_token *ret = NULL;
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return ret;
+
+	// search for a child with this id
+	for (auto &child : p_soma->view_home->dynamic_tokens->children())
+	{
+		if (child->id() == id)
+			return (widget_token*)child;
+	}
+	return ret;
+}
+
+/****    ally    ****/
 
 void widget_home::update_ally_hp(int player_id, int percent, string helper)
 {

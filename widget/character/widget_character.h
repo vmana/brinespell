@@ -8,6 +8,7 @@
 #include "widget_weapon.h"
 #include "widget_inventory.h"
 #include "widget_notes.h"
+#include "widget/token/widget_token.h"
 #include <Wt/WLineEdit.h>
 
 class widget_character : public wcontainer
@@ -15,7 +16,7 @@ class widget_character : public wcontainer
 	public:
 
 		WText *avatar_image;
-		WText *token_player_drag;
+		widget_drag_token *drag_token;
 
 		// inspiration
 		Signal<bool> on_inspiration_event;

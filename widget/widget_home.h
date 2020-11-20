@@ -7,6 +7,7 @@
 #include "widget_dice.h"
 #include "widget_chat.h"
 #include "widget_image.h"
+#include "token/widget_token.h"
 #include "character/widget_character.h"
 #include "party/widget_party.h"
 #include "db/campaign.h"
@@ -22,6 +23,7 @@ class widget_home : public wcontainer
 		widget_character *character;
 		widget_party *party;
 		WContainerWidget *dynamic_images;
+		WContainerWidget *dynamic_tokens;
 
 		widget_home();
 
@@ -48,6 +50,14 @@ class widget_home : public wcontainer
 		static void change_image_visibility(string id, bool visible);
 		static void close_image(string id);
 		static widget_image* search_image(string id);
+		// token
+		string open_token(string filename, int x, int y); // return token id
+		static void open_shared_token(string filename, string id);
+		static void move_token(string id, int top, int left);
+		static void change_token_visibility(string id, bool visible);
+		static void close_token(string id);
+		static widget_token* search_token(string id);
+		// ally
 		static void update_ally_hp(int player_id, int percent, string helper);
 };
 

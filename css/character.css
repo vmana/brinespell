@@ -47,14 +47,6 @@
 	border: solid 3px #756233;
 }
 
-.token_player_drag
-{
-	/* background: #0a141c88; */
-	background-size: contain;
-	width: 60px;
-	height: 60px;
-}
-
 .div_character .panel
 {
 	position: absolute;
