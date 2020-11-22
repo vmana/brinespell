@@ -22,7 +22,7 @@ class widget_token : public wcontainer
 
 		widget_token(string filename, bool visible = true);
 		widget_token(string filename, string id, bool visible = true);
-		widget_token(string filename, string id, int x, int y, bool visible = true);
+		widget_token(string filename, string id, int top, int left, bool visible = true);
 		void on_close_click();
 		void on_shared_click();
 		void animate_position(int top, int left);
@@ -36,10 +36,9 @@ class widget_drag_token : public wcontainer
 {
 	public:
 		dbo::ptr<player> p_player;
-		string filename;
 
 		widget_drag_token();
-		widget_drag_token(string filename);
+		widget_drag_token(dbo::ptr<player> p_player);
 };
 
 #endif // widget_token_H

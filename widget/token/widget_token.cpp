@@ -11,7 +11,7 @@ widget_token::widget_token(string filename, string id, bool visible) :
 {
 }
 
-widget_token::widget_token(string filename, string id, int x, int y, bool visible) :
+widget_token::widget_token(string filename, string id, int top, int left, bool visible) :
 	wcontainer("token/player"),
 	signal_move(this, "signal_move")
 {
@@ -22,8 +22,8 @@ widget_token::widget_token(string filename, string id, int x, int y, bool visibl
 
 	setPositionScheme(PositionScheme::Absolute);
 
-	this->setOffsets(x, Side::Left);
-	this->setOffsets(y, Side::Top);
+	this->setOffsets(top, Side::Top);
+	this->setOffsets(left, Side::Left);
 
 	this->doJavaScript("init_widget_token('" + this->id() + "', '" + filename + "');");
 
@@ -88,14 +88,13 @@ void widget_token::change_token_visibility(bool visible)
 
 /****    widget_drag_token    ****/
 
-widget_drag_token::widget_drag_token() : widget_drag_token("")
-{
-}
-
-widget_drag_token::widget_drag_token(string filename) : wcontainer()
+widget_drag_token::widget_drag_token() : wcontainer()
 {
 	setStyleClass("widget_drag_token");
-	this->filename = filename;
-	decorationStyle().setBackgroundImage(filename);
+}
+
+widget_drag_token::widget_drag_token(dbo::ptr<player> p_player) : widget_drag_token()
+{
+	decorationStyle().setBackgroundImage(p_player->token_image());
 }
 

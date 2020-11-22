@@ -166,15 +166,9 @@ void widget_home::dropEvent(WDropEvent e)
 		auto token = dynamic_cast<widget_drag_token*>(e.source());
 		if (! token) return; // bad cast
 
-		string id = dynamic->open_token(token->filename,
-				e.mouseEvent()->window().x,
-				e.mouseEvent()->window().y);
-
-		// only broadcast if we are the game master
-		// TODO: tmp, allow everyone to share image
-		/* if (!S->p_shadow->game_master) return; */
-
-		/* broadcast::others(&widget_home::open_shared_image, "data/" + filename, id); */
+		string id = dynamic->open_token_player(token->p_player,
+			e.mouseEvent()->window().y,
+			e.mouseEvent()->window().x);
 	}
 }
 

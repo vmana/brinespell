@@ -16,8 +16,6 @@ widget_character::widget_character() : wcontainer("character/character")
 	avatar_image->setToolTip("Drag to create a token");
 
 	drag_token = bindNew<widget_drag_token>("drag_token");
-	// set current player, will be used on drop to determine if we already have a token
-	drag_token->p_player = S->p_player;
 
 	// allow drag & drop from avatar
 	avatar_image->setDraggable("player_token", drag_token, true, drag_token);
@@ -145,8 +143,9 @@ void widget_character::update_image()
 {
 	avatar_image->decorationStyle().setBackgroundImage(S->p_player->avatar_image());
 	string token_image = S->p_player->token_image();
-	drag_token->filename = token_image;
-	drag_token->decorationStyle().setBackgroundImage(token_image);
+
+	drag_token->p_player = S->p_player;
+	drag_token->decorationStyle().setBackgroundImage(S->p_player->token_image());
 }
 
 void widget_character::on_inspiration_click()

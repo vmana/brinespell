@@ -57,7 +57,12 @@
 	font-weight: bold;
 	padding: 10px 20px;
 	padding-bottom: 20px;
-	z-index: 5;
+	z-index: 20;
+}
+
+.div_character .panel:hover
+{
+	z-index: 21;
 }
 
 .div_character .close
@@ -70,7 +75,11 @@
 	background: url('/img/close.svg') center center no-repeat;
 	background-size: contain;
 	cursor: url('/img/cursor-purple.png'), auto;
-	z-index: 6;
+	z-index: 22;
+}
+.div_character:hover .close
+{
+	z-index: 23;
 }
 
 .div_stats

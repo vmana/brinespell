@@ -50,6 +50,7 @@ HEADERS  += config.h\
 				widget/widget_chat.h\
 				widget/widget_image.h\
 				widget/token/widget_token.h\
+				widget/token/wtoken_player.h\
 				widget/character/widget_character.h\
 				widget/character/widget_details_hp.h\
 				widget/character/widget_stats.h\
@@ -81,6 +82,7 @@ SOURCES +=	main.cpp\
 				widget/widget_chat.cpp\
 				widget/widget_image.cpp\
 				widget/token/widget_token.cpp\
+				widget/token/wtoken_player.cpp\
 				widget/character/widget_character.cpp\
 				widget/character/widget_details_hp.cpp\
 				widget/character/widget_stats.cpp\

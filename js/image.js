@@ -629,6 +629,8 @@ function w_token(id, src)
 	// prevent right click context menu, since it's handled by on_content_mousedown
 	token.oncontextmenu = function(e) { e = e || window.event; e.preventDefault(); return false; }
 
+	correct_position(); // prevents position ouside window
+
 	function on_token_mousedown(e)
 	{
 		e = e || window.event;
@@ -688,6 +690,32 @@ function w_token(id, src)
 		}
 
 		position = new_position;
+
+		token.style.top = new_top + "px";
+		token.style.left = new_left + "px";
+	}
+
+	function correct_position()
+	{
+		var new_top = token.offsetTop;
+		var new_left = token.offsetLeft;
+
+		if (new_top < 0)
+		{
+			new_top = 0;
+		}
+		if (new_top + token.offsetHeight > window.innerHeight)
+		{
+			new_top = window.innerHeight - token.offsetHeight;
+		}
+		if (token.offsetLeft < 0)
+		{
+			new_left = 0;
+		}
+		if (token.offsetLeft + token.offsetWidth > window.innerWidth)
+		{
+			new_left = window.innerWidth - token.offsetWidth;
+		}
 
 		token.style.top = new_top + "px";
 		token.style.left = new_left + "px";

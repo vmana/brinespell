@@ -66,6 +66,10 @@ void widget_dynamic::open_shared_image(string filename, string id)
 {
 	auto p_images = widget_dynamic::instance_images();
 	if (!p_images) return;
+
+	auto img = search_image(id);
+	if (img) return; // already exists, don't create
+
 	p_images->addNew<widget_image>(filename, id, false);
 }
 
@@ -122,10 +126,10 @@ widget_image* widget_dynamic::search_image(string id)
 
 /****    token    ****/
 
-string widget_dynamic::open_token(string filename, int x, int y)
+string widget_dynamic::open_token(string filename, int top, int left)
 {
 	string id = mana::randstring(16);
-	auto token = tokens->addNew<widget_token>(filename, id, x, y);
+	auto token = tokens->addNew<widget_token>(filename, id, top, left);
 
 	// signals binding
 	token->on_move_event.connect([=](int top, int left)
@@ -144,11 +148,74 @@ string widget_dynamic::open_token(string filename, int x, int y)
 	return id;
 }
 
+string widget_dynamic::open_token_player(dbo::ptr<player> p_player, int top, int left)
+{
+	// search if a token for this player already exists
+	// if if exists, only move the token
+	auto p_token = search_token_player(p_player);
+	if (p_token)
+	{
+		// just return if it didn't move
+		if (p_token->offset(Side::Top) == top && p_token->offset(Side::Left) == left) return "";
+
+		// broadcast move to other players
+		broadcast::all(&widget_dynamic::move_token, p_token->id(), top, left);
+		return "";
+	}
+
+	string id = mana::randstring(16);
+	auto token = tokens->addNew<wtoken_player>(p_player, id, top, left);
+
+	// signals binding
+	token->on_move_event.connect([=](int top, int left)
+	{
+		broadcast::others(&widget_dynamic::move_token, id, top, left);
+	});
+	token->on_close_event.connect([=]()
+	{
+		broadcast::others(&widget_dynamic::close_token, id);
+	});
+	token->on_shared_event.connect([=](bool shared)
+	{
+		broadcast::others(&widget_dynamic::change_token_visibility, id, shared);
+	});
+
+	broadcast::others(&widget_dynamic::open_shared_token_player, p_player.id(), id, top, left);
+
+	return id;
+}
+
 void widget_dynamic::open_shared_token(string filename, string id)
 {
 	auto p_tokens = widget_dynamic::instance_tokens();
 	if (!p_tokens) return;
 	p_tokens->addNew<widget_token>(filename, id, false);
+}
+
+void widget_dynamic::open_shared_token_player(long long int player_id, string id, int top, int left)
+{
+	auto p_tokens = widget_dynamic::instance_tokens();
+	if (!p_tokens) return;
+
+	// load p_player
+	dbo_session session;
+	auto p_player = session->load<player>(player_id);
+
+	auto token = p_tokens->addNew<wtoken_player>(p_player, id, top, left);
+
+	// signals binding
+	token->on_move_event.connect([=](int top, int left)
+	{
+		broadcast::others(&widget_dynamic::move_token, id, top, left);
+	});
+	token->on_close_event.connect([=]()
+	{
+		broadcast::others(&widget_dynamic::close_token, id);
+	});
+	token->on_shared_event.connect([=](bool shared)
+	{
+		broadcast::others(&widget_dynamic::change_token_visibility, id, shared);
+	});
 }
 
 void widget_dynamic::move_token(string id, int top, int left)
@@ -180,6 +247,23 @@ widget_token* widget_dynamic::search_token(string id)
 	{
 		if (child->id() == id)
 			return (widget_token*)child;
+	}
+	return ret;
+}
+
+wtoken_player* widget_dynamic::search_token_player(dbo::ptr<player> p_player)
+{
+	wtoken_player *ret = NULL;
+	auto p_tokens = widget_dynamic::instance_tokens();
+	if (!p_tokens) return ret;
+
+	// search for a child with this id
+	for (auto &child : p_tokens->children())
+	{
+		auto p_child = dynamic_cast<wtoken_player*>(child);
+		if (! p_child) continue; // don't care about this token
+		if (p_child->p_player.id() == p_player.id())
+			return p_child;
 	}
 	return ret;
 }
