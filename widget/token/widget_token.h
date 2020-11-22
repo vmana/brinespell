@@ -27,7 +27,7 @@ class widget_token : public wcontainer
 		void on_close_click();
 		void animate_position(int top, int left);
 		void signal_move_callback(int top, int left);
-		void close();
+		void close_token();
 };
 
 class widget_token_tooltip : public wcontainer

@@ -42,7 +42,7 @@ void widget_token::on_token_click()
 void widget_token::on_close_click()
 {
 	on_close_event.emit();
-	close();
+	close_token();
 }
 
 void widget_token::animate_position(int top, int left)
@@ -57,7 +57,7 @@ void widget_token::signal_move_callback(int top, int left)
 	on_move_event.emit(top, left);
 }
 
-void widget_token::close()
+void widget_token::close_token()
 {
 	this->parent()->removeWidget(this);
 }

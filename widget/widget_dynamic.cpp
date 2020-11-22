@@ -303,7 +303,7 @@ void widget_dynamic::move_token(string id, int top, int left)
 void widget_dynamic::close_token(string id)
 {
 	auto token = search_token(id);
-	if (token) token->close();
+	if (token) token->close_token();
 }
 
 widget_token* widget_dynamic::search_token(string id)

@@ -247,11 +247,14 @@
 	height: 0px;
 	width: 0px;
 	height: 0px;
+	font-size: 16px;
+	font-weight: bold;
 	background: #0a141ccc;
 	border: solid 0px #d7b052;
 	border-radius: 12px;
 	transition: height 0.25s, top 0.25s, width 0.1s, border 0s;
 	transition-delay: 0s;
+	overflow: hidden;
 }
 
 .widget_token_tooltip .panel_extended
@@ -268,18 +271,33 @@
 .widget_token_tooltip .panel_player_extended
 {
 	top: 0px;
-	width: 150px;
+	width: 120px;
 	height: 64px;
 	border: solid 2px #d7b052;
 	transition-delay: 0.2s !important;
 }
 
-.widget_token_tooltip .panel_player .description
+.widget_token_tooltip .panel_player_extended .description
 {
+	position: absolute;
+	top: 8px;
+	right: 0px;
+	height: 20px;
+	width: 120px;
+	text-align: center;
 }
 
-.widget_token_tooltip .panel_player .description
+.widget_token_tooltip .panel_player_extended .close
 {
+	position: absolute;
+	bottom: 6px;
+	right: 50px;
+	width: 24px;
+	height: 24px;
+	background: url('/img/close.svg') center center no-repeat;
+	background-size: contain;
+	cursor: url('/img/cursor-purple.png'), auto;
+	z-index: 10;
 }
 
 /****    drag token    ****/
