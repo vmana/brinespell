@@ -16,7 +16,7 @@ class widget_dynamic : public wcontainer
 		static WContainerWidget* instance_images();
 		static WContainerWidget* instance_tokens();
 		void load_session_dynamics(); // load dynamic data on session join
-		static void send_session_dynamics(session_id string);
+		static void send_session_dynamics(string session_id);
 
 		/****    images    ****/
 		string open_image(string filename); // return image id
