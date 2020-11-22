@@ -1,12 +1,17 @@
 #include "widget_image.h"
 #include "soma.h"
 
-widget_image::widget_image(string filename, bool visible) :
-	widget_image(filename, mana::randstring(16), visible)
+widget_image::widget_image(dbo::ptr<player> creator, string filename, bool visible) :
+	widget_image(creator, filename, mana::randstring(16), visible)
 {
 }
 
-widget_image::widget_image(string filename, string id, bool visible) :
+widget_image::widget_image(dbo::ptr<player> creator, string filename, string id, bool visible) :
+	widget_image(creator, filename, id, 200, 600, visible)
+{
+}
+
+widget_image::widget_image(dbo::ptr<player> creator, string filename, string id, int top, int left, bool visible) :
 	wcontainer("image"),
 	signal_move(this, "signal_move"),
 	signal_resize(this, "signal_resize"),
@@ -15,11 +20,11 @@ widget_image::widget_image(string filename, string id, bool visible) :
 {
 	setStyleClass("widget_image");
 
+	this->creator = creator;
+	this->filename = filename;
 	setId(id);
-	change_image_visibility(visible);
 
-	int init_top = 200;
-	int init_left = 600;
+	if (creator.id() == S->p_shadow.id()) visible = true; // always visible for the creator
 
 	setPositionScheme(PositionScheme::Absolute);
 	button_close = bindNew<WText>("button_close");
@@ -30,8 +35,8 @@ widget_image::widget_image(string filename, string id, bool visible) :
 	button_shared->setStyleClass("widget_image_shared widget_image_shared_no");
 	button_shared->setToolTip("Visible / Hidden for other players");
 
-	this->setOffsets(init_top, Side::Top);
-	this->setOffsets(init_left, Side::Left);
+	this->setOffsets(top, Side::Top);
+	this->setOffsets(left, Side::Left);
 
 	this->doJavaScript("init_widget_image('" + this->id() + "', '" + filename + "');");
 
@@ -42,6 +47,8 @@ widget_image::widget_image(string filename, string id, bool visible) :
 	signal_resize.connect(this, &widget_image::signal_resize_callback);
 	signal_view_mode.connect(this, &widget_image::signal_view_mode_callback);
 	signal_zoom.connect(this, &widget_image::signal_zoom_callback);
+
+	change_image_visibility(visible);
 }
 
 void widget_image::on_close_click()
@@ -53,6 +60,7 @@ void widget_image::on_close_click()
 void widget_image::on_shared_click()
 {
 	change_shared(! shared);
+	on_shared_event.emit(shared);
 }
 
 void widget_image::animate_position(int top, int left)
@@ -131,7 +139,6 @@ void widget_image::change_shared(bool shared)
 	{
 		button_shared->setStyleClass("widget_image_shared widget_image_shared_no");
 	}
-	on_shared_event.emit(shared);
 }
 
 void widget_image::change_image_visibility(bool visible)
@@ -145,4 +152,14 @@ void widget_image::change_image_visibility(bool visible)
 	{
 		addStyleClass("visibility_hidden", true);
 	}
+}
+
+bool widget_image::is_shared()
+{
+	return shared;
+}
+
+bool widget_image::is_visible()
+{
+	return visible;
 }

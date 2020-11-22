@@ -19,8 +19,8 @@ class widget_dynamic : public wcontainer
 		static void send_session_dynamics(string session_id);
 
 		/****    images    ****/
-		string open_image(string filename); // return image id
-		static void open_shared_image(string filename, string id);
+		widget_image* open_image(dbo::ptr<player> creator, string filename);
+		static void open_shared_image(long long int creator_id, string filename, string id, int top, int left, bool visible);
 		static void move_image(string id, int top, int left);
 		static void resize_image(string id, int top, int left, int width, int height);
 		static void zoom_image(string id, int zoom_w, int zoom_h, int zoom_x, int zoom_y);
@@ -30,8 +30,8 @@ class widget_dynamic : public wcontainer
 		static widget_image* search_image(string id);
 
 		/****    tokens    ****/
-		string open_token(string filename, int top, int left); // return token id
-		string open_token_player(dbo::ptr<player> p_player, int top, int left); // return token id
+		widget_token* open_token(string filename, int top, int left); // return token id
+		wtoken_player* open_token_player(dbo::ptr<player> p_player, int top, int left); // return token id
 		static void open_shared_token(string filename, string id);
 		static void open_shared_token_player(long long int player_id, string id, int top, int left);
 		static void move_token(string id, int top, int left);

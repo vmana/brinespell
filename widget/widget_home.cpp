@@ -98,6 +98,9 @@ widget_home::widget_home() : wcontainer("home")
 		+ " joins the session</span>"
 		+ "<br />\n";
 	broadcast::all(&widget_home::chat_message, message);
+
+	// request dynamics data from player already in the session
+	dynamic->load_session_dynamics();
 }
 
 void widget_home::global_key_pressed(WKeyEvent e)
@@ -146,13 +149,19 @@ void widget_home::search_master_open(string filename)
 	{
 
 		// open image and, open the same image via broadcast::other with the same id
-		string id = dynamic->open_image("data/" + filename);
+		auto p_image = dynamic->open_image(S->p_shadow, "data/" + filename);
 
 		// only broadcast if we are the game master
 		// TODO: tmp, allow everyone to share image
 		/* if (!S->p_shadow->game_master) return; */
 
-		broadcast::others(&widget_dynamic::open_shared_image, "data/" + filename, id);
+		broadcast::others(&widget_dynamic::open_shared_image,
+			S->p_shadow.id(),
+			"data/" + filename,
+			p_image->id(),
+			(int)p_image->offset(Side::Top).value(),
+			(int)p_image->offset(Side::Left).value(),
+			false);
 	}
 }
 
@@ -166,7 +175,7 @@ void widget_home::dropEvent(WDropEvent e)
 		auto token = dynamic_cast<widget_drag_token*>(e.source());
 		if (! token) return; // bad cast
 
-		string id = dynamic->open_token_player(token->p_player,
+		dynamic->open_token_player(token->p_player,
 			e.mouseEvent()->window().y,
 			e.mouseEvent()->window().x);
 	}

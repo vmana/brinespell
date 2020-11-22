@@ -51,6 +51,7 @@ void widget_audio::render_widget()
 	else if (ext == "webm") mediaplayer->addSource(MediaEncoding::WEBMA, audio_filename);
 	else if (ext == "wav") mediaplayer->addSource(MediaEncoding::WAV, audio_filename);
 	else if (ext == "ogg") mediaplayer->addSource(MediaEncoding::OGA, audio_filename);
+	else mediaplayer->addSource(MediaEncoding::M4A, audio_filename); // add source even when audio_filename == "", prevents errors output with valgrind
 }
 
 void widget_audio::play()

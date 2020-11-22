@@ -13,6 +13,9 @@ class widget_image : public wcontainer
 
 	public:
 
+		string filename;
+		dbo::ptr<player> creator;
+
 		WText *button_shared;
 		WText *button_close;
 
@@ -28,8 +31,9 @@ class widget_image : public wcontainer
 		Signal<bool> on_shared_event;
 		Signal<> on_close_event;
 
-		widget_image(string filename, bool visible = true);
-		widget_image(string filename, string id, bool visible = true);
+		widget_image(dbo::ptr<player> creator, string filename, bool visible = true);
+		widget_image(dbo::ptr<player> creator, string filename, string id, bool visible = true);
+		widget_image(dbo::ptr<player> creator, string filename, string id, int top, int left, bool visible = true);
 		void on_close_click();
 		void on_shared_click();
 		void animate_position(int top, int left);
@@ -43,6 +47,8 @@ class widget_image : public wcontainer
 		void change_view_mode(string mode);
 		void change_shared(bool shared);
 		void change_image_visibility(bool visible); // call when master image shared is changed
+		bool is_shared();
+		bool is_visible();
 };
 
 #endif // widget_image_H
