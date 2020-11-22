@@ -13,11 +13,13 @@ class widget_dynamic : public wcontainer
 		WContainerWidget *tokens;
 
 		widget_dynamic();
+		static WContainerWidget* instance_images();
+		static WContainerWidget* instance_tokens();
+		void load_session_dynamics(); // load dynamic data on session join
+		static void send_session_dynamics(session_id string);
 
 		/****    images    ****/
 		string open_image(string filename); // return image id
-		static WContainerWidget* instance_images();
-		static WContainerWidget* instance_tokens();
 		static void open_shared_image(string filename, string id);
 		static void move_image(string id, int top, int left);
 		static void resize_image(string id, int top, int left, int width, int height);

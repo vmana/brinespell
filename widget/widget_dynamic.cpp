@@ -23,6 +23,14 @@ WContainerWidget* widget_dynamic::instance_tokens()
 	return p_soma->view_home->dynamic->tokens;
 }
 
+void widget_dynamic::load_session_dynamics()
+{
+}
+
+void widget_dynamic::send_session_dynamics(string session_id)
+{
+}
+
 /****    image    ****/
 
 string widget_dynamic::open_image(string filename)
@@ -152,19 +160,19 @@ string widget_dynamic::open_token_player(dbo::ptr<player> p_player, int top, int
 {
 	// search if a token for this player already exists
 	// if if exists, only move the token
-	auto p_token = search_token_player(p_player);
-	if (p_token)
+	auto token = search_token_player(p_player);
+	if (token)
 	{
 		// just return if it didn't move
-		if (p_token->offset(Side::Top) == top && p_token->offset(Side::Left) == left) return "";
+		if (token->offset(Side::Top) == top && token->offset(Side::Left) == left) return "";
 
 		// broadcast move to other players
-		broadcast::all(&widget_dynamic::move_token, p_token->id(), top, left);
+		broadcast::all(&widget_dynamic::move_token, token->id(), top, left);
 		return "";
 	}
 
 	string id = mana::randstring(16);
-	auto token = tokens->addNew<wtoken_player>(p_player, id, top, left);
+	token = tokens->addNew<wtoken_player>(p_player, id, top, left);
 
 	// signals binding
 	token->on_move_event.connect([=](int top, int left)
@@ -201,7 +209,18 @@ void widget_dynamic::open_shared_token_player(long long int player_id, string id
 	dbo_session session;
 	auto p_player = session->load<player>(player_id);
 
-	auto token = p_tokens->addNew<wtoken_player>(p_player, id, top, left);
+	// search if a token for this player already exists
+	// if if exists, only move the token
+	auto token = search_token_player(p_player);
+	if (token)
+	{
+		// just return if it didn't move
+		if (token->offset(Side::Top) == top && token->offset(Side::Left) == left) return;
+		move_token(id, top, left);
+		return;
+	}
+
+	token = p_tokens->addNew<wtoken_player>(p_player, id, top, left);
 
 	// signals binding
 	token->on_move_event.connect([=](int top, int left)
