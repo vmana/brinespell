@@ -21,13 +21,12 @@ widget_home::widget_home() : wcontainer("home")
 	search->set_data(explode("\n", ls_data));
 	search->edit_search->setFocus(true);
 
+	dynamic = bindNew<widget_dynamic>("widget_dynamic");
 	audio = bindNew<widget_audio>("widget_audio");
 	dices = bindNew<widget_dice>("widget_dice");
 	chat = bindNew<widget_chat>("widget_chat");
 	character = bindNew<widget_character>("widget_character");
 	party = bindNew<widget_party>("widget_party");
-	dynamic_images = bindNew<WContainerWidget>("dynamic_images");
-	dynamic_tokens = bindNew<WContainerWidget>("dynamic_tokens");
 
 	/****    drag & drop    ****/
 
@@ -147,28 +146,27 @@ void widget_home::search_master_open(string filename)
 	{
 
 		// open image and, open the same image via broadcast::other with the same id
-		string id = open_image("data/" + filename);
+		string id = dynamic->open_image("data/" + filename);
 
 		// only broadcast if we are the game master
 		// TODO: tmp, allow everyone to share image
 		/* if (!S->p_shadow->game_master) return; */
 
-		broadcast::others(&widget_home::open_shared_image, "data/" + filename, id);
+		broadcast::others(&widget_dynamic::open_shared_image, "data/" + filename, id);
 	}
 }
 
 void widget_home::dropEvent(WDropEvent e)
 {
-	/* debug_line(e.mimeType()); */
+	// don't handle touch event for now
+	if (e.originalEventType() != WDropEvent::OriginalEventType::Mouse) return;
+
 	if (e.mimeType() == "player_token")
 	{
 		auto token = dynamic_cast<widget_drag_token*>(e.source());
 		if (! token) return; // bad cast
 
-		// don't handle touch event for now
-		if (e.originalEventType() != WDropEvent::OriginalEventType::Mouse) return;
-
-		string id = open_token(token->filename,
+		string id = dynamic->open_token(token->filename,
 				e.mouseEvent()->window().x,
 				e.mouseEvent()->window().y);
 
@@ -231,167 +229,6 @@ void widget_home::chat_message(string message)
 
 	auto &chat = p_soma->view_home->chat;
 	chat->add_message(message);
-}
-
-/****    image    ****/
-
-string widget_home::open_image(string filename)
-{
-	string id = mana::randstring(16);
-	auto img = dynamic_images->addNew<widget_image>(filename, id);
-
-	// signals binding
-	img->on_move_event.connect([=](int top, int left)
-	{
-		broadcast::others(&widget_home::move_image, id, top, left);
-	});
-	// needs tuple since wt signal connect only allows 3 parameters max
-	img->on_resize_event.connect([=](tuple<int, int, int, int> pos)
-	{
-		auto &[top, left, width, height] = pos;
-		broadcast::others(&widget_home::resize_image, id, top, left, width, height);
-	});
-	img->on_zoom_event.connect([=](tuple<int, int, int, int> pos)
-	{
-		auto &[zoom_w, zoom_h, zoom_x, zoom_y] = pos;
-		broadcast::others(&widget_home::zoom_image, id, zoom_w, zoom_h, zoom_x, zoom_y);
-	});
-	img->on_close_event.connect([=]()
-	{
-		broadcast::others(&widget_home::close_image, id);
-	});
-	img->on_view_mode_event.connect([=](string mode)
-	{
-		broadcast::others(&widget_home::switch_mode_image, id, mode);
-	});
-	img->on_shared_event.connect([=](bool shared)
-	{
-		broadcast::others(&widget_home::change_image_visibility, id, shared);
-	});
-
-	return id;
-}
-
-void widget_home::open_shared_image(string filename, string id)
-{
-	auto p_soma = soma::application();
-	if (!p_soma->view_home) return;
-	p_soma->view_home->dynamic_images->addNew<widget_image>(filename, id, false);
-}
-
-void widget_home::move_image(string id, int top, int left)
-{
-	auto img = search_image(id);
-	if (img) img->animate_position(top, left);
-}
-
-void widget_home::resize_image(string id, int top, int left, int width, int height)
-{
-	auto img = search_image(id);
-	if (img) img->animate_resize(top, left, width, height);
-}
-
-void widget_home::zoom_image(string id, int zoom_w, int zoom_h, int zoom_x, int zoom_y)
-{
-	auto img = search_image(id);
-	if (img) img->animate_zoom(zoom_w, zoom_h, zoom_x, zoom_y);
-}
-
-void widget_home::switch_mode_image(string id, string mode)
-{
-	auto img = search_image(id);
-	if (img) img->change_view_mode(mode);
-}
-
-void widget_home::change_image_visibility(string id, bool visible)
-{
-	auto img = search_image(id);
-	if (img) img->change_image_visibility(visible);
-}
-
-void widget_home::close_image(string id)
-{
-	auto img = search_image(id);
-	if (img) img->close();
-}
-
-widget_image* widget_home::search_image(string id)
-{
-	widget_image *ret = NULL;
-	auto p_soma = soma::application();
-	if (!p_soma->view_home) return ret;
-
-	// search for a child with this id
-	for (auto &child : p_soma->view_home->dynamic_images->children())
-	{
-		if (child->id() == id)
-			return (widget_image*)child;
-	}
-	return ret;
-}
-
-/****    token    ****/
-
-string widget_home::open_token(string filename, int x, int y)
-{
-	string id = mana::randstring(16);
-	auto token = dynamic_tokens->addNew<widget_token>(filename, id, x, y);
-
-	// signals binding
-	token->on_move_event.connect([=](int top, int left)
-	{
-		broadcast::others(&widget_home::move_token, id, top, left);
-	});
-	token->on_close_event.connect([=]()
-	{
-		broadcast::others(&widget_home::close_token, id);
-	});
-	token->on_shared_event.connect([=](bool shared)
-	{
-		broadcast::others(&widget_home::change_token_visibility, id, shared);
-	});
-
-	return id;
-}
-
-void widget_home::open_shared_token(string filename, string id)
-{
-	auto p_soma = soma::application();
-	if (!p_soma->view_home) return;
-	p_soma->view_home->dynamic_tokens->addNew<widget_token>(filename, id, false);
-}
-
-void widget_home::move_token(string id, int top, int left)
-{
-	auto token = search_token(id);
-	if (token) token->animate_position(top, left);
-}
-
-void widget_home::change_token_visibility(string id, bool visible)
-{
-	auto token = search_token(id);
-	if (token) token->change_token_visibility(visible);
-}
-
-void widget_home::close_token(string id)
-{
-	auto token = search_token(id);
-	if (token) token->close();
-}
-
-widget_token* widget_home::search_token(string id)
-{
-	widget_token *ret = NULL;
-	auto p_soma = soma::application();
-	if (!p_soma->view_home) return ret;
-
-	// search for a child with this id
-	for (auto &child : p_soma->view_home->dynamic_tokens->children())
-	{
-		if (child->id() == id)
-			return (widget_token*)child;
-	}
-	return ret;
 }
 
 /****    ally    ****/

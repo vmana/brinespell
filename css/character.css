@@ -822,7 +822,6 @@
 	bottom: 13px;
 	left: calc(-165px - 3 * 70px);
 	display: flex;
-	z-index: -1;
 }
 .div_left_buttons .item
 {

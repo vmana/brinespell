@@ -59,6 +59,7 @@ HEADERS  += config.h\
 				widget/character/widget_notes.h\
 				widget/party/widget_party.h\
 				widget/party/widget_ally.h\
+				widget/widget_dynamic.h\
 				widget/widget_home.h\
 				thread/background.h\
 
@@ -89,5 +90,6 @@ SOURCES +=	main.cpp\
 				widget/character/widget_notes.cpp\
 				widget/party/widget_party.cpp\
 				widget/party/widget_ally.cpp\
+				widget/widget_dynamic.cpp\
 				widget/widget_home.cpp\
 				thread/background.cpp\
