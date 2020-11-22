@@ -201,6 +201,8 @@
 	width: 60px;
 	height: 60px;
 	background: #0a141c00;
+	border: solid 2px #d7b052;
+	border-radius: 34px;
 	cursor: url('/img/cursor-purple.png'), auto;
 }
 
@@ -221,4 +223,6 @@
 	background-size: contain;
 	width: 60px;
 	height: 60px;
+	border: solid 2px #d7b052;
+	border-radius: 34px;
 }
