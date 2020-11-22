@@ -6,30 +6,46 @@
 #include <Wt/WSignal.h>
 #include <db/player.h>
 
+class widget_token_tooltip;
+
 class widget_token : public wcontainer
 {
-	protected:
-		bool shared = false; // shared with other players
-		bool visible = true;
-
 	public:
 
+		widget_token_tooltip *tooltip;
+
 		JSignal<int, int> signal_move; // top, left
+		JSignal<> signal_right_click; // used because we disable oncontextmenu
 
 		Signal<int, int> on_move_event;
-		Signal<bool> on_shared_event;
 		Signal<> on_close_event;
 
-		widget_token(string filename, bool visible = true);
-		widget_token(string filename, string id, bool visible = true);
-		widget_token(string filename, string id, int top, int left, bool visible = true);
+		widget_token(string filename);
+		widget_token(string filename, string id);
+		widget_token(string filename, string id, int top, int left);
+		void on_token_click();
 		void on_close_click();
-		void on_shared_click();
 		void animate_position(int top, int left);
 		void signal_move_callback(int top, int left);
 		void close();
-		void change_shared(bool shared);
-		void change_token_visibility(bool visible); // call when master token shared is changed
+};
+
+class widget_token_tooltip : public wcontainer
+{
+	protected:
+		bool visible = false;
+
+	public:
+		WContainerWidget *bar;
+		wcontainer *panel;
+		string panel_extended_class = "panel_extended";
+		wcontainer *content = NULL;
+
+		widget_token_tooltip();
+		virtual void show_panel();
+		virtual void hide_panel();
+		void switch_visibility();
+		void change_visibility(bool visible);
 };
 
 class widget_drag_token : public wcontainer

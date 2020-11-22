@@ -217,6 +217,73 @@
 	transition-timing-function: ease;
 }
 
+.widget_token_tooltip
+{
+	position: relative;
+	cursor: url('/img/cursor.png'), auto;
+}
+
+.widget_token_tooltip .bar
+{
+	position: absolute;
+	top: 32px;
+	left: 60px;
+	height: 2px;
+	width: 0px;
+	background: #d7b052;
+	transition: width 0.2s;
+}
+
+.widget_token_tooltip .bar_extended
+{
+	width: 30px;
+}
+
+.widget_token_tooltip .panel
+{
+	position: absolute;
+	top: 32px;
+	left: 90px;
+	height: 0px;
+	width: 0px;
+	height: 0px;
+	background: #0a141ccc;
+	border: solid 0px #d7b052;
+	border-radius: 12px;
+	transition: height 0.25s, top 0.25s, width 0.1s, border 0s;
+	transition-delay: 0s;
+}
+
+.widget_token_tooltip .panel_extended
+{
+	top: 0px;
+	width: 200px;
+	height: 64px;
+	border: solid 2px #d7b052;
+	transition-delay: 0.2s !important;
+}
+
+/****    wtoken_player_tooltip    ****/
+
+.widget_token_tooltip .panel_player_extended
+{
+	top: 0px;
+	width: 150px;
+	height: 64px;
+	border: solid 2px #d7b052;
+	transition-delay: 0.2s !important;
+}
+
+.widget_token_tooltip .panel_player .description
+{
+}
+
+.widget_token_tooltip .panel_player .description
+{
+}
+
+/****    drag token    ****/
+
 .widget_drag_token
 {
 	/* background: #0a141c88; */

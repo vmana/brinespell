@@ -11,8 +11,10 @@ class wtoken_player : public widget_token
 	public:
 
 		dbo::ptr<player> p_player;
+		wcontainer *content;
+		WText *description;
 
-		wtoken_player(dbo::ptr<player> p_player, string id, int top, int left, bool visible = true);
+		wtoken_player(dbo::ptr<player> p_player, string id, int top, int left);
 };
 
 #endif // wtoken_player_H

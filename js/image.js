@@ -627,7 +627,15 @@ function w_token(id, src)
 
 	token.onmousedown = on_token_mousedown;
 	// prevent right click context menu, since it's handled by on_content_mousedown
-	token.oncontextmenu = function(e) { e = e || window.event; e.preventDefault(); return false; }
+	token.oncontextmenu = function(e)
+	{
+		e = e || window.event; e.preventDefault();
+		if (e.which == 3 || e.button == 2)
+		{
+			Wt.emit(id, 'signal_right_click');
+		}
+		return false;
+	}
 
 	correct_position(); // prevents position ouside window
 

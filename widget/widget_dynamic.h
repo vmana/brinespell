@@ -30,12 +30,10 @@ class widget_dynamic : public wcontainer
 		static widget_image* search_image(string id);
 
 		/****    tokens    ****/
-		widget_token* open_token(string filename, int top, int left); // return token id
 		wtoken_player* open_token_player(dbo::ptr<player> p_player, int top, int left); // return token id
 		static void open_shared_token(string filename, string id);
 		static void open_shared_token_player(long long int player_id, string id, int top, int left);
 		static void move_token(string id, int top, int left);
-		static void change_token_visibility(string id, bool visible);
 		static void close_token(string id);
 		static widget_token* search_token(string id);
 		static wtoken_player* search_token_player(dbo::ptr<player> p_player);

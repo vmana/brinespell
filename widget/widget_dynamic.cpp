@@ -220,29 +220,6 @@ widget_image* widget_dynamic::search_image(string id)
 
 /****    token    ****/
 
-widget_token* widget_dynamic::open_token(string filename, int top, int left)
-{
-	widget_token *token = NULL;
-	string id = mana::randstring(16);
-	token = tokens->addNew<widget_token>(filename, id, top, left);
-
-	// signals binding
-	token->on_move_event.connect([=](int top, int left)
-	{
-		broadcast::others(&widget_dynamic::move_token, id, top, left);
-	});
-	token->on_close_event.connect([=]()
-	{
-		broadcast::others(&widget_dynamic::close_token, id);
-	});
-	token->on_shared_event.connect([=](bool shared)
-	{
-		broadcast::others(&widget_dynamic::change_token_visibility, id, shared);
-	});
-
-	return token;
-}
-
 wtoken_player* widget_dynamic::open_token_player(dbo::ptr<player> p_player, int top, int left)
 {
 	// search if a token for this player already exists
@@ -271,10 +248,6 @@ wtoken_player* widget_dynamic::open_token_player(dbo::ptr<player> p_player, int 
 	{
 		broadcast::others(&widget_dynamic::close_token, id);
 	});
-	token->on_shared_event.connect([=](bool shared)
-	{
-		broadcast::others(&widget_dynamic::change_token_visibility, id, shared);
-	});
 
 	broadcast::others(&widget_dynamic::open_shared_token_player, p_player.id(), id, top, left);
 
@@ -285,7 +258,7 @@ void widget_dynamic::open_shared_token(string filename, string id)
 {
 	auto p_tokens = widget_dynamic::instance_tokens();
 	if (!p_tokens) return;
-	p_tokens->addNew<widget_token>(filename, id, false);
+	p_tokens->addNew<widget_token>(filename, id);
 }
 
 void widget_dynamic::open_shared_token_player(long long int player_id, string id, int top, int left)
@@ -319,22 +292,12 @@ void widget_dynamic::open_shared_token_player(long long int player_id, string id
 	{
 		broadcast::others(&widget_dynamic::close_token, id);
 	});
-	token->on_shared_event.connect([=](bool shared)
-	{
-		broadcast::others(&widget_dynamic::change_token_visibility, id, shared);
-	});
 }
 
 void widget_dynamic::move_token(string id, int top, int left)
 {
 	auto token = search_token(id);
 	if (token) token->animate_position(top, left);
-}
-
-void widget_dynamic::change_token_visibility(string id, bool visible)
-{
-	auto token = search_token(id);
-	if (token) token->change_token_visibility(visible);
 }
 
 void widget_dynamic::close_token(string id)
