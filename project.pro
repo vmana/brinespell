@@ -1,17 +1,18 @@
 QT -= core gui
 #QT += xlsx
-CONFIG += c++17 c++1z
+CONFIG += c++17
 CONFIG -= warn_off warn_on
 
 QMAKE_CXXFLAGS_RELEASE -= -O2
 QMAKE_CXXFLAGS += -Wno-deprecated -Wno-write-strings -Wno-unused-result -Wno-format-security
-#QMAKE_CXXFLAGS += -static -static-libgcc -static-libstdc++
-#QMAKE_CXXFLAGS += -O3
-QMAKE_CXXFLAGS += -O0
-#QMAKE_CXXFLAGS += -g -ggdb -pg -O0
-#QMAKE_CXXFLAGS += -pg -O0
-#QMAKE_CFLAGS += -static -static-libgcc
 DEFINES += QT_NO_KEYWORDS
+
+CONFIG(release, debug|release) {
+	QMAKE_CXXFLAGS += -g -ggdb -O0
+}
+CONFIG(prod, prod) {
+	QMAKE_CXXFLAGS += -g -ggdb -O3
+}
 
 linux-g++* {
 	DEFINES += MANA_WT
