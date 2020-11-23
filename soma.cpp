@@ -19,7 +19,7 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 	{
 		D = make_shared<soma_database>();
 		soma_database::new_session(true);
-	} catch (dbo::Exception e) { debug_line(e.what()); system::sleep(1000); quit(); }
+	} catch (dbo::Exception e) { debug_line(e.what()); system::sleep(1000); return; }
 
 	// change default encoding for all WString
 	WString::setDefaultEncoding(CharEncoding::UTF8);
