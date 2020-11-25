@@ -23,7 +23,7 @@ class widget_token : public wcontainer
 		widget_token(string filename);
 		widget_token(string filename, string id);
 		widget_token(string filename, string id, int top, int left);
-		void on_token_click();
+		virtual void on_token_click();
 		void on_close_click();
 		void animate_position(int top, int left);
 		void signal_move_callback(int top, int left);

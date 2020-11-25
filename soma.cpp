@@ -10,8 +10,8 @@ soma::soma(const WEnvironment& env) : WApplication(env)
 	setTitle("~ Brine Spell");
 
 	/****    css & js    ****/
-	useStyleSheet("css/style.css");
-	useStyleSheet("css/character.css");
+	load_css("css/style.css");
+	load_css("css/character.css");
 
 	enableUpdates(true); // allow server update
 
@@ -102,6 +102,16 @@ int soma::max_screen_width()
 int soma::max_screen_height()
 {
 	return std::min(environment().screenWidth(), environment().screenHeight());
+}
+
+void soma::load_css(string url)
+{
+	useStyleSheet(url + "?nocache=" + convert::ulong_string(system::timestamp_milliseconds()));
+}
+
+void soma::load_javascript(string url)
+{
+	require(url + "?nocache=" + convert::ulong_string(system::timestamp_milliseconds()));
 }
 
 void soma::notify(const WEvent& event)

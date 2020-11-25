@@ -283,7 +283,7 @@
 	top: 8px;
 	right: 0px;
 	height: 20px;
-	width: 120px;
+	width: 100%;
 	text-align: center;
 }
 
@@ -295,6 +295,53 @@
 	width: 24px;
 	height: 24px;
 	background: url('/img/close.svg') center center no-repeat;
+	background-size: contain;
+	cursor: url('/img/cursor-purple.png'), auto;
+	z-index: 10;
+}
+
+/****    wtoken_npc_tooltip    ****/
+
+.widget_token_tooltip .panel_npc_extended
+{
+	top: 0px;
+	width: 150px;
+	height: 64px;
+	border: solid 2px #d7b052;
+	transition-delay: 0.2s !important;
+}
+
+.widget_token_tooltip .panel_npc_extended .description
+{
+	position: absolute;
+	top: 8px;
+	right: 0px;
+	height: 20px;
+	width: 100%;
+	text-align: center;
+}
+
+.widget_token_tooltip .panel_npc_extended .close
+{
+	position: absolute;
+	bottom: 6px;
+	right: 40px;
+	width: 24px;
+	height: 24px;
+	background: url('/img/close.svg') center center no-repeat;
+	background-size: contain;
+	cursor: url('/img/cursor-purple.png'), auto;
+	z-index: 10;
+}
+
+.widget_token_tooltip .panel_npc_extended .initiative
+{
+	position: absolute;
+	bottom: 6px;
+	right: 86px;
+	width: 24px;
+	height: 24px;
+	background: url('/img/wind.svg') center center no-repeat;
 	background-size: contain;
 	cursor: url('/img/cursor-purple.png'), auto;
 	z-index: 10;

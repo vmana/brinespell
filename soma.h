@@ -47,6 +47,8 @@ class soma : public WApplication
 		void internal_path_handler(const string &path);
 		int max_screen_width();
 		int max_screen_height();
+		void load_css(string url);
+		void load_javascript(string url);
 		void notify(const WEvent& event);
 
 		~soma();

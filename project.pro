@@ -40,6 +40,7 @@ HEADERS  += config.h\
 				db/player.h\
 				db/skill.h\
 				db/campaign.h\
+				db/npc.h\
 				broadcast.h\
 				soma.h\
 				soma_database.h\
@@ -52,6 +53,7 @@ HEADERS  += config.h\
 				widget/widget_image.h\
 				widget/token/widget_token.h\
 				widget/token/wtoken_player.h\
+				widget/token/wtoken_npc.h\
 				widget/character/widget_character.h\
 				widget/character/widget_details_hp.h\
 				widget/character/widget_stats.h\
@@ -72,6 +74,7 @@ SOURCES +=	main.cpp\
 				db/player.cpp\
 				db/skill.cpp\
 				db/campaign.cpp\
+				db/npc.cpp\
 				broadcast.cpp\
 				soma.cpp\
 				soma_database.cpp\
@@ -84,6 +87,7 @@ SOURCES +=	main.cpp\
 				widget/widget_image.cpp\
 				widget/token/widget_token.cpp\
 				widget/token/wtoken_player.cpp\
+				widget/token/wtoken_npc.cpp\
 				widget/character/widget_character.cpp\
 				widget/character/widget_details_hp.cpp\
 				widget/character/widget_stats.cpp\

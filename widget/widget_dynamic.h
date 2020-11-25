@@ -5,6 +5,7 @@
 #include "widget_image.h"
 #include "token/widget_token.h"
 #include "token/wtoken_player.h"
+#include "token/wtoken_npc.h"
 
 class widget_dynamic : public wcontainer
 {
@@ -30,13 +31,16 @@ class widget_dynamic : public wcontainer
 		static widget_image* search_image(string id);
 
 		/****    tokens    ****/
-		wtoken_player* open_token_player(dbo::ptr<player> p_player, int top, int left); // return token id
+		wtoken_player* open_token_player(dbo::ptr<player> p_player, int top, int left);
+		wtoken_npc* open_token_npc(shared_ptr<npc> p_npc, int top, int left);
 		static void open_shared_token(string filename, string id);
 		static void open_shared_token_player(long long int player_id, string id, int top, int left);
+		static void open_shared_token_npc(shared_ptr<npc> p_npc, string id, int top, int left);
 		static void move_token(string id, int top, int left);
 		static void close_token(string id);
 		static widget_token* search_token(string id);
 		static wtoken_player* search_token_player(dbo::ptr<player> p_player);
+		static wtoken_npc* search_token_npc(string id);
 };
 
 #endif // widget_dynamic_H

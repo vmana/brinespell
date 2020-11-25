@@ -5,11 +5,11 @@
 widget_home::widget_home() : wcontainer("home")
 {
 	// load css + js lib if not loaded
-	S->application()->require("js/function.js");
-	S->application()->require("js/image.js");
-	S->application()->require("js/scrollbar.js");
-	S->application()->useStyleSheet("css/image.css");
-	S->application()->useStyleSheet("css/scrollbar.css");
+	S->load_javascript("js/function.js");
+	S->load_javascript("js/image.js");
+	S->load_javascript("js/scrollbar.js");
+	S->load_css("css/image.css");
+	S->load_css("css/scrollbar.css");
 	this->setCanReceiveFocus(true); // allow focus, so we can remove focus from search if needed
 
 	// css animations
@@ -17,7 +17,7 @@ widget_home::widget_home() : wcontainer("home")
 
 	setStyleClass("widget_home");
 	search = bindNew<widget_search>("widget_search");
-	string ls_data = system::shellexec("cd /dalaran/brinespell/data && find . -name '*' -type f | grep -v '/campaign/' | sed -e 's,^\\./,,'");
+	string ls_data = system::shellexec(shell_load_search);
 	search->set_data(explode("\n", ls_data));
 	search->edit_search->setFocus(true);
 
@@ -124,15 +124,14 @@ void widget_home::search_master_open(string filename)
 	// special cases
 	if (filename == "brinespell/reload")
 	{
-		string ls_data = system::shellexec("cd /dalaran/brinespell/data && find . -name '*' -type f | grep -v '/campaign/' | sed -e 's,^\\./,,'");
+		string ls_data = system::shellexec(shell_load_search);
 		search->set_data(explode("\n", ls_data));
 		search->edit_search->setFocus(true);
 		return;
 	}
 
 	string ext = file::extension(filename);
-	if (
-		ext == "mp4"
+	if (ext == "mp4"
 		|| ext == "mp3"
 		|| ext == "webm"
 		|| ext == "wav"
@@ -142,18 +141,15 @@ void widget_home::search_master_open(string filename)
 		if (!S->p_shadow->game_master) return;
 		broadcast::all(&widget_home::change_audio_track, "data/" + filename);
 	}
-	else if (
-		ext == "png"
+	else if (ext == "png"
 		|| ext == "jpg"
 		|| ext == "jpeg")
 	{
+		// only useable by game master
+		if (!S->p_shadow->game_master) return;
 
-		// open image and, open the same image via broadcast::other with the same id
+		// open image and open the same image via broadcast::other with the same id
 		auto p_image = dynamic->open_image(S->p_shadow, "data/" + filename);
-
-		// only broadcast if we are the game master
-		// TODO: tmp, allow everyone to share image
-		/* if (!S->p_shadow->game_master) return; */
 
 		broadcast::others(&widget_dynamic::open_shared_image,
 			S->p_shadow.id(),
@@ -162,6 +158,21 @@ void widget_home::search_master_open(string filename)
 			(int)p_image->offset(Side::Top).value(),
 			(int)p_image->offset(Side::Left).value(),
 			false);
+	}
+	else if (ext == "token")
+	{
+		// only useable by game master
+		if (!S->p_shadow->game_master) return;
+
+		// open npc token and open the same token via broadcast::other with the same id
+		auto p_npc = make_shared<npc>(filename);
+		auto p_token = dynamic->open_token_npc(p_npc, 200, 500);
+
+		broadcast::others(&widget_dynamic::open_shared_token_npc,
+			p_npc,
+			p_token->id(),
+			(int)p_token->offset(Side::Top).value(),
+			(int)p_token->offset(Side::Left).value());
 	}
 }
 

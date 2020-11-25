@@ -7,9 +7,9 @@ widget_dice::widget_dice() :
 	signal_selector_click(this, "signal_selector_click")
 {
 	// load js lib if not loaded
-	S->application()->require("js/cannon.min.js");
-	S->application()->require("js/three.min.js");
-	S->application()->require("js/dice.js");
+	S->load_javascript("js/cannon.min.js");
+	S->load_javascript("js/three.min.js");
+	S->load_javascript("js/dice.js");
 
 	// js + css animations
 	bindString("css_animations", (global::css_animations) ? "" : "no-animation");

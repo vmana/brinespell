@@ -58,16 +58,30 @@ void widget_dynamic::send_session_dynamics(string session_id)
 	for (auto &child : p_tokens->children())
 	{
 		// test for wtoken_player
-		auto p_token = dynamic_cast<wtoken_player*>(child);
-		if (p_token)
+		auto p_token_player = dynamic_cast<wtoken_player*>(child);
+		if (p_token_player)
 		{
 			wt_server->post(session_id, bind
 			(
 				&widget_dynamic::open_shared_token_player,
-				p_token->p_player.id(),
-				p_token->id(),
-				(int)p_token->offset(Side::Top).value(),
-				(int)p_token->offset(Side::Left).value()
+				p_token_player->p_player.id(),
+				p_token_player->id(),
+				(int)p_token_player->offset(Side::Top).value(),
+				(int)p_token_player->offset(Side::Left).value()
+			));
+		}
+
+		// test for wtoken_npc
+		auto p_token_npc = dynamic_cast<wtoken_npc*>(child);
+		if (p_token_npc)
+		{
+			wt_server->post(session_id, bind
+			(
+				&widget_dynamic::open_shared_token_npc,
+				p_token_npc->p_npc,
+				p_token_npc->id(),
+				(int)p_token_npc->offset(Side::Top).value(),
+				(int)p_token_npc->offset(Side::Left).value()
 			));
 		}
 	}
@@ -254,6 +268,26 @@ wtoken_player* widget_dynamic::open_token_player(dbo::ptr<player> p_player, int 
 	return token;
 }
 
+wtoken_npc* widget_dynamic::open_token_npc(shared_ptr<npc> p_npc, int top, int left)
+{
+	string id = mana::randstring(16);
+	wtoken_npc *token = tokens->addNew<wtoken_npc>(p_npc, id, top, left);
+
+	// signals binding
+	token->on_move_event.connect([=](int top, int left)
+	{
+		broadcast::others(&widget_dynamic::move_token, id, top, left);
+	});
+	token->on_close_event.connect([=]()
+	{
+		broadcast::others(&widget_dynamic::close_token, id);
+	});
+
+	broadcast::others(&widget_dynamic::open_shared_token_npc, p_npc, id, top, left);
+
+	return token;
+}
+
 void widget_dynamic::open_shared_token(string filename, string id)
 {
 	auto p_tokens = widget_dynamic::instance_tokens();
@@ -282,6 +316,35 @@ void widget_dynamic::open_shared_token_player(long long int player_id, string id
 	}
 
 	token = p_tokens->addNew<wtoken_player>(p_player, id, top, left);
+
+	// signals binding
+	token->on_move_event.connect([=](int top, int left)
+	{
+		broadcast::others(&widget_dynamic::move_token, id, top, left);
+	});
+	token->on_close_event.connect([=]()
+	{
+		broadcast::others(&widget_dynamic::close_token, id);
+	});
+}
+
+void widget_dynamic::open_shared_token_npc(shared_ptr<npc> p_npc, string id, int top, int left)
+{
+	auto p_tokens = widget_dynamic::instance_tokens();
+	if (!p_tokens) return;
+
+	// search if a token for this player already exists
+	// if if exists, only move the token
+	auto token = search_token_npc(id);
+	if (token)
+	{
+		// just return if it didn't move
+		if (token->offset(Side::Top) == top && token->offset(Side::Left) == left) return;
+		move_token(id, top, left);
+		return;
+	}
+
+	token = p_tokens->addNew<wtoken_npc>(p_npc, id, top, left);
 
 	// signals binding
 	token->on_move_event.connect([=](int top, int left)
@@ -333,6 +396,23 @@ wtoken_player* widget_dynamic::search_token_player(dbo::ptr<player> p_player)
 		auto p_child = dynamic_cast<wtoken_player*>(child);
 		if (! p_child) continue; // don't care about this token
 		if (p_child->p_player.id() == p_player.id())
+			return p_child;
+	}
+	return ret;
+}
+
+wtoken_npc* widget_dynamic::search_token_npc(string id)
+{
+	wtoken_npc *ret = NULL;
+	auto p_tokens = widget_dynamic::instance_tokens();
+	if (!p_tokens) return ret;
+
+	// search for a child with this id
+	for (auto &child : p_tokens->children())
+	{
+		auto p_child = dynamic_cast<wtoken_npc*>(child);
+		if (! p_child) continue; // don't care about this token
+		if (child->id() == id)
 			return p_child;
 	}
 	return ret;

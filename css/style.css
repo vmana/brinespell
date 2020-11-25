@@ -27,6 +27,21 @@ body
 	position: relative;
 }
 
+.widget_home_rope
+{
+	position: absolute;
+	top: 80px;
+	left: 600px;
+	width: calc(100% - 1200px);
+	min-width: 400px;
+	height: 9px;
+	border-radius: 10px;
+	background: url('/img/rope.png');
+	background-size: auto;
+	background-size: contain;
+	filter: drop-shadow(0px 5px 4px #000000d0);
+}
+
 textarea
 {
 	font-family: sans-serif;

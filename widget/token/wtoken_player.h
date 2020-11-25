@@ -18,7 +18,6 @@ class wtoken_player : public widget_token
 		wtoken_player(dbo::ptr<player> p_player, string id, int top, int left);
 		void reset_description();
 		void on_close_mouseover();
-		void on_close_click();
 };
 
 #endif // wtoken_player_H

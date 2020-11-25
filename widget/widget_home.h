@@ -13,6 +13,9 @@
 
 class widget_home : public wcontainer
 {
+	protected:
+		string shell_load_search =
+			"cd /dalaran/brinespell/data && find . -name '*' -type f | grep -v '/campaign/' | grep -v '.token.png' | sed -e 's,^\\./,,'";
 	public:
 		shared_ptr<campaign> p_campaign;
 		widget_dynamic *dynamic = NULL;
