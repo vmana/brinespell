@@ -28,7 +28,7 @@ void widget_party::init_widget()
 
 	auto players = vectorize(res);
 
-	for (auto p_player : players)
+	for (auto &p_player : players)
 	{
 		template_text += "${ally_" + convert::int_string(p_player.id()) + "}";
 	}

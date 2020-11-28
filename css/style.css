@@ -27,21 +27,6 @@ body
 	position: relative;
 }
 
-.widget_home_rope
-{
-	position: absolute;
-	top: 80px;
-	left: 600px;
-	width: calc(100% - 1200px);
-	min-width: 400px;
-	height: 9px;
-	border-radius: 10px;
-	background: url('/img/rope.png');
-	background-size: auto;
-	background-size: contain;
-	filter: drop-shadow(0px 5px 4px #000000d0);
-}
-
 textarea
 {
 	font-family: sans-serif;
@@ -115,12 +100,6 @@ input[type=text]::-webkit-input-placeholder
 }
 
 /****    generic widget    ****/
-
-.Wt-msgbox-text
-{
-	overflow: auto;
-	color: #333;
-}
 
 .Wt-progressbar .Wt-pgb-label
 {
@@ -270,6 +249,13 @@ div.jp-seeking-bg
 	position: absolute;
 	left: 10px;
 	top: 86px;
+}
+
+.widget_home_initiative
+{
+	position: absolute;
+	top: 80px;
+	left: 50%;
 }
 
 /****    widget_dice    ****/
@@ -612,3 +598,32 @@ div.jp-seeking-bg
 	margin-right: 4px;
 }
 
+/****    widget_initiative    ****/
+
+.widget_initiative
+{
+	position: relative;
+	height: 9px;
+	border-radius: 10px;
+	background: url('/img/rope.png');
+	background-size: auto;
+	background-size: contain;
+	filter: drop-shadow(0px 5px 4px #000000d0);
+	transition: width 0.5s, margin-left 0.5s;
+}
+
+.wtoken_initiative
+{
+	display: block;
+	position: absolute;
+	background-size: contain !important;
+	background-repeat: no-repeat !important;
+	top: -29px;
+	z-index: 1;
+	width: 60px;
+	height: 60px;
+	background: #0a141c00;
+	border: solid 2px #d7b052;
+	border-radius: 34px;
+	transition: margin-left 0.5s;
+}

@@ -16,6 +16,8 @@ class wtoken_npc : public widget_token
 		WText *initiative;
 		WText *close;
 
+		Signal<int> on_initiative_event;
+
 		wtoken_npc(shared_ptr<npc> p_npc, string id, int top, int left);
 		void on_token_click();
 		void reset_description();

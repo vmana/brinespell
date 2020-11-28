@@ -51,6 +51,7 @@ HEADERS  += config.h\
 				widget/widget_dice.h\
 				widget/widget_chat.h\
 				widget/widget_image.h\
+				widget/widget_initiative.h\
 				widget/token/widget_token.h\
 				widget/token/wtoken_player.h\
 				widget/token/wtoken_npc.h\
@@ -84,6 +85,7 @@ SOURCES +=	main.cpp\
 				widget/widget_audio.cpp\
 				widget/widget_dice.cpp\
 				widget/widget_chat.cpp\
+				widget/widget_initiative.cpp\
 				widget/widget_image.cpp\
 				widget/token/widget_token.cpp\
 				widget/token/wtoken_player.cpp\

@@ -281,9 +281,17 @@ wtoken_npc* widget_dynamic::open_token_npc(shared_ptr<npc> p_npc, int top, int l
 	token->on_close_event.connect([=]()
 	{
 		broadcast::others(&widget_dynamic::close_token, id);
+		widget_dynamic::remove_token_initiative(token->p_npc);
+	});
+	token->on_initiative_event.connect([=]()
+	{
+		broadcast::all(&widget_dynamic::update_tokens_initiative);
 	});
 
 	broadcast::others(&widget_dynamic::open_shared_token_npc, p_npc, id, top, left);
+
+	// add to initiative
+	widget_dynamic::add_token_initiative(p_npc);
 
 	return token;
 }
@@ -354,7 +362,15 @@ void widget_dynamic::open_shared_token_npc(shared_ptr<npc> p_npc, string id, int
 	token->on_close_event.connect([=]()
 	{
 		broadcast::others(&widget_dynamic::close_token, id);
+		widget_dynamic::remove_token_initiative(token->p_npc);
 	});
+	token->on_initiative_event.connect([=]()
+	{
+		broadcast::all(&widget_dynamic::update_tokens_initiative);
+	});
+
+	// add to initiative
+	widget_dynamic::add_token_initiative(p_npc);
 }
 
 void widget_dynamic::move_token(string id, int top, int left)
@@ -366,7 +382,45 @@ void widget_dynamic::move_token(string id, int top, int left)
 void widget_dynamic::close_token(string id)
 {
 	auto token = search_token(id);
-	if (token) token->close_token();
+	if (token)
+	{
+		// remove from initiative if npc
+		auto p_token_npc = dynamic_cast<wtoken_npc*>(token);
+		if (p_token_npc)
+		{
+			widget_dynamic::remove_token_initiative(p_token_npc->p_npc);
+		}
+
+		// remove from widgets
+		token->close_token();
+	}
+}
+
+void widget_dynamic::add_token_initiative(shared_ptr<npc> p_npc)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+	auto p_init = p_soma->view_home->initiative;
+	if (!p_init) return; // should never happen
+	p_init->add_npc(p_npc);
+}
+
+void widget_dynamic::remove_token_initiative(shared_ptr<npc> p_npc)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+	auto p_init = p_soma->view_home->initiative;
+	if (!p_init) return; // should never happen
+	p_init->remove_npc(p_npc);
+}
+
+void widget_dynamic::update_tokens_initiative()
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+	auto p_init = p_soma->view_home->initiative;
+	if (!p_init) return; // should never happen
+	p_init->sort_tokens();
 }
 
 widget_token* widget_dynamic::search_token(string id)

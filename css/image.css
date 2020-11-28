@@ -252,7 +252,8 @@
 	background: #0a141ccc;
 	border: solid 0px #d7b052;
 	border-radius: 12px;
-	transition: height 0.25s, top 0.25s, width 0.1s, border 0s;
+	transition: height 0.25s, top 0.25s, width 0.1s, border 0s, opacity 0.4s;
+	opacity: 0;
 	transition-delay: 0s;
 	overflow: hidden;
 }
@@ -274,6 +275,7 @@
 	width: 120px;
 	height: 64px;
 	border: solid 2px #d7b052;
+	opacity: 1;
 	transition-delay: 0.2s !important;
 }
 
@@ -308,6 +310,7 @@
 	width: 150px;
 	height: 64px;
 	border: solid 2px #d7b052;
+	opacity: 1;
 	transition-delay: 0.2s !important;
 }
 

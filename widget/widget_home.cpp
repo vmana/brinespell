@@ -27,6 +27,7 @@ widget_home::widget_home() : wcontainer("home")
 	chat = bindNew<widget_chat>("widget_chat");
 	character = bindNew<widget_character>("widget_character");
 	party = bindNew<widget_party>("widget_party");
+	initiative = bindNew<widget_initiative>("widget_initiative");
 
 	/****    drag & drop    ****/
 
@@ -80,6 +81,10 @@ widget_home::widget_home() : wcontainer("home")
 	{
 		broadcast::all(&widget_home::update_ally_hp, (int)S->p_player.id(), percent, helper);
 	});
+	character->on_initiative_event.connect([&]()
+	{
+		broadcast::all(&widget_home::update_initiative, (int)S->p_player.id());
+	});
 
 	// party
 	party->impersonate_event.connect([&]()
@@ -121,12 +126,20 @@ void widget_home::global_key_pressed(WKeyEvent e)
 
 void widget_home::search_master_open(string filename)
 {
+	// only useable by game master
+	if (!S->p_shadow->game_master) return;
+
 	// special cases
 	if (filename == "brinespell/reload")
 	{
 		string ls_data = system::shellexec(shell_load_search);
 		search->set_data(explode("\n", ls_data));
 		search->edit_search->setFocus(true);
+		return;
+	}
+	else if (filename == "brinespell/combat")
+	{
+		broadcast::all(&widget_home::switch_initiative_visibility, ! initiative->visible);
 		return;
 	}
 
@@ -137,17 +150,12 @@ void widget_home::search_master_open(string filename)
 		|| ext == "wav"
 		|| ext == "ogg")
 	{
-		// only broadcast if we are the game master
-		if (!S->p_shadow->game_master) return;
 		broadcast::all(&widget_home::change_audio_track, "data/" + filename);
 	}
 	else if (ext == "png"
 		|| ext == "jpg"
 		|| ext == "jpeg")
 	{
-		// only useable by game master
-		if (!S->p_shadow->game_master) return;
-
 		// open image and open the same image via broadcast::other with the same id
 		auto p_image = dynamic->open_image(S->p_shadow, "data/" + filename);
 
@@ -161,9 +169,6 @@ void widget_home::search_master_open(string filename)
 	}
 	else if (ext == "token")
 	{
-		// only useable by game master
-		if (!S->p_shadow->game_master) return;
-
 		// open npc token and open the same token via broadcast::other with the same id
 		auto p_npc = make_shared<npc>(filename);
 		auto p_token = dynamic->open_token_npc(p_npc, 200, 500);
@@ -254,4 +259,27 @@ void widget_home::update_ally_hp(int player_id, int percent, string helper)
 	if (!p_soma->view_home->party) return;
 
 	p_soma->view_home->party->update_hit_point(player_id, percent, helper);
+}
+
+/****    initiative    ****/
+
+void widget_home::update_initiative(int player_id)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+	auto &p_init = p_soma->view_home->initiative;
+	if (!p_init) return;
+
+	if (player_id != -1) p_init->reload_player_initiative(player_id);
+	p_init->sort_tokens();
+}
+
+void widget_home::switch_initiative_visibility(bool visible)
+{
+	auto p_soma = soma::application();
+	if (!p_soma->view_home) return;
+	auto &p_init = p_soma->view_home->initiative;
+	if (!p_init) return;
+
+	p_init->set_visibility(visible);
 }

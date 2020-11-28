@@ -185,6 +185,8 @@ void widget_character::on_initiative_change()
 	}
 
 	S->p_player.modify()->initiative = init;
+
+	on_initiative_event.emit(S->p_player->initiative);
 	update_initiative();
 }
 
@@ -193,6 +195,8 @@ void widget_character::on_initiative_wheel(const WMouseEvent &e)
 	dbo_session session;
 	if (e.wheelDelta() > 0) S->p_player.modify()->initiative += 1; // scroll up
 	else if (e.wheelDelta() < 0) S->p_player.modify()->initiative -= 1; // scroll down
+
+	on_initiative_event.emit(S->p_player->initiative);
 	update_initiative();
 }
 

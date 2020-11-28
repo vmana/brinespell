@@ -38,6 +38,9 @@ class widget_dynamic : public wcontainer
 		static void open_shared_token_npc(shared_ptr<npc> p_npc, string id, int top, int left);
 		static void move_token(string id, int top, int left);
 		static void close_token(string id);
+		static void add_token_initiative(shared_ptr<npc> p_npc);
+		static void remove_token_initiative(shared_ptr<npc> p_npc);
+		static void update_tokens_initiative();
 		static widget_token* search_token(string id);
 		static wtoken_player* search_token_player(dbo::ptr<player> p_player);
 		static wtoken_npc* search_token_npc(string id);

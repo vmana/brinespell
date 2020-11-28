@@ -25,7 +25,6 @@ class wcontainer : public wtemplate
 
 	public:
 		soma *S;
-		shared_ptr<soma_database> D;
 
 		// signals
 		Wt::Signal<bool>& on_visible_change();

@@ -52,4 +52,5 @@ void wtoken_npc::on_initiative_click()
 {
 	p_npc->initiative = 1 + rand() % 20 + p_npc->bonus_dex();
 	description->setText("Initiative (" + convert::int_string(p_npc->initiative) + ")");
+	on_initiative_event.emit(p_npc->initiative);
 }

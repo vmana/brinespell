@@ -35,7 +35,6 @@ void wtemplate::load(string filename)
 wcontainer::wcontainer()
 {
 	this->S = soma::application();
-	this->D = S->D;
 }
 
 wcontainer::wcontainer(string filename) : wcontainer()

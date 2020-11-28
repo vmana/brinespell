@@ -7,6 +7,7 @@
 #include "widget_audio.h"
 #include "widget_dice.h"
 #include "widget_chat.h"
+#include "widget_initiative.h"
 #include "character/widget_character.h"
 #include "party/widget_party.h"
 #include "db/campaign.h"
@@ -25,6 +26,7 @@ class widget_home : public wcontainer
 		widget_chat *chat;
 		widget_character *character;
 		widget_party *party;
+		widget_initiative *initiative;
 		WContainerWidget *dynamic_tokens;
 
 		widget_home();
@@ -44,6 +46,9 @@ class widget_home : public wcontainer
 		static void chat_message(string message);
 		// ally
 		static void update_ally_hp(int player_id, int percent, string helper);
+		// initiative
+		static void update_initiative(int player_id = -1);
+		static void switch_initiative_visibility(bool visible);
 };
 
 #endif // widget_home_H
