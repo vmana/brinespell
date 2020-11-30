@@ -1,6 +1,7 @@
 "use strict";
 
-function init_dice_object(dice) {
+function init_dice_object(dice)
+{
 	this.wt_callback_id = '';
 	this.wt_allow_callback = true;
 	var current_random_number = 0;
@@ -21,28 +22,35 @@ function init_dice_object(dice) {
 		return ret;
 	}
 
-	function create_shape(vertices, faces, radius) {
+	function create_shape(vertices, faces, radius)
+	{
 		var cv = new Array(vertices.length), cf = new Array(faces.length);
-		for (var i = 0; i < vertices.length; ++i) {
+		for (var i = 0; i < vertices.length; ++i)
+		{
 			var v = vertices[i];
 			cv[i] = new CANNON.Vec3(v.x * radius, v.y * radius, v.z * radius);
 		}
-		for (var i = 0; i < faces.length; ++i) {
+		for (var i = 0; i < faces.length; ++i)
+		{
 			cf[i] = faces[i].slice(0, faces[i].length - 1);
 		}
 		return new CANNON.ConvexPolyhedron(cv, cf);
 	}
 
-	function make_geom(vertices, faces, radius, tab, af) {
+	function make_geom(vertices, faces, radius, tab, af)
+	{
 		var geom = new THREE.Geometry();
-		for (var i = 0; i < vertices.length; ++i) {
+		for (var i = 0; i < vertices.length; ++i)
+		{
 			var vertex = vertices[i].multiplyScalar(radius);
 			vertex.index = geom.vertices.push(vertex) - 1;
 		}
-		for (var i = 0; i < faces.length; ++i) {
+		for (var i = 0; i < faces.length; ++i)
+		{
 			var ii = faces[i], fl = ii.length - 1;
 			var aa = Math.PI * 2 / fl;
-			for (var j = 0; j < fl - 2; ++j) {
+			for (var j = 0; j < fl - 2; ++j)
+			{
 				geom.faces.push(new THREE.Face3(ii[0], ii[j + 1], ii[j + 2], [geom.vertices[ii[0]],
 					geom.vertices[ii[j + 1]], geom.vertices[ii[j + 2]]], 0, ii[fl] + 1));
 				geom.faceVertexUvs[0].push([
@@ -59,32 +67,40 @@ function init_dice_object(dice) {
 		return geom;
 	}
 
-	function chamfer_geom(vectors, faces, chamfer) {
+	function chamfer_geom(vectors, faces, chamfer)
+	{
 		var chamfer_vectors = [], chamfer_faces = [], corner_faces = new Array(vectors.length);
 		for (var i = 0; i < vectors.length; ++i) corner_faces[i] = [];
-		for (var i = 0; i < faces.length; ++i) {
+		for (var i = 0; i < faces.length; ++i)
+		{
 			var ii = faces[i], fl = ii.length - 1;
 			var center_point = new THREE.Vector3();
 			var face = new Array(fl);
-			for (var j = 0; j < fl; ++j) {
+			for (var j = 0; j < fl; ++j)
+			{
 				var vv = vectors[ii[j]].clone();
 				center_point.add(vv);
 				corner_faces[ii[j]].push(face[j] = chamfer_vectors.push(vv) - 1);
 			}
 			center_point.divideScalar(fl);
-			for (var j = 0; j < fl; ++j) {
+			for (var j = 0; j < fl; ++j)
+			{
 				var vv = chamfer_vectors[face[j]];
 				vv.subVectors(vv, center_point).multiplyScalar(chamfer).addVectors(vv, center_point);
 			}
 			face.push(ii[fl]);
 			chamfer_faces.push(face);
 		}
-		for (var i = 0; i < faces.length - 1; ++i) {
-			for (var j = i + 1; j < faces.length; ++j) {
+		for (var i = 0; i < faces.length - 1; ++i)
+		{
+			for (var j = i + 1; j < faces.length; ++j)
+			{
 				var pairs = [], lastm = -1;
-				for (var m = 0; m < faces[i].length - 1; ++m) {
+				for (var m = 0; m < faces[i].length - 1; ++m)
+				{
 					var n = faces[j].indexOf(faces[i][m]);
-					if (n >= 0 && n < faces[j].length - 1) {
+					if (n >= 0 && n < faces[j].length - 1)
+					{
 						if (lastm >= 0 && m != lastm + 1) pairs.unshift([i, m], [j, n]);
 						else pairs.push([i, m], [j, n]);
 						lastm = m;
@@ -97,15 +113,20 @@ function init_dice_object(dice) {
 					chamfer_faces[pairs[2][0]][pairs[2][1]], -1]);
 			}
 		}
-		for (var i = 0; i < corner_faces.length; ++i) {
+		for (var i = 0; i < corner_faces.length; ++i)
+		{
 			var cf = corner_faces[i], face = [cf[0]], count = cf.length - 1;
-			while (count) {
-				for (var m = faces.length; m < chamfer_faces.length; ++m) {
+			while (count)
+			{
+				for (var m = faces.length; m < chamfer_faces.length; ++m)
+				{
 					var index = chamfer_faces[m].indexOf(face[face.length - 1]);
-					if (index >= 0 && index < 4) {
+					if (index >= 0 && index < 4)
+					{
 						if (--index == -1) index = 3;
 						var next_vertex = chamfer_faces[m][index];
-						if (cf.indexOf(next_vertex) >= 0) {
+						if (cf.indexOf(next_vertex) >= 0)
+						{
 							face.push(next_vertex);
 							break;
 						}
@@ -119,9 +140,11 @@ function init_dice_object(dice) {
 		return { vectors: chamfer_vectors, faces: chamfer_faces };
 	}
 
-	function create_geom(vertices, faces, radius, tab, af, chamfer) {
+	function create_geom(vertices, faces, radius, tab, af, chamfer)
+	{
 		var vectors = new Array(vertices.length);
-		for (var i = 0; i < vertices.length; ++i) {
+		for (var i = 0; i < vertices.length; ++i)
+		{
 			vectors[i] = (new THREE.Vector3).fromArray(vertices[i]).normalize();
 		}
 		var cg = chamfer_geom(vectors, faces, chamfer);
@@ -135,12 +158,15 @@ function init_dice_object(dice) {
 	this.standart_d100_dice_face_labels = [' ', '00', '10', '20', '30', '40', '50',
 		'60', '70', '80', '90'];
 
-	function calc_texture_size(approx) {
+	function calc_texture_size(approx)
+	{
 		return Math.pow(2, Math.floor(Math.log(approx) / Math.log(2)));
 	}
 
-	this.create_dice_materials = function(face_labels, size, margin) {
-		function create_text_texture(text, color, back_color) {
+	this.create_dice_materials = function(face_labels, size, margin)
+	{
+		function create_text_texture(text, color, back_color)
+		{
 			if (text == undefined) return null;
 			var canvas = document.createElement("canvas");
 			var context = canvas.getContext("2d");
@@ -153,7 +179,8 @@ function init_dice_object(dice) {
 			context.textBaseline = "middle";
 			context.fillStyle = color;
 			context.fillText(text, canvas.width / 2, canvas.height / 2);
-			if (text == '6' || text == '9') {
+			if (text == '6' || text == '9')
+			{
 				context.fillText('  .', canvas.width / 2, canvas.height / 2);
 			}
 			var texture = new THREE.Texture(canvas);
@@ -174,8 +201,10 @@ function init_dice_object(dice) {
 		[[], [0, 0, 0], [4, 2, 3], [1, 4, 3], [4, 1, 2], [1, 3, 2]]
 	];
 
-	this.create_d4_materials = function(size, margin, labels) {
-		function create_d4_text(text, color, back_color) {
+	this.create_d4_materials = function(size, margin, labels)
+	{
+		function create_d4_text(text, color, back_color)
+		{
 			var canvas = document.createElement("canvas");
 			var context = canvas.getContext("2d");
 			var ts = calc_texture_size(size + margin) * 2;
@@ -186,7 +215,8 @@ function init_dice_object(dice) {
 			context.textAlign = "center";
 			context.textBaseline = "middle";
 			context.fillStyle = color;
-			for (var i in text) {
+			for (var i in text)
+			{
 				context.fillText(text[i], canvas.width / 2,
 					canvas.height / 2 - ts * 0.3);
 				context.translate(canvas.width / 2, canvas.height / 2);
@@ -204,13 +234,15 @@ function init_dice_object(dice) {
 		return materials;
 	}
 
-	this.create_d4_geometry = function(radius) {
+	this.create_d4_geometry = function(radius)
+	{
 		var vertices = [[1, 1, 1], [-1, -1, 1], [-1, 1, -1], [1, -1, -1]];
 		var faces = [[1, 0, 2, 1], [0, 1, 3, 2], [0, 3, 2, 3], [1, 2, 3, 4]];
 		return create_geom(vertices, faces, radius, -0.1, Math.PI * 7 / 6, 0.96);
 	}
 
-	this.create_d6_geometry = function(radius) {
+	this.create_d6_geometry = function(radius)
+	{
 		var vertices = [[-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1],
 			[-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1]];
 		var faces = [[0, 3, 2, 1, 1], [1, 2, 6, 5, 2], [0, 1, 5, 4, 3],
@@ -218,14 +250,16 @@ function init_dice_object(dice) {
 		return create_geom(vertices, faces, radius, 0.1, Math.PI / 4, 0.96);
 	}
 
-	this.create_d8_geometry = function(radius) {
+	this.create_d8_geometry = function(radius)
+	{
 		var vertices = [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]];
 		var faces = [[0, 2, 4, 1], [0, 4, 3, 2], [0, 3, 5, 3], [0, 5, 2, 4], [1, 3, 4, 5],
 			[1, 4, 2, 6], [1, 2, 5, 7], [1, 5, 3, 8]];
 		return create_geom(vertices, faces, radius, 0, -Math.PI / 4 / 2, 0.965);
 	}
 
-	this.create_d10_geometry = function(radius) {
+	this.create_d10_geometry = function(radius)
+	{
 		var a = Math.PI * 2 / 10, k = Math.cos(a), h = 0.105, v = -1;
 		var vertices = [];
 		for (var i = 0, b = 0; i < 10; ++i, b += a)
@@ -238,7 +272,8 @@ function init_dice_object(dice) {
 		return create_geom(vertices, faces, radius, 0, Math.PI * 6 / 5, 0.945);
 	}
 
-	this.create_d12_geometry = function(radius) {
+	this.create_d12_geometry = function(radius)
+	{
 		var p = (1 + Math.sqrt(5)) / 2, q = 1 / p;
 		var vertices = [[0, q, p], [0, q, -p], [0, -q, p], [0, -q, -p], [p, 0, q],
 			[p, 0, -q], [-p, 0, q], [-p, 0, -q], [q, p, 0], [q, -p, 0], [-q, p, 0],
@@ -250,7 +285,8 @@ function init_dice_object(dice) {
 		return create_geom(vertices, faces, radius, 0.2, -Math.PI / 4 / 2, 0.968);
 	}
 
-	this.create_d20_geometry = function(radius) {
+	this.create_d20_geometry = function(radius)
+	{
 		var t = (1 + Math.sqrt(5)) / 2;
 		var vertices = [[-1, t, 0], [1, t, 0 ], [-1, -t, 0], [1, -t, 0],
 			[0, -1, t], [0, 1, t], [0, -1, -t], [0, 1, -t],
@@ -262,7 +298,8 @@ function init_dice_object(dice) {
 		return create_geom(vertices, faces, radius, -0.2, -Math.PI / 4 / 2, 0.955);
 	}
 
-	this.material_options = {
+	this.material_options =
+	{
 		specular: 0x172022,
 		color: 0xf0f0f0,
 		shininess: 10,
@@ -276,63 +313,73 @@ function init_dice_object(dice) {
 
 	this.known_types = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'];
 	this.dice_face_range = { 'd4': [1, 4], 'd6': [1, 6], 'd8': [1, 8], 'd10': [0, 9],
-		'd12': [1, 12], 'd20': [1, 20], 'd100': [0, 9] };
+			'd12': [1, 12], 'd20': [1, 20], 'd100': [0, 9] };
 	this.dice_mass = { 'd4': 300, 'd6': 300, 'd8': 340, 'd10': 350, 'd12': 350, 'd20': 400, 'd100': 350 };
 	this.dice_inertia = { 'd4': 5, 'd6': 13, 'd8': 10, 'd10': 9, 'd12': 8, 'd20': 6, 'd100': 9 };
 
 	this.scale = 50;
 
-	this.create_d4 = function() {
+	this.create_d4 = function()
+	{
 		if (!this.d4_geometry) this.d4_geometry = this.create_d4_geometry(this.scale * 1.2);
 		if (!this.d4_material) this.d4_material = this.create_d4_materials(this.scale / 2, this.scale * 2, d4_labels[0]);
 		return new THREE.Mesh(this.d4_geometry, this.d4_material);
 	}
 
-	this.create_d6 = function() {
+	this.create_d6 = function()
+	{
 		if (!this.d6_geometry) this.d6_geometry = this.create_d6_geometry(this.scale * 0.9);
 		if (!this.dice_material) this.dice_material = this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0);
 		return new THREE.Mesh(this.d6_geometry, this.dice_material);
 	}
 
-	this.create_d8 = function() {
+	this.create_d8 = function()
+	{
 		if (!this.d8_geometry) this.d8_geometry = this.create_d8_geometry(this.scale);
 		if (!this.dice_material) this.dice_material = this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.2);
 		return new THREE.Mesh(this.d8_geometry, this.dice_material);
 	}
 
-	this.create_d10 = function() {
+	this.create_d10 = function()
+	{
 		if (!this.d10_geometry) this.d10_geometry = this.create_d10_geometry(this.scale * 0.9);
 		if (!this.dice_material) this.dice_material = this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0);
 		return new THREE.Mesh(this.d10_geometry, this.dice_material);
 	}
 
-	this.create_d12 = function() {
+	this.create_d12 = function()
+	{
 		if (!this.d12_geometry) this.d12_geometry = this.create_d12_geometry(this.scale * 0.9);
 		if (!this.dice_material) this.dice_material = this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0);
 		return new THREE.Mesh(this.d12_geometry, this.dice_material);
 	}
 
-	this.create_d20 = function() {
+	this.create_d20 = function()
+	{
 		if (!this.d20_geometry) this.d20_geometry = this.create_d20_geometry(this.scale);
 		if (!this.dice_material) this.dice_material = this.create_dice_materials(this.standart_d20_dice_face_labels, this.scale / 2, 1.0);
 		return new THREE.Mesh(this.d20_geometry, this.dice_material);
 	}
 
-	this.create_d100 = function() {
+	this.create_d100 = function()
+	{
 		if (!this.d10_geometry) this.d10_geometry = this.create_d10_geometry(this.scale * 0.9);
 		if (!this.d100_material) this.d100_material = this.create_dice_materials(this.standart_d100_dice_face_labels, this.scale / 2, 1.5);
 		return new THREE.Mesh(this.d10_geometry, this.d100_material);
 	}
 
-	this.stringify_notation = function(nn) {
+	this.stringify_notation = function(nn)
+	{
 		var dict = {}, notation = '';
 		for (var i in nn.set)
 			if (!dict[nn.set[i]]) dict[nn.set[i]] = 1; else ++dict[nn.set[i]];
-		for (var i in dict) {
+		for (var i in dict)
+		{
 			if (notation.length) notation += ' + ';
 			notation += (dict[i] > 1 ? dict[i] : '') + i;
 		}
-		if (nn.constant) {
+		if (nn.constant)
+		{
 			if (nn.constant > 0) notation += ' + ' + nn.constant;
 			else notation += ' - ' + Math.abs(nn.constant);
 		}
@@ -341,7 +388,8 @@ function init_dice_object(dice) {
 
 	var that = this;
 
-	this.dice_box = function(container, dimentions, color) {
+	this.dice_box = function(container, dimentions, color)
+	{
 		container.style.width = dimentions.w + 'px';
 		container.style.height = dimentions.h + 'px';
 
@@ -416,14 +464,17 @@ function init_dice_object(dice) {
 		this.renderer.render(this.scene, this.camera);
 	}
 
-	this.dice_box.prototype.reinit = function(container, dimentions) {
+	this.dice_box.prototype.reinit = function(container, dimentions)
+	{
 		this.cw = container.clientWidth / 2;
 		this.ch = container.clientHeight / 2;
-		if (dimentions) {
+		if (dimentions)
+		{
 			this.w = dimentions.w;
 			this.h = dimentions.h;
 		}
-		else {
+		else
+		{
 			this.w = this.cw;
 			this.h = this.ch;
 		}
@@ -449,9 +500,11 @@ function init_dice_object(dice) {
 		this.renderer.render(this.scene, this.camera);
 	}
 
-	function make_random_vector(vector) {
+	function make_random_vector(vector)
+	{
 		var random_angle = rnd() * Math.PI / 5 - Math.PI / 5 / 2;
-		var vec = {
+		var vec =
+		{
 			x: vector.x * Math.cos(random_angle) - vector.y * Math.sin(random_angle),
 			y: vector.x * Math.sin(random_angle) + vector.y * Math.cos(random_angle)
 		};
@@ -460,11 +513,14 @@ function init_dice_object(dice) {
 		return vec;
 	}
 
-	this.dice_box.prototype.generate_vectors = function(notation, vector, boost) {
+	this.dice_box.prototype.generate_vectors = function(notation, vector, boost)
+	{
 		var vectors = [];
-		for (var i in notation.set) {
+		for (var i in notation.set)
+		{
 			var vec = make_random_vector(vector);
-			var pos = {
+			var pos =
+			{
 				x: this.w * (vec.x > 0 ? -1 : 1) * 0.9,
 				y: this.h * (vec.y > 0 ? -1 : 1) * 0.9,
 				z: rnd() * 200 + 200
@@ -474,7 +530,8 @@ function init_dice_object(dice) {
 			var velvec = make_random_vector(vector);
 			var velocity = { x: velvec.x * boost, y: velvec.y * boost, z: -10 };
 			var inertia = that.dice_inertia[notation.set[i]];
-			var angle = {
+			var angle =
+			{
 				x: -(rnd() * vec.y * 5 + inertia * vec.y),
 				y: rnd() * vec.x * 5 + inertia * vec.x,
 				z: 0
@@ -485,7 +542,8 @@ function init_dice_object(dice) {
 		return vectors;
 	}
 
-	this.dice_box.prototype.create_dice = function(type, pos, velocity, angle, axis) {
+	this.dice_box.prototype.create_dice = function(type, pos, velocity, angle, axis)
+	{
 		var dice = that['create_' + type]();
 		dice.dice_type = type;
 		dice.body = new CANNON.RigidBody(that.dice_mass[type],
@@ -501,18 +559,24 @@ function init_dice_object(dice) {
 		this.world.add(dice.body);
 	}
 
-	this.dice_box.prototype.check_if_throw_finished = function() {
+	this.dice_box.prototype.check_if_throw_finished = function()
+	{
 		var res = true;
 		var e = 6;
-		if (this.iteration < 10 / that.frame_rate) {
-			for (var i = 0; i < this.dices.length; ++i) {
+		if (this.iteration < 10 / that.frame_rate)
+		{
+			for (var i = 0; i < this.dices.length; ++i)
+			{
 				var dice = this.dices[i];
 				if (dice.dice_stopped === true) continue;
 				var a = dice.body.angularVelocity, v = dice.body.velocity;
 				if (Math.abs(a.x) < e && Math.abs(a.y) < e && Math.abs(a.z) < e &&
-					Math.abs(v.x) < e && Math.abs(v.y) < e && Math.abs(v.z) < e) {
-					if (dice.dice_stopped) {
-						if (this.iteration - dice.dice_stopped > 3) {
+					Math.abs(v.x) < e && Math.abs(v.y) < e && Math.abs(v.z) < e)
+				{
+					if (dice.dice_stopped)
+					{
+						if (this.iteration - dice.dice_stopped > 3)
+						{
 							dice.dice_stopped = true;
 							continue;
 						}
@@ -520,7 +584,8 @@ function init_dice_object(dice) {
 					else dice.dice_stopped = this.iteration;
 					res = false;
 				}
-				else {
+				else
+				{
 					dice.dice_stopped = undefined;
 					res = false;
 				}
@@ -529,14 +594,17 @@ function init_dice_object(dice) {
 		return res;
 	}
 
-	function get_dice_value(dice) {
+	function get_dice_value(dice)
+	{
 		var vector = new THREE.Vector3(0, 0, dice.dice_type == 'd4' ? -1 : 1);
 		var closest_face, closest_angle = Math.PI * 2;
-		for (var i = 0, l = dice.geometry.faces.length; i < l; ++i) {
+		for (var i = 0, l = dice.geometry.faces.length; i < l; ++i)
+		{
 			var face = dice.geometry.faces[i];
 			if (face.materialIndex == 0) continue;
 			var angle = face.normal.clone().applyQuaternion(dice.body.quaternion).angleTo(vector);
-			if (angle < closest_angle) {
+			if (angle < closest_angle)
+			{
 				closest_angle = angle;
 				closest_face = face;
 			}
@@ -547,53 +615,67 @@ function init_dice_object(dice) {
 		return matindex;
 	}
 
-	function get_dice_values(dices) {
+	function get_dice_values(dices)
+	{
 		var values = [];
-		for (var i = 0, l = dices.length; i < l; ++i) {
+		for (var i = 0, l = dices.length; i < l; ++i)
+		{
 			values.push(get_dice_value(dices[i]));
 		}
 		return values;
 	}
 
-	this.dice_box.prototype.emulate_throw = function() {
-		while (!this.check_if_throw_finished()) {
+	this.dice_box.prototype.emulate_throw = function()
+	{
+		while (!this.check_if_throw_finished())
+		{
 			++this.iteration;
 			this.world.step(that.frame_rate);
 		}
 		return get_dice_values(this.dices);
 	}
 
-	this.dice_box.prototype.__animate = function(threadid) {
+	this.dice_box.prototype.__animate = function(threadid)
+	{
 		var time = (new Date()).getTime();
 		var time_diff = (time - this.last_time) / 1000;
 		if (time_diff > 3) time_diff = that.frame_rate;
 		++this.iteration;
-		if (this.use_adapvite_timestep) {
-			while (time_diff > that.frame_rate * 1.1) {
+		if (this.use_adapvite_timestep)
+		{
+			while (time_diff > that.frame_rate * 1.1)
+			{
 				this.world.step(that.frame_rate);
 				time_diff -= that.frame_rate;
 			}
 			this.world.step(time_diff);
 		}
-		else {
+		else
+		{
 			this.world.step(that.frame_rate);
 		}
-		for (var i in this.scene.children) {
+		for (var i in this.scene.children)
+		{
 			var interact = this.scene.children[i];
-			if (interact.body != undefined) {
+			if (interact.body != undefined)
+			{
 				interact.position.copy(interact.body.position);
 				interact.quaternion.copy(interact.body.quaternion);
 			}
 		}
 		this.renderer.render(this.scene, this.camera);
 		this.last_time = this.last_time ? time : (new Date()).getTime();
-		if (this.running == threadid && this.check_if_throw_finished()) {
+		if (this.running == threadid && this.check_if_throw_finished())
+		{
 			this.running = false;
 			if (this.callback) this.callback.call(this, get_dice_values(this.dices));
 		}
-		if (this.running == threadid) {
-			(function(t, tid, uat) {
-				if (!uat && time_diff < that.frame_rate) {
+		if (this.running == threadid)
+		{
+			(function(t, tid, uat)
+			{
+				if (!uat && time_diff < that.frame_rate)
+				{
 					setTimeout(function() { requestAnimationFrame(function() { t.__animate(tid); }); },
 						(that.frame_rate - time_diff) * 1000);
 				}
@@ -602,35 +684,63 @@ function init_dice_object(dice) {
 		}
 	}
 
-	this.dice_box.prototype.clear = function() {
+	this.dice_box.prototype.clear = function()
+	{
 		this.running = false;
+
+		const cleanMaterial = material =>
+		{
+			material.dispose()
+			for (const key of Object.keys(material))
+			{
+				const value = material[key]
+				if (value && typeof value === 'object' && 'minFilter' in value)
+					value.dispose()
+			}
+		}
+
 		var dice;
-		while (dice = this.dices.pop()) {
+		while (dice = this.dices.pop())
+		{
+			dice.geometry.dispose();
+			if (dice.material.isMaterial)
+				cleanMaterial(dice.material)
+			else
+				for (const material of dice.material)
+					cleanMaterial(material)
+
 			this.scene.remove(dice);
 			if (dice.body) this.world.remove(dice.body);
 		}
 		if (this.pane) this.scene.remove(this.pane);
+		this.renderer.renderLists.dispose();
+		this.renderer.dispose();
+		// console.log(this.renderer.info);
 		this.renderer.render(this.scene, this.camera);
 		var box = this;
 		setTimeout(function() { box.renderer.render(box.scene, box.camera); }, 100);
 	}
 
-	this.dice_box.prototype.prepare_dices_for_roll = function(vectors) {
+	this.dice_box.prototype.prepare_dices_for_roll = function(vectors)
+	{
 		this.clear();
 		this.iteration = 0;
-		for (var i in vectors) {
+		for (var i in vectors)
+		{
 			this.create_dice(vectors[i].set, vectors[i].pos, vectors[i].velocity,
 				vectors[i].angle, vectors[i].axis);
 		}
 	}
 
-	function shift_dice_faces(dice, value, res) {
+	function shift_dice_faces(dice, value, res)
+	{
 		var r = that.dice_face_range[dice.dice_type];
 		if (dice.dice_type == 'd10' && value == 10) value = 0;
 		if (!(value >= r[0] && value <= r[1])) return;
 		var num = value - res;
 		var geom = dice.geometry.clone();
-		for (var i = 0, l = geom.faces.length; i < l; ++i) {
+		for (var i = 0, l = geom.faces.length; i < l; ++i)
+		{
 			var matindex = geom.faces[i].materialIndex;
 			if (matindex == 0) continue;
 			matindex += num - 1;
@@ -638,16 +748,19 @@ function init_dice_object(dice) {
 			while (matindex < r[0]) matindex += r[1];
 			geom.faces[i].materialIndex = matindex + 1;
 		}
-		if (dice.dice_type == 'd4' && num != 0) {
+		if (dice.dice_type == 'd4' && num != 0)
+		{
 			if (num < 0) num += 4;
 			dice.material = that.create_d4_materials(that.scale / 2, that.scale * 2, d4_labels[num]);
 		}
 		dice.geometry = geom;
 	}
 
-	this.dice_box.prototype.roll = function(vectors, values, callback) {
+	this.dice_box.prototype.roll = function(vectors, values, callback)
+	{
 		this.prepare_dices_for_roll(vectors);
-		if (values != undefined && values.length) {
+		if (values != undefined && values.length)
+		{
 			this.use_adapvite_timestep = false;
 			var res = this.emulate_throw();
 			this.prepare_dices_for_roll(vectors);
@@ -660,44 +773,51 @@ function init_dice_object(dice) {
 		this.__animate(this.running);
 	}
 
-	this.dice_box.prototype.__selector_animate = function(threadid) {
+	this.dice_box.prototype.__selector_animate = function(threadid)
+	{
 		var time = (new Date()).getTime();
 		var time_diff = (time - this.last_time) / 1000;
 		if (time_diff > 3) time_diff = that.frame_rate;
 		var angle_change = 0.0025;
 
 		if (angle_change < 0) this.running = false;
-		for (var i in this.dices) {
+		for (var i in this.dices)
+		{
 			this.dices[i].rotation.y += angle_change;
 			this.dices[i].rotation.x += angle_change / 4;
 			this.dices[i].rotation.z += angle_change / 10;
 		}
 		this.last_time = time;
 		this.renderer.render(this.scene, this.camera);
-		if (this.running == threadid) {
-			(function(t, tid) {
+		if (this.running == threadid)
+		{
+			(function(t, tid)
+			{
 				requestAnimationFrame(function() { t.__selector_animate(tid); });
 			})(this, threadid);
 		}
 	}
 
-	this.dice_box.prototype.search_dice_by_mouse = function(ev) {
+	this.dice_box.prototype.search_dice_by_mouse = function(ev)
+	{
 		var m = $teal.get_mouse_coords(ev);
 		var intersects = (new THREE.Raycaster(this.camera.position,
 			(new THREE.Vector3((m.x - this.cw) / this.aspect,
 				1 - (m.y - this.ch) / this.aspect, 1))
-				// 1 - (m.y - this.ch) / this.aspect, this.w / 9))
+			// 1 - (m.y - this.ch) / this.aspect, this.w / 9))
 			.sub(this.camera.position).normalize())).intersectObjects(this.dices);
 		if (intersects.length) return intersects[0].object.userData;
 	}
 
-	this.dice_box.prototype.draw_selector = function() {
+	this.dice_box.prototype.draw_selector = function()
+	{
 		this.clear();
 		var step = 140;
 
 		that.scale = 70;
 		var known_types = ['4', '6', '8', '10', '12', '20', '100'];
-		for (var i = 0, pos = -3; i < known_types.length; ++i, ++pos) {
+		for (var i = 0, pos = -3; i < known_types.length; ++i, ++pos)
+		{
 			var dice = that['create_d' + known_types[i]]();
 			dice.position.set(pos * step, 0, step * 0.5);
 			dice.userData = known_types[i];
@@ -710,7 +830,8 @@ function init_dice_object(dice) {
 		else this.renderer.render(this.scene, this.camera);
 	}
 
-	this.dice_box.prototype.draw_d20 = function() {
+	this.dice_box.prototype.draw_d20 = function()
+	{
 		this.clear();
 
 		that.scale = 100;
@@ -725,13 +846,15 @@ function init_dice_object(dice) {
 		else this.renderer.render(this.scene, this.camera);
 	}
 
-	function parse_notation(notation) {
+	function parse_notation(notation)
+	{
 		var no = notation.split('@');
 		var dr0 = /\s*(\d*)([a-z]+)(\d+)(\s*(\+|\-)\s*(\d+)){0,1}\s*(\+|$)/gi;
 		var dr1 = /(\b)*(\d+)(\b)*/gi;
 		var ret = { set: [], constant: 0, result: [], error: false }, res;
 		var known_types = ['d4', 'd6', 'd8', 'd10', 'd12', 'd20', 'd100'];
-		while (res = dr0.exec(no[0])) {
+		while (res = dr0.exec(no[0]))
+		{
 			var command = res[2];
 			if (command != 'd') { ret.error = true; continue; }
 			var count = parseInt(res[1]);
@@ -740,23 +863,29 @@ function init_dice_object(dice) {
 
 			if (known_types.indexOf(type) == -1) { ret.error = true; continue; }
 			while (count--) ret.set.push(type);
-			if (res[5] && res[6]) {
+			if (res[5] && res[6])
+			{
 				if (res[5] == '+') ret.constant += parseInt(res[6]);
 				else ret.constant -= parseInt(res[6]);
 			}
 		}
-		while (res = dr1.exec(no[1])) {
+		while (res = dr1.exec(no[1]))
+		{
 			ret.result.push(parseInt(res[2]));
 		}
 		return ret;
 	}
 
-	function throw_dices(box, vector, boost, dist, dices_set, after_roll) {
+	function throw_dices(box, vector, boost, dist, dices_set, after_roll)
+	{
 		var uat = true;
-		function roll(request_results) {
-			if (after_roll) {
+		function roll(request_results)
+		{
+			if (after_roll)
+			{
 				box.clear();
-				box.roll(vectors, request_results || notation.result, function(result) {
+				box.roll(vectors, request_results || notation.result, function(result)
+				{
 					if (after_roll) after_roll.call(box, notation, result);
 					box.rolling = false;
 					// $teal.dice.use_adapvite_timestep = uat;
@@ -772,15 +901,18 @@ function init_dice_object(dice) {
 		roll();
 	}
 
-	this.dice_box.prototype.bind_throw = function(button, dices_set, after_roll) {
+	this.dice_box.prototype.bind_throw = function(button, dices_set, after_roll)
+	{
 		var box = this;
-		$teal.bind(button, ['mouseup', 'touchend'], function(ev) {
+		$teal.bind(button, ['mouseup', 'touchend'], function(ev)
+		{
 			ev.stopPropagation();
 			box.start_throw(dices_set, after_roll);
 		});
 	}
 
-	this.dice_box.prototype.start_throw = function(dices_set, after_roll, random_numbers) {
+	this.dice_box.prototype.start_throw = function(dices_set, after_roll, random_numbers)
+	{
 		var box = this;
 		if (box.rolling) return;
 
@@ -805,14 +937,18 @@ window.teal = {};
 window.$teal = window.teal;
 window.global_animation = true;
 
-teal.copyto = function(obj, res) {
+teal.copyto = function(obj, res)
+{
 	if (obj == null || typeof obj !== 'object') return obj;
-	if (obj instanceof Array) {
+	if (obj instanceof Array)
+	{
 		for (var i = obj.length - 1; i >= 0; --i)
 			res[i] = $teal.copy(obj[i]);
 	}
-	else {
-		for (var i in obj) {
+	else
+	{
+		for (var i in obj)
+		{
 			if (obj.hasOwnProperty(i))
 				res[i] = $teal.copy(obj[i]);
 		}
@@ -820,31 +956,22 @@ teal.copyto = function(obj, res) {
 	return res;
 }
 
-teal.copy = function(obj) {
+teal.copy = function(obj)
+{
 	if (!obj) return obj;
 	return teal.copyto(obj, new obj.constructor());
 }
 
-teal.id = function(id) {
+teal.id = function(id)
+{
 	return document.getElementById(id);
 }
 
-teal.set = function(sel, props) {
-	for (var i in props) sel.setAttribute(i, props[i]);
-	return sel;
-}
-
-teal.remove = function(sel) {
-	if (sel) {
-		if (sel.parentNode) sel.parentNode.removeChild(sel);
-		else for (var i = sel.length - 1; i >= 0; --i)
-			sel[i].parentNode.removeChild(sel[i]);
-	}
-}
-
-teal.bind = function(sel, eventname, func, bubble) {
+teal.bind = function(sel, eventname, func, bubble)
+{
 	if (!sel) return;
-	if (eventname.constructor === Array) {
+	if (eventname.constructor === Array)
+	{
 		for (var i in eventname)
 			sel.addEventListener(eventname[i], func, bubble ? bubble : false);
 	}
@@ -852,7 +979,8 @@ teal.bind = function(sel, eventname, func, bubble) {
 		sel.addEventListener(eventname, func, bubble ? bubble : false);
 }
 
-teal.get_mouse_coords = function(ev) {
+teal.get_mouse_coords = function(ev)
+{
 	var touches = ev.changedTouches;
 	if (touches) return { x: touches[0].layerX, y: touches[0].layerY };
 	return { x: ev.layerX, y: ev.layerY };
@@ -925,6 +1053,7 @@ function init_dices_area(wt_callback_id)
 
 	$teal.box_dices = new $teal.dices.dice_box(div_dices_area, { w: 1000, h: 760 });
 	$teal.box_dices.wt_callback_id = wt_callback_id;
+	div_dices_area.classList.add("div_dices_area_hide");
 }
 
 function init_secret_dices_area(wt_callback_id)
@@ -933,8 +1062,11 @@ function init_secret_dices_area(wt_callback_id)
 	init_dice_object.apply(teal.secret_dices = teal.secret_dices || {});
 	div_secret_dices_area = $teal.id('div_secret_dices_area');
 
-	$teal.secret_box_dices = new $teal.secret_dices.dice_box(div_secret_dices_area, { w: 1000, h: 760 }, { dice_color: '#031024', label_color: ' #f4b64a' });
+	$teal.secret_box_dices = new $teal.secret_dices.dice_box(div_secret_dices_area,
+		{ w: 1000, h: 760 },
+		{ dice_color: '#031024', label_color: ' #f4b64a' });
 	$teal.secret_box_dices.wt_callback_id = wt_callback_id;
+	div_secret_dices_area.classList.add("div_dices_area_hide");
 }
 
 function throw_dices_area(dices_set)

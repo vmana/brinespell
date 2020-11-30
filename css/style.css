@@ -265,14 +265,14 @@ div.jp-seeking-bg
 	position: absolute;
 	top: 24px;
 	right: 0px;
-	z-index: -1;
+	z-index: 40;
 }
 .div_secret_dices_area
 {
 	position: absolute;
 	top: 24px;
 	right: 0px;
-	z-index: -2;
+	z-index: 40;
 }
 
 @keyframes animate_dices_area_hidden
