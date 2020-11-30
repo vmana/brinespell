@@ -29,7 +29,7 @@ class widget_initiative : public WContainerWidget
 		soma *S;
 		int token_size = 64;
 		int token_margin = 24;
-		bool visible = false;
+		bool visible = true;
 
 		vector<wtoken_initiative> tokens;
 
