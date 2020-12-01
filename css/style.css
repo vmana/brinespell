@@ -42,6 +42,7 @@ textarea
 	overflow: hidden;
 }
 
+input { outline-style: none; }
 input[type=text],
 input[type=password]
 {
@@ -53,7 +54,6 @@ input[type=password]
 	height: 22px;
 	padding: 4px 12px;
 	border-radius: 22px;
-	outline-style: none;
 	box-shadow: none;
 	border-color: transparent;
 	cursor: url('/img/cursor-purple.png'), auto;
