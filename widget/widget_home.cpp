@@ -114,7 +114,7 @@ void widget_home::global_key_pressed(WKeyEvent e)
 	{
 		chat->chat_input->setFocus(true);
 	}
-	if (e.key() == Key::Enter)
+	else if (e.key() == Key::Enter)
 	{
 		search->edit_search->setFocus(true);
 	}
