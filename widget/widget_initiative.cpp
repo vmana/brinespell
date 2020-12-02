@@ -126,6 +126,7 @@ void widget_initiative::sort_tokens()
 	{
 		if (!token.widget) continue; // should never happen
 		token.widget->setMargin(token_margin + i * (token_size + token_margin), Side::Left);
+		token.widget->setToolTip("initiative " + convert::int_string(token.initiative()));
 		i++;
 	}
 }
