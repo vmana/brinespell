@@ -1,3 +1,5 @@
+"use strict";
+
 /****    custom scrollbars for textarea & div    ****/
 
 // options:
@@ -62,7 +64,10 @@ function w_scrollarea(id, options = {})
 		+ 'height:' + parseInt(cstyle.getPropertyValue('height'), 10) + 'px;';
 
 	// get line height
-	var line_height = parseInt(window.getComputedStyle(p_area).getPropertyValue('line-height'), 10);
+	var line_height = window.getComputedStyle(p_area).getPropertyValue('line-height');
+	if (line_height.includes('px')) line_height = parseInt(line_height, 10);
+	else if (line_height == 'normal')
+		line_height = Math.round(1.2 * parseInt(window.getComputedStyle(p_area).getPropertyValue('font-size'), 10));
 
 	on_area_change(); // init once
 
@@ -149,6 +154,8 @@ function w_scrollarea(id, options = {})
 		if (e.deltaY) delta_y = e.deltaY;
 		else if (e.wheelDelta) delta_y = -e.wheelDelta;
 
+		console.log(line_height);
+		// console.log(delta_y * line_height);
 		p_area.scrollTop += delta_y * line_height;
 		move_bar();
 	}
