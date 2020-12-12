@@ -76,7 +76,6 @@ SOURCES +=	main.cpp\
 				db/skill.cpp\
 				db/campaign.cpp\
 				db/npc.cpp\
-				broadcast.cpp\
 				soma.cpp\
 				soma_database.cpp\
 				widget/wcontainer.cpp\

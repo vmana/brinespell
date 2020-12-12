@@ -1025,6 +1025,11 @@ function on_selector_click(e, context)
 	return false;
 }
 
+function sleep(ms)
+{
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function after_roll(notation, result)
 {
 	var res = result.join(' ');
@@ -1089,6 +1094,13 @@ function throw_initialized_dices_area_nocallback(dices_set, random_numbers)
 	div_dices_area.classList.remove("div_dices_area_hide");
 	$teal.box_dices.start_throw(dices_set, after_roll, random_numbers);
 }
+
+// function throw_dynamic_dices_nocallback(dices_set, random_numbers)
+// {
+// 	$teal.box_dices.wt_allow_callback = false;
+// 	div_dices_area.classList.remove("div_dices_area_hide");
+// 	$teal.box_dices.start_throw(dices_set, after_roll, random_numbers);
+// }
 
 function throw_secret_dices_area(dices_set)
 {
