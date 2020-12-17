@@ -2,8 +2,9 @@
 
 function init_dice_object(dice)
 {
-	this.wt_callback_id = '';
 	this.wt_allow_callback = true;
+	this.wt_secret_roll = false;
+	this.dynamic_container_id = ''; // set for dynamic area
 	var current_random_number = 0;
 	var wt_random_numbers = [];
 	this.label_color = '#f4b64a';
@@ -668,7 +669,10 @@ function init_dice_object(dice)
 		if (this.running == threadid && this.check_if_throw_finished())
 		{
 			this.running = false;
-			if (this.callback) this.callback.call(this, get_dice_values(this.dices));
+			if (this.callback)
+			{
+				this.callback.call(this, get_dice_values(this.dices));
+			}
 		}
 		if (this.running == threadid)
 		{
@@ -686,6 +690,7 @@ function init_dice_object(dice)
 
 	this.dice_box.prototype.clear = function()
 	{
+		// console.log('clear');
 		this.running = false;
 
 		const cleanMaterial = material =>
@@ -928,7 +933,6 @@ function init_dice_object(dice)
 		if (boost < 1800) boost = 1800;
 		throw_dices(box, vector, boost, dist, dices_set, after_roll);
 	}
-
 }
 
 /****    teal functions    ****/
@@ -989,6 +993,7 @@ teal.get_mouse_coords = function(ev)
 // global area variables
 var box_animated_d20;
 var box_animated_selector;
+window.wt_widget_dice_id = '';
 var div_dices_area;
 var div_secret_dices_area;
 
@@ -1000,13 +1005,11 @@ function init_animated_d20()
 	box_animated_d20.draw_d20();
 }
 
-function init_animated_selector(wt_callback_id)
+function init_animated_selector()
 {
-	// wt_callback_id is needed for sending mouse click events to wt
 	init_dice_object.apply(teal.animated_selector = teal.animated_selector || {});
 	var div_animated_selector = $teal.id('div_animated_selector');
 	box_animated_selector = new $teal.animated_selector.dice_box(div_animated_selector, { w: 700, h: 180 });
-	$teal.animated_selector.wt_callback_id = wt_callback_id;
 	box_animated_selector.draw_selector();
 }
 
@@ -1021,7 +1024,7 @@ function on_selector_click(e, context)
 	}
 	var res = box_animated_selector.search_dice_by_mouse(e);
 	if (res == undefined) return;
-	Wt.emit($teal.animated_selector.wt_callback_id, 'signal_selector_click', res, count);
+	Wt.emit(window.wt_widget_dice_id, 'signal_selector_click', res, count);
 	return false;
 }
 
@@ -1030,81 +1033,45 @@ function sleep(ms)
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function after_roll(notation, result)
+async function after_roll(notation, result)
 {
 	var res = result.join(' ');
-	if ($teal.box_dices.wt_allow_callback)
+	if (this.wt_allow_callback)
 	{
-		// no restrictions
-		Wt.emit($teal.box_dices.wt_callback_id, 'signal_dice_results', res, false);
+		Wt.emit(window.wt_widget_dice_id, 'signal_dice_results', res, this.wt_secret_roll);
 	}
 	// hide area
-	div_dices_area.classList.add("div_dices_area_hide");
+	var area = $teal.id(this.dynamic_container_id);
+	area.classList.add("div_dices_area_hide");
+	// wait for the end of animation
+	await sleep(3000);
+	// remove opengl objects
+	this.clear();
+	// remove div from dynamic_dice_area
+	var div_dices_area = $teal.id('div_dices_area');
+	div_dices_area.removeChild(area);
 }
 
-function after_secret_roll(notation, result)
+function throw_dices(dices_set, random_numbers, wt_callback = false, is_secret = false)
 {
-	var res = result.join(' ');
-	Wt.emit($teal.secret_box_dices.wt_callback_id, 'signal_dice_results', res, true);
-	// hide area
-	div_secret_dices_area.classList.add("div_dices_area_hide");
-}
+	// create new div in div_dices_area
+	var div_dices_area = $teal.id('div_dices_area');
+	var new_area = document.createElement('div');
+	div_dices_area.appendChild(new_area);
+	// random id
+	new_area.id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+	new_area.classList.add('dynamic_dice_area');
 
-function init_dices_area(wt_callback_id)
-{
-	// wt_callback_id is needed for sending dice results to wt
-	init_dice_object.apply(teal.dices = teal.dices || {});
-	div_dices_area = $teal.id('div_dices_area');
+	var dice_object;
+	init_dice_object.apply(dice_object = dice_object || {});
 
-	$teal.box_dices = new $teal.dices.dice_box(div_dices_area, { w: 1000, h: 760 });
-	$teal.box_dices.wt_callback_id = wt_callback_id;
-	div_dices_area.classList.add("div_dices_area_hide");
-}
+	var color;
+	if (is_secret) color = { dice_color: '#031024', label_color: ' #f4b64a' }
+	else color = { dice_color: '#2b1304', label_color: ' #f4b64a' }
+	dice_object.box = new dice_object.dice_box(new_area, { w: 1000, h: 760 }, color);
 
-function init_secret_dices_area(wt_callback_id)
-{
-	// wt_callback_id is needed for sending dice results to wt
-	init_dice_object.apply(teal.secret_dices = teal.secret_dices || {});
-	div_secret_dices_area = $teal.id('div_secret_dices_area');
-
-	$teal.secret_box_dices = new $teal.secret_dices.dice_box(div_secret_dices_area,
-		{ w: 1000, h: 760 },
-		{ dice_color: '#031024', label_color: ' #f4b64a' });
-	$teal.secret_box_dices.wt_callback_id = wt_callback_id;
-	div_secret_dices_area.classList.add("div_dices_area_hide");
-}
-
-function throw_dices_area(dices_set)
-{
-	$teal.box_dices.wt_allow_callback = true;
-	div_dices_area.classList.remove("div_dices_area_hide");
-	$teal.box_dices.start_throw(dices_set, after_roll);
-}
-
-function throw_initialized_dices_area(dices_set, random_numbers)
-{
-	$teal.box_dices.wt_allow_callback = true;
-	div_dices_area.classList.remove("div_dices_area_hide");
-	$teal.box_dices.start_throw(dices_set, after_roll, random_numbers);
-}
-
-function throw_initialized_dices_area_nocallback(dices_set, random_numbers)
-{
-	$teal.box_dices.wt_allow_callback = false;
-	div_dices_area.classList.remove("div_dices_area_hide");
-	$teal.box_dices.start_throw(dices_set, after_roll, random_numbers);
-}
-
-// function throw_dynamic_dices_nocallback(dices_set, random_numbers)
-// {
-// 	$teal.box_dices.wt_allow_callback = false;
-// 	div_dices_area.classList.remove("div_dices_area_hide");
-// 	$teal.box_dices.start_throw(dices_set, after_roll, random_numbers);
-// }
-
-function throw_secret_dices_area(dices_set)
-{
-	$teal.secret_box_dices.wt_allow_callback = true;
-	div_secret_dices_area.classList.remove("div_dices_area_hide");
-	$teal.secret_box_dices.start_throw(dices_set, after_secret_roll);
+	dice_object.box.dynamic_container_id = new_area.id;
+	dice_object.box.wt_allow_callback = wt_callback;
+	dice_object.box.wt_secret_roll = is_secret;
+	dice_object.box.start_throw(dices_set, after_roll, random_numbers);
 }

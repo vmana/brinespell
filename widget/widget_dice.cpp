@@ -16,14 +16,7 @@ widget_dice::widget_dice() :
 	if (!global::css_animations) doJavaScript("window.global_animation = false;");
 
 	// dices area
-	dices_area = bindNew<widget_template>("div_dices_area");
-	dices_area->set_text("<div id=\"div_dices_area\" class=\"div_dices_area\"></div>");
-	doJavaScript("init_dices_area('" + this->id() + "');");
-
-	// secret dices area
-	secret_dices_area = bindNew<widget_template>("div_secret_dices_area");
-	secret_dices_area->set_text("<div id=\"div_secret_dices_area\" class=\"div_secret_dices_area\"></div>");
-	doJavaScript("init_secret_dices_area('" + this->id() + "');");
+	doJavaScript("window.wt_widget_dice_id = '" + this->id() + "';");
 
 	// animated d20
 	animated_d20 = bindNew<widget_template>("div_animated_d20");
@@ -49,7 +42,7 @@ void widget_dice::draw_selector()
 
 	text_notation = dice_selector->bindNew<WText>("text_notation");
 	text_notation->setStyleClass("selector_notation_text");
-	doJavaScript("init_animated_selector('" + this->id() + "');");
+	doJavaScript("init_animated_selector();");
 
 	// selector buttons
 
@@ -116,7 +109,7 @@ void widget_dice::on_secret_throw_click()
 	// hide selector
 	dice_selector->setStyleClass("div_dice_selector animate_hide");
 
-	doJavaScript("throw_secret_dices_area('" + selector_notation + "');");
+	doJavaScript("throw_dices('" + selector_notation + "', [], true, true);");
 }
 
 void widget_dice::throw_dice(string notation)
@@ -135,17 +128,13 @@ void widget_dice::throw_dice(string notation, string rand_init)
 	// hide selector
 	dice_selector->setStyleClass("div_dice_selector animate_hide");
 
-	doJavaScript("throw_initialized_dices_area('" + notation + "', [" + rand_init + "]);");
+	doJavaScript("throw_dices('" + notation + "', [" + rand_init + "], true, false);");
 }
 
 void widget_dice::throw_dice_nocallback(string notation, string rand_init)
 {
 	this->rand_init = rand_init;
-
-	// hide selector
-	dice_selector->setStyleClass("div_dice_selector animate_hide");
-
-	doJavaScript("throw_initialized_dices_area_nocallback('" + notation + "', [" + rand_init + "]);");
+	doJavaScript("throw_dices('" + notation + "', [" + rand_init + "], false, false);");
 }
 
 void widget_dice::dice_results_callback(string value, bool is_secret)

@@ -16,8 +16,6 @@ class widget_dice : public wcontainer
 	public:
 
 		string rand_init;
-		widget_template *dices_area;
-		widget_template *secret_dices_area;
 		wtemplate *dice_selector;
 		widget_template *animated_d20;
 		WText *text_notation;

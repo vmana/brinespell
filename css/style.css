@@ -9,6 +9,7 @@ body
 	background: url('/img/background.jpg') bottom center no-repeat fixed;
 	background-size: cover;
 	overflow: hidden;
+	position: relative;
 	z-index: -100;
 }
 .overlay-background
@@ -262,17 +263,13 @@ div.jp-seeking-bg
 
 .div_dices_area
 {
-	position: absolute;
-	top: 24px;
-	right: 0px;
-	z-index: 40;
 }
-.div_secret_dices_area
+.dynamic_dice_area
 {
 	position: absolute;
 	top: 24px;
 	right: 0px;
-	z-index: 40;
+	z-index: 20;
 }
 
 @keyframes animate_dices_area_hidden
@@ -282,7 +279,7 @@ div.jp-seeking-bg
 }
 .div_dices_area_hide
 {
-	z-index: -1;
+	z-index: -1 !important;
 	animation-name: animate_dices_area_hidden;
 	animation-duration: 3s;
 	animation-iteration-count: 1;
@@ -296,6 +293,11 @@ div.jp-seeking-bg
 	position: absolute;
 	bottom: 150px;
 	right: 84px;
+	z-index: 1;
+}
+.div_dice_selector:hover
+{
+	z-index: 40;
 }
 
 .div_animated_selector
