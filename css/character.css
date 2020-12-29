@@ -710,7 +710,6 @@
 .div_details_stat .flex_skill_line
 {
 	display: flex;
-	flex-wrap: wrap;
 	width: 100%;
 }
 .div_details_stat .flex_skill .label

@@ -17,14 +17,15 @@
 	filter: grayscale(85%);
 }
 
-.widget_ally .ship_porthole
+.widget_ally .frame
 {
 	position: absolute;
 	bottom: -110px;
-	left: -7px;
-	width: 117px;
-	height: 117px;
-	background: url('/img/porthole.png') center center no-repeat;
+	left: -6px;
+	width: 116px;
+	height: 116px;
+	background: url('/img/ally-frame.png') center center no-repeat;
+	border-radius: 80px;
 	background-size: contain;
 	z-index: -1;
 	animation: none;
@@ -44,7 +45,7 @@
 	background-size: contain;
 	z-index: 0;
 	border-radius: 50%;
-	border: solid 2px #513e11;
+	border: solid 2px #684312;
 }
 
 /****    ring buttons    ****/
