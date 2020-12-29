@@ -15,7 +15,7 @@ widget_home::widget_home() : wcontainer("home")
 	// css animations
 	bindString("css_animations", (global::css_animations) ? "" : "no-animation");
 
-	setStyleClass("widget_home");
+	setStyleClass("widget_home animate_show");
 	search = bindNew<widget_search>("widget_search");
 	string ls_data = system::shellexec(shell_load_search);
 	search->set_data(explode("\n", ls_data));
