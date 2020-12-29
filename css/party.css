@@ -11,6 +11,7 @@
 .widget_ally
 {
 	position: relative;
+	filter: drop-shadow(-1px 3px 5px #000000d0);
 }
 .widget_ally_disconnected
 {
