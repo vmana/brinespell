@@ -5,7 +5,14 @@
 	position: absolute;
 	bottom: 0px;
 	left: calc(50%);
+}
+.div_character .character-shadow
+{
 	filter: drop-shadow(0px 4px 5px #000000c0);
+}
+.div_character .artwork
+{
+	z-index: 3;
 }
 .ship_wheel
 {
