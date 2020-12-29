@@ -629,3 +629,26 @@ div.jp-seeking-bg
 	border-radius: 34px;
 	transition: margin-left 0.5s;
 }
+.kraken
+{
+	position: absolute;
+	bottom: 258px;
+	right: 134px;
+	background: url('/img/kraken.svg') center center no-repeat;
+	background-size: cover;
+	width: 44px;
+	height: 44px;
+	animation-name: animate_kraken;
+	animation-duration: 24s;
+	animation-iteration-count: infinite;
+	transition-timing-function: ease;
+}
+@keyframes animate_kraken
+{
+	0%    { opacity: 0; margin-bottom: -14px; }
+	34%   { opacity: 0; margin-bottom: -14px; }
+	40%   { opacity: 0.3; margin-bottom: 0px; }
+	60%   { opacity: 0.3; margin-bottom: 0px; }
+	66%   { opacity: 0; margin-bottom: -14px; }
+	100%  { opacity: 0; }
+}
