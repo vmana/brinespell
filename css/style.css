@@ -639,7 +639,7 @@ div.jp-seeking-bg
 	width: 44px;
 	height: 44px;
 	animation-name: animate_kraken;
-	animation-duration: 40s;
+	animation-duration: 60s;
 	animation-iteration-count: infinite;
 	transition-timing-function: ease;
 }
@@ -649,6 +649,6 @@ div.jp-seeking-bg
 	25%   { opacity: 0; }
 	50%   { opacity: 0.34; margin-bottom: 0px; }
 	70%   { opacity: 0.34; margin-bottom: 0px; }
-	74%   { opacity: 0; margin-bottom: -14px; }
+	73%   { opacity: 0; margin-bottom: -14px; }
 	100%  { opacity: 0; }
 }
