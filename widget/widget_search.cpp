@@ -13,7 +13,7 @@ widget_search::widget_search() : wcontainer("search")
 
 void widget_search::set_data(const vector<string> &data)
 {
-	F.set_data(data);
+	F.set_data_string(data);
 }
 
 void widget_search::on_input_changed()
@@ -35,35 +35,35 @@ void widget_search::on_input_changed()
 	{
 		auto &suggestion = results[i];
 		// change color for every char matches
-		string value;
-		if (suggestion.match_start > 0) value = substr(suggestion.value, 0, suggestion.match_start);
+		string text;
+		if (suggestion.match_start > 0) text = substr(suggestion.text, 0, suggestion.match_start);
 		int pos = suggestion.match_start;
 		for (int pos_pattern = 0; pos < suggestion.match_end && pos_pattern < pattern.length(); pos++)
 		{
-			if (tolower(suggestion.value[pos]) == tolower(pattern[pos_pattern]))
+			if (tolower(suggestion.text[pos]) == tolower(pattern[pos_pattern]))
 			{
-				value += string("<span class=\"widget_search_match\">") + suggestion.value[pos] + string("</span>");
+				text += string("<span class=\"widget_search_match\">") + suggestion.text[pos] + string("</span>");
 				pos_pattern++;
 			}
 			else
 			{
 				// no match, add it with default color
-				value += suggestion.value[pos];
+				text += suggestion.text[pos];
 			}
 		}
 		// add the end
-		value += substr(suggestion.value, suggestion.match_end);
+		text += substr(suggestion.text, suggestion.match_end);
 
 		// set css class, with a visual difference if it's the current selection
 		string css_class = "widget_search_line_suggestion";
 		if (i == selected) css_class += " widget_search_selected";
 
-		/* string line = "<div class=\"" + css_class + "\">" + value + "</div>"; */
-		auto new_suggestion = make_unique<widget_template>(value);
+		/* string line = "<div class=\"" + css_class + "\">" + text + "</div>"; */
+		auto new_suggestion = make_unique<widget_template>(text);
 		new_suggestion->setStyleClass(css_class);
 
 		// signal binding
-		new_suggestion->clicked().connect(bind(&widget_search::on_select_choice, this, suggestion.value));
+		new_suggestion->clicked().connect(bind(&widget_search::on_select_choice, this, suggestion.text));
 
 		// combine templates
 		string new_id = "search_line_" + convert::int_string(i);
@@ -105,7 +105,7 @@ void widget_search::on_enter_pressed()
 {
 	if (selected >= 0 && selected < results.size())
 	{
-		on_select_choice(results[selected].value);
+		on_select_choice(results[selected].text);
 		remove_focus_event.emit();
 	}
 	else if (edit_search->text() == "")
@@ -115,9 +115,9 @@ void widget_search::on_enter_pressed()
 	}
 }
 
-void widget_search::on_select_choice(string value)
+void widget_search::on_select_choice(string text)
 {
-	on_select_event.emit(value);
+	on_select_event.emit(text);
 
 	selected = -1;
 	suggestions->setTemplateText("");

@@ -9,8 +9,8 @@
 class widget_search : public wcontainer
 {
 	protected:
-		fuzzy F;
-		vector<fuzzy_choice> results;
+		fuzzy<> F;
+		vector<fuzzy_choice<>> results;
 		vector<widget_template*> wresults;
 		int selected = 0;
 
@@ -27,7 +27,7 @@ class widget_search : public wcontainer
 		void on_input_changed();
 		void on_key_pressed(const WKeyEvent &event);
 		void on_enter_pressed();
-		void on_select_choice(string value);
+		void on_select_choice(string text);
 		void update_selected();
 };
 
