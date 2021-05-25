@@ -22,13 +22,22 @@ void widget_search::on_input_changed()
 
 	// clear previous choices
 	wresults.clear();
-	suggestions->setTemplateText("");
+	suggestions->set_text("");
 
 	results = F.search_all(pattern, 10);
 
 	// auto select first item, or none if no results
 	if (results.size() > 0) selected = 0;
 	else selected = -1;
+
+	// create template text
+	string template_text = "";
+	for (int i = 0; i < results.size(); i++)
+	{
+		string new_id = "search_line_" + convert::int_string(i);
+		template_text += "${" + new_id + "}\n";
+	}
+	suggestions->set_text(template_text);
 
 	// update suggestions
 	for (int i = 0; i < results.size(); i++)
@@ -67,7 +76,6 @@ void widget_search::on_input_changed()
 
 		// combine templates
 		string new_id = "search_line_" + convert::int_string(i);
-		suggestions->setTemplateText(suggestions->templateText() + "${" + new_id + "}");
 		auto p_new_suggestion = suggestions->bindWidget(new_id, move(new_suggestion));
 		wresults.push_back(p_new_suggestion);
 	}
@@ -96,7 +104,7 @@ void widget_search::on_key_pressed(const WKeyEvent &event)
 		// remove focus if escape is pressed on an empty input
 		if (edit_search->text() == "") remove_focus_event.emit();
 		selected = -1;
-		suggestions->setTemplateText("");
+		suggestions->set_text("");
 		edit_search->setText("");
 	}
 }
@@ -120,7 +128,7 @@ void widget_search::on_select_choice(string text)
 	on_select_event.emit(text);
 
 	selected = -1;
-	suggestions->setTemplateText("");
+	suggestions->set_text("");
 	edit_search->setText("");
 }
 
