@@ -13,7 +13,7 @@ widget_search::widget_search() : wcontainer("search")
 
 void widget_search::set_data(const vector<string> &data)
 {
-	F.set_data_string(data);
+	F.set_data(data);
 }
 
 void widget_search::on_input_changed()

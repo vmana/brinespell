@@ -9,8 +9,8 @@
 class widget_search : public wcontainer
 {
 	protected:
-		fuzzy<> F;
-		vector<fuzzy_choice<>> results;
+		fuzzy F;
+		vector<fuzzy_choice> results;
 		vector<widget_template*> wresults;
 		int selected = 0;
 
