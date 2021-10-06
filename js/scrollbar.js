@@ -93,7 +93,6 @@ function w_scrollarea(id, options = {})
 
 	function on_key_pressed(e)
 	{
-		console.log(e);
 		switch (e.keyCode)
 		{
 			case 38: // up
