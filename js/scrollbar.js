@@ -26,6 +26,7 @@ function w_scrollarea(id, options = {})
 
 	// options
 	options.autoscroll = options.autoscroll || false;
+	options.globalkey = options.globalkey || false;
 
 	// insert a div wrapper, which will contain the area + scrollbar
 	var wrapper = document.createElement('div');
@@ -75,6 +76,7 @@ function w_scrollarea(id, options = {})
 	wrapper.onwheel = on_content_wheel;
 	wrapper.onmouseenter = move_bar;
 	area.onkeyup = on_area_change;
+	if (options.globalkey) document.onkeydown = on_key_pressed;
 
 	if (options.autoscroll)
 	{
@@ -87,6 +89,30 @@ function w_scrollarea(id, options = {})
 		on_area_change(); // recompute values
 		p_area.scrollTop = p_area.scrollHeight; // set max scroll
 		move_bar(); // adjust bar position
+	}
+
+	function on_key_pressed(e)
+	{
+		console.log(e);
+		switch (e.keyCode)
+		{
+			case 38: // up
+				p_area.scrollTop += -3 * line_height;
+				move_bar();
+				break;
+			case 40: // down
+				p_area.scrollTop += 3 * line_height;
+				move_bar();
+				break;
+			case 33: // pgup
+				p_area.scrollTop += -40 * line_height;
+				move_bar();
+				break;
+			case 34: // pgdown
+				p_area.scrollTop += 40 * line_height;
+				move_bar();
+				break;
+		}
 	}
 
 	function on_area_change()
@@ -153,9 +179,11 @@ function w_scrollarea(id, options = {})
 		var delta_y = 0;
 		if (e.deltaY) delta_y = e.deltaY;
 		else if (e.wheelDelta) delta_y = -e.wheelDelta;
+		// chrome fix
+		if (delta_y < 0 && delta_y < -3) delta_y = -3;
+		if (delta_y > 0 && delta_y > 3) delta_y = 3;
 
-		console.log(line_height);
-		// console.log(delta_y * line_height);
+		// console.log(delta_y + " * "+ line_height);
 		p_area.scrollTop += delta_y * line_height;
 		move_bar();
 	}
